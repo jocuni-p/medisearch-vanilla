@@ -1,0 +1,7 @@
+
+/* Reseteo estos css que trae por defecto el navegador */
+* {
+	box-sizing: border-box;
+	margin: 0;
+	padding: 0;
+}
