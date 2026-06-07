@@ -5,3 +5,52 @@
 	margin: 0;
 	padding: 0;
 }
+
+body {
+	font-family: Arial, Helvetica, sans-serif;
+	background-color: #EFF0F4;
+	/* _color: #050315; */
+}
+
+header {
+	background-color: #433bff;
+}
+
+.header-container {
+	max-width: 800px; /*ancho max del contenido*/
+	height: 80px;
+	margin: 0 auto;
+	padding: 0 10px;
+	display: flex;
+	align-items: center;
+	gap: 10px;
+	/* border: 1px solid pink */
+	color: #EFF0F4;
+}
+
+.company-name, .logo { /* aplica el style a ambos */
+	/* font-weight: XX; */
+	font-size: 1.2rem;
+}
+
+.nav-home {
+	display: flex;
+	margin-left: auto;
+	justify-content: end;
+	gap: 15px; /* Podria aumentar en desktop */
+	/* border: 1px solid pink */
+}
+
+.nav-detail {
+	display: none;
+}
+
+.nav-button {
+	appearance: none; /* Elimina navegador def styles */
+	border: none; /* Elimina navegador def styles */
+	cursor:pointer;
+	padding: 10px 15px;
+	border-radius: 5px;
+	background-color: #7B76FF;
+	
+}
