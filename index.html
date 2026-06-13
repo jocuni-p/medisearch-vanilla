@@ -10,7 +10,7 @@
         />
         <title>Buscador de medicamentos</title>
         <link rel="stylesheet" href="css/style.css" />
-        <script src="js/main.js" type="module" defer></script>
+        <script src="js/controller/main.controller.js" type="module"></script>
 
         <!-- Mas adelante, crear un favicon en favicon.io 
 	<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>💊</text></svg>" />  -->
@@ -24,15 +24,18 @@
             </div>
         </noscript>
 
-        <header>
-            <!-- Vista principal: Logo + botones de 'Prob Suministro' y 'Favoritos
-			 	Resto de vistas: Logo + solo boton 'Home'-->
+        <!--- ===================== HEADER =============================-->
+        <header id="app-header">
+			<p>Espacio para el header</p>
+            <!-- PONER ESTO EN HEADER.VIEW.JS o en un template html
+			 Vista principal: Logo + botones de 'Prob Suministro' y 'Favoritos
+			 	Resto de vistas: Logo + solo boton 'Home'
             <div class="header-container">
                 <div class="logo">logo</div>
                 <div class="company-name">Medisearch</div>
 
                 <nav class="nav-home">
-					<!-- Quizás no necesito la class aquí ??? -->
+				
                     <button class="nav-button">Suministro</button>
                     <button class="nav-button">Favoritos</button>
                 </nav>
@@ -40,26 +43,30 @@
                 <nav class="nav-detail">
                     <button>Home</button>
                 </nav>
-            </div>
+            </div> -->
         </header>
 
         <main>
             <!--========== VISTA PRINCIPAL ==========-->
-            <section id="vista-principal"></section>
+            <h1>Buscador de medicamentos</h1>
+            <h2>Consulta fichas, prospectos y problemas de suministro</h2>
 
-            <!--========== VISTA DETALLE ==========-->
-            <section id="vista-detalle"></section>
+            <form action="">
+				<!-- Enter ha de ddispara el search
+				 Igualar a mayusculas? verificar
+				 Algoritmo de Levenshtein + función de similarity?-->
+                <input id="XXXX" type="XXXX" name="XXXXX" />
+                <button>Etiqueta button o input?</button>
+            </form>
 
-            <!--========== VISTA FAVORITOS ==========-->
-            <section id="vista-favoritos"></section>
+			<section id="results-list">
+				Aquí la lista de cards que la capa view (o js) rellenará
+			</section>
+			<nav id="pagination">1 de 3</nav>
 
-            <!--========== VISTA SUMINISTRO ==========-->
-            <section id="vista-suministro"></section>
-
-            <!--========== VISTA PROSPECTO ==========-->
-            <section id="vista-prospecto"></section>
-
-            <!--========== TEMPLATES ==========-->
+			
         </main>
+		<!--========== TEMPLATES ==========-->
+			
     </body>
 </html>

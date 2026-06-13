@@ -1,0 +1,1 @@
+// LLamar a renderHeader("home") para que rellene el header

@@ -6,13 +6,19 @@
 	padding: 0;
 }
 
+/* XXXXXX  POSAR LA PALETA DE COLOR COM A CUSTOM PROPERTIES */
+
 body {
+	/* Make the body occupy the full height of the viewport */
+	display: flex;
+	flex-direction: column;
 	font-family: Arial, Helvetica, sans-serif;
 	background-color: #EFF0F4;
 	/* _color: #050315; */
 }
 
 header {
+
 	background-color: #433bff;
 }
 
@@ -21,7 +27,7 @@ header {
 	height: 80px;
 	margin: 0 auto;
 	padding: 0 10px;
-	display: flex;
+	display: flex; /* Si no digo nada, es horizontal*/
 	align-items: center;
 	gap: 10px;
 	/* border: 1px solid pink */
@@ -53,4 +59,12 @@ header {
 	border-radius: 5px;
 	background-color: #7B76FF;
 	
+}
+
+div.medicine { /*Contenedor de 1 card*/
+
+}
+
+div.medicines { /* Contenedor de todas la cards*/
+
 }
