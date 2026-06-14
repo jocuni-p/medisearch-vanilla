@@ -25,48 +25,30 @@
         </noscript>
 
         <!--- ===================== HEADER =============================-->
-        <header id="app-header">
-			<p>Espacio para el header</p>
-            <!-- PONER ESTO EN HEADER.VIEW.JS o en un template html
-			 Vista principal: Logo + botones de 'Prob Suministro' y 'Favoritos
-			 	Resto de vistas: Logo + solo boton 'Home'
-            <div class="header-container">
-                <div class="logo">logo</div>
-                <div class="company-name">Medisearch</div>
-
-                <nav class="nav-home">
-				
-                    <button class="nav-button">Suministro</button>
-                    <button class="nav-button">Favoritos</button>
-                </nav>
-
-                <nav class="nav-detail">
-                    <button>Home</button>
-                </nav>
-            </div> -->
-        </header>
+        <header id="app-header"></header>
 
         <main>
             <!--========== VISTA PRINCIPAL ==========-->
             <h1>Buscador de medicamentos</h1>
-            <h2>Consulta fichas, prospectos y problemas de suministro</h2>
+            <p class="subtitle">Consulta fichas, prospectos y problemas de suministro</p>
+			
+            <small class="legal">
+                Datos:
+                <a href="https://cima.aemps.es" target="_blank" rel="noopener">CIMA</a>
+                ·
+                <a href="aviso-legal.html">Aviso legal</a>
+            </small>
 
-            <form action="">
-				<!-- Enter ha de ddispara el search
-				 Igualar a mayusculas? verificar
-				 Algoritmo de Levenshtein + función de similarity?-->
-                <input id="XXXX" type="XXXX" name="XXXXX" />
-                <button>Etiqueta button o input?</button>
+            <form>
+                <!-- El label es para los lectores de pantalla cuando encuentren el campo d e edición. Poner el elemento visualmente oculto con el css. La clase visually-hidden lo deja solo visible justo para eso.-->
+                <label for="search-input" class="visually-hidden">Buscar medicamento</label>
+                <input id="search-input" type="search" name="nombre" />
+                <button type="submit">Buscar</button>
             </form>
 
-			<section id="results-list">
-				Aquí la lista de cards que la capa view (o js) rellenará
-			</section>
-			<nav id="pagination">1 de 3</nav>
-
-			
+            <section id="results-list">Aquí la lista de cards que la capa view (o js) rellenará</section>
+            <nav id="pagination" aria-label="Paginación">1 de 3</nav>
         </main>
-		<!--========== TEMPLATES ==========-->
-			
+        <!--========== TEMPLATES ==========-->
     </body>
 </html>

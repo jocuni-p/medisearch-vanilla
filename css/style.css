@@ -1,3 +1,13 @@
+/* Custom Properties */
+:root {
+	--color-text-secondary: #666;
+	--ultrasonic-blue: #3027CE;
+	--bright-indigo: #433BFF;
+	--my-black: #050315;
+	--lavender: #DDDCFF;
+	--platinum: #EFF0F4;
+	--my-white: #FBFBFE;
+}
 
 /* Reseteo estos css que trae por defecto el navegador */
 * {
@@ -6,65 +16,106 @@
 	padding: 0;
 }
 
-/* XXXXXX  POSAR LA PALETA DE COLOR COM A CUSTOM PROPERTIES */
-
+/* XXXXXX  POSAR LA PALETA DE COLOR + FONT FAMILY COM A CUSTOM PROPERTIES */
+/* BUSCAR UNA FONT FAMILY ADECUADA */
 body {
-	/* Make the body occupy the full height of the viewport */
 	display: flex;
 	flex-direction: column;
 	font-family: Arial, Helvetica, sans-serif;
-	background-color: #EFF0F4;
-	/* _color: #050315; */
+	background-color: var(--platinum);
 }
 
-header {
-
-	background-color: #433bff;
-}
 
 .header-container {
 	max-width: 800px; /*ancho max del contenido*/
-	height: 80px;
 	margin: 0 auto;
+	height: 80px;
 	padding: 0 10px;
 	display: flex; /* Si no digo nada, es horizontal*/
 	align-items: center;
+	justify-content: space-between;
 	gap: 10px;
 	/* border: 1px solid pink */
-	color: #EFF0F4;
 }
 
+.brand {
+	color: var(--platinum);
+	text-decoration: none; /*Elimina el subrallado del link*/
+}
+
+/*Quizas los botones deberian ser mas pequeños en formato movil ?? */
+/* Doble selector para que solo toque el nav del header */
+#app-header nav {
+	display: flex;
+	gap: 8px; /* Separación entre botones */
+}
+#app-header {
+	background-color: var(--bright-indigo);
+}
 .company-name, .logo { /* aplica el style a ambos */
-	/* font-weight: XX; */
+	
 	font-size: 1.2rem;
 }
 
-.nav-home {
-	display: flex;
-	margin-left: auto;
-	justify-content: end;
-	gap: 15px; /* Podria aumentar en desktop */
-	/* border: 1px solid pink */
-}
 
-.nav-detail {
-	display: none;
-}
-
+/* Botones del nav */
 .nav-button {
-	appearance: none; /* Elimina navegador def styles */
-	border: none; /* Elimina navegador def styles */
+	appearance: none; /* Elimina los navegador default styles */
+	border: none; /* Elimina los navegador default styles */
 	cursor:pointer;
 	padding: 10px 15px;
 	border-radius: 5px;
-	background-color: #7B76FF;
-	
+	background-color: #645ffe;
+	color: var(--platinum);
+	text-decoration: none; /* elimina subrayado de link */
+	transition: background-color 0.15s ease; /* Hace el cambio mas suave, al entrar y al salir */
 }
 
-div.medicine { /*Contenedor de 1 card*/
-
+/* Al pasar el mouse por encima 
+o si se navega por teclado */
+.nav-button:hover,
+.nav-button:focus-visible {
+	background-color: #9590FF;
 }
 
-div.medicines { /* Contenedor de todas la cards*/
+/* Técnica "visually-hidden": Oculta visualmente el label
+ del buscador al usuario pero lo mantiene accesible para 
+ lectores de pantalla. Snippet de la comunidad, no es aportación
+  propia. Fuente: Twww.a11yproject.com 
+*/
+.visually-hidden {
+	position: absolute;
+	width: 1px;
+	height: 1px;
+	padding: 0;
+	margin: -1px;
+	overflow: hidden;
+	clip: rect(0, 0, 0, 0);
+	clip-path: inset(50%);
+	white-space: nowrap;
+	border: 0;
+}
 
+
+main {
+	max-width: 800px;
+	margin: 0 auto;
+	padding: 0 10px;
+}
+.subtitle,
+.legal {
+	color: var(--color-text-secondary);
+}
+
+.legal {
+	font-size: 0.75rem;
+}
+
+.legal a {
+	text-decoration: none;
+}
+
+.legal a:hover,
+.legal a:focus-visible {
+	text-decoration: underline;
 }
