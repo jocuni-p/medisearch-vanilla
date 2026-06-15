@@ -31,7 +31,7 @@
             <!--========== VISTA PRINCIPAL ==========-->
             <h1>Buscador de medicamentos</h1>
             <p class="subtitle">Consulta fichas, prospectos y problemas de suministro</p>
-			
+
             <small class="legal">
                 Datos:
                 <a href="https://cima.aemps.es" target="_blank" rel="noopener">CIMA</a>
@@ -46,9 +46,43 @@
                 <button type="submit">Buscar</button>
             </form>
 
-            <section id="results-list">Aquí la lista de cards que la capa view (o js) rellenará</section>
+            <ul id="results-list">
+                <li class="li-main">
+                    <div class="li-left-block">
+                        <h2>NOMBRE MEDICAMENTO EN MAYÚSCULAS</h2>
+                        <p class="li-subtitle">Ibuprofeno '.' Comprimidos recubiertos</p>
+                    </div>
+                    <div class="li-right-block">
+                        <span class="li-tag">Receta</span>
+                        <span class="li-tag">Generico</span>
+                        <span class="li-tag">Prob.Suministro</span>
+                    </div>
+                    <div class="li-decoration">
+                        <span class="arrow">'>'</span>
+                    </div>
+                </li>
+            </ul>
+
             <nav id="pagination" aria-label="Paginación">1 de 3</nav>
         </main>
-        <!--========== TEMPLATES ==========-->
+
+        <!--========== TEMPLATE (no se visualiza en el nav) ==========-->
+
+        <template id="template-medicine">
+            <li class="li-main">
+                <div class="li-left-block">
+                    <h2>NOMBRE MEDICAMENTO EN MAYÚSCULAS</h2>
+                    <p class="li-subtitle">Ibuprofeno '.' Comprimidos recubiertos</p>
+                </div>
+                <div class="li-right-block">
+                    <span class="li-tag">Receta</span>
+                    <span class="li-tag">Generico</span>
+                    <span class="li-tag">Prob.Suministro</span>
+                </div>
+                <div class="li-decoration">
+                    <span class="arrow">'>'</span>
+                </div>
+            </li>
+        </template>
     </body>
 </html>
