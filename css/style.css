@@ -10,11 +10,15 @@
 8. PÁGINA FAVORITOS
 ======================*/
 
+/*
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap');
+*/
 
 /* ======= VARIABLES Y RESET======= */
 
 /* Custom Properties */
 :root {
+	/* paleta de color */
 	--color-text-secondary: #666;
 	--ultrasonic-blue: #3027CE;
 	--bright-indigo: #433BFF;
@@ -22,6 +26,14 @@
 	--lavender: #DDDCFF;
 	--platinum: #EFF0F4;
 	--my-white: #FBFBFE;
+	/* escala tipográfica */
+	--fs-xs: 0.75rem;
+	--fs-s: 0.875rem;
+	--fs-base: 1rem;
+	--fs-l: 1.25rem;
+	--fs-xl: 1.5rem;
+	--fs-xxl: 2rem;
+	
 }
 /* XXXXXX  POSAR LA PALETA DE COLOR + FONT FAMILY COM A CUSTOM PROPERTIES */
 /* BUSCAR UNA FONT FAMILY ADECUADA */
@@ -38,7 +50,7 @@
 
 /* ======= LAYOUT GLOBAL ======== */
 body {
-	font-family: Arial, Helvetica, sans-serif;
+	font-family: Inter, Arial, Helvetica, sans-serif;
 	background-color: var(--platinum);
 }
 
@@ -71,7 +83,7 @@ body {
 }
 .company-name, .logo { /* aplica el style a ambos */
 	
-	font-size: 1.2rem;
+	font-size: 1.5rem;
 }
 
 
@@ -122,17 +134,22 @@ main {
 	flex-direction: column;
 	align-items: center;
 }
+
+h1 {
+	font-size: var(--fs-xxl);
+}
+
 .subtitle,
 .legal {
 	color: var(--color-text-secondary);
 }
 
 .legal {
-	font-size: 0.75rem;
 }
 
 .legal a {
 	text-decoration: none;
+	font-size: var(--fs-xs);
 }
 
 .legal a:hover,
@@ -148,7 +165,8 @@ form {
 input {
 	flex-grow: 2; /* Al crecer se lleva 2/3 del espacio sobrante */
 	border: none;
-	border-radius: 10px;	
+	border-radius: 10px;
+	font-size: var(--fs-l);	
 }
 
 input:focus {
@@ -168,3 +186,33 @@ form button {
 }
 
 /* ====== CARDS DE RESULTADOS ===== */
+
+#results-list {
+	display:flex;
+	flex-direction: column;
+	margin-top: 50px; 
+
+}
+
+.li-main {
+	display: flex;
+	justify-content: space-between;
+	background: #fff;
+	border: 1px solid #b8b5e8;
+	border-left: 3px solid var(--bright-indigo);
+	border-radius: 10px;
+	padding: 15px 15px;
+	margin: 5px 10px;
+}
+
+.li-main:hover {
+	border: 1px solid var(--ultrasonic-blue);
+	border-left: 3px solid var(--ultrasonic-blue);
+}
+
+.li-main, h2 {
+	font-size: var(--fs-xs);
+}
+.li-subtitle {
+	color: var(--color-text-secondary);
+}
