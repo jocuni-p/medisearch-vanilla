@@ -67,9 +67,10 @@ body {
 	/* border: 1px solid pink */
 }
 
-.brand {
+.brand { /* Logo + CompanyName */
 	color: var(--platinum);
 	text-decoration: none; /*Elimina el subrallado del link*/
+
 }
 
 /*Quizas los botones deberian ser mas pequeños en formato movil ?? */
@@ -83,19 +84,23 @@ body {
 }
 .company-name, .logo { /* aplica el style a ambos */
 	
-	font-size: 1.5rem;
+	font-size: var(--fs-l);
+	/* Quizas usar otra typo mas corporativa para resaltar */
 }
 
-
+.logo {
+	display: none; /* de momento así */
+}
 /* Botones del nav */
 .nav-button {
 	appearance: none; /* Elimina los navegador default styles */
 	border: none; /* Elimina los navegador default styles */
 	cursor:pointer;
-	padding: 10px 15px;
+	padding: 7px 10px;
 	border-radius: 10px;
 	background-color: #645ffe;
 	color: var(--platinum);
+	font-size: var(--fs-s);
 	text-decoration: none; /* elimina subrayado de link */
 	transition: background-color 0.15s ease; /* Hace el cambio mas suave, al entrar y al salir */
 }
@@ -125,18 +130,20 @@ propia. Fuente: Twww.a11yproject.com
 	border: 0;
 }
 
-/* ===== FORMULARIO DE BÚSQUEDA ==== */
+/* ===== MAIN ==== */
 main {
 	max-width: 800px;
 	margin: 0 auto; /* Centra el bloque horizontalmente */
-	padding: 0 10px;
+	padding: 10px 10px;
 	display: flex;
 	flex-direction: column;
 	align-items: center;
 }
 
 h1 {
-	font-size: var(--fs-xxl);
+	padding: 30px 0px 10px 0px;
+	font-size: var(--fs-xl);
+	font-weight: 600; /* Este peso ya lo tengo bajado de GoogleFonts */
 }
 
 .subtitle,
@@ -144,8 +151,7 @@ h1 {
 	color: var(--color-text-secondary);
 }
 
-.legal {
-}
+
 
 .legal a {
 	text-decoration: none;
@@ -157,16 +163,21 @@ h1 {
 	text-decoration: underline;
 }
 
+/* ===== FORMULARIO DE BÚSQUEDA ==== */
+
 form {
 	display: flex;
 	width: 100%;/* No me convence el ancho*/
+	margin: 25px 0px;
 }
+
 
 input {
 	flex-grow: 2; /* Al crecer se lleva 2/3 del espacio sobrante */
 	border: none;
 	border-radius: 10px;
-	font-size: var(--fs-l);	
+	font-size: var(--fs-l);
+	padding: 10px;	
 }
 
 input:focus {
@@ -190,7 +201,7 @@ form button {
 #results-list {
 	display:flex;
 	flex-direction: column;
-	margin-top: 50px; 
+	margin: 10px 0px;
 
 }
 
@@ -210,8 +221,8 @@ form button {
 	border-left: 3px solid var(--ultrasonic-blue);
 }
 
-.li-main, h2 {
-	font-size: var(--fs-xs);
+.li-main h2 {
+	font-size: var(--fs-s);
 }
 .li-subtitle {
 	color: var(--color-text-secondary);
