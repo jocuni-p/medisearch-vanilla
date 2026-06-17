@@ -70,7 +70,7 @@ body {
 .brand { /* Logo + CompanyName */
 	color: var(--platinum);
 	text-decoration: none; /*Elimina el subrallado del link*/
-
+	padding-left: 10px;
 }
 
 /*Quizas los botones deberian ser mas pequeños en formato movil ?? */
@@ -223,7 +223,9 @@ form button {
 
 .li-main h2 {
 	font-size: var(--fs-s);
+	font-weight: 600;
 }
 .li-subtitle {
 	color: var(--color-text-secondary);
+	font-size: var(--fs-xs);
 }
