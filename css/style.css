@@ -18,27 +18,34 @@
 
 /* Custom Properties */
 :root {
-	/* paleta de color */
-	--color-text-secondary: #666;
-	--ultrasonic-blue: #3027CE;
-	--bright-indigo: #433BFF;
+	/* ---paleta de color--- */
+	--text-secondary: #888;
+	--brand-secondary: #3027CE;
+	--brand: #433BFF;
+	--nav-button: #645ffe;
+	--nav-button-hover: #9590FF;
 	--my-black: #050315;
-	--lavender: #DDDCFF;
-	--platinum: #EFF0F4;
-	--my-white: #FBFBFE;
-	/* escala tipográfica */
+	--lavender: #DDDCFF; /* renombrar por semántica */
+	--search-emphasy: var(--lavender); /* renombrado por semántica */
+	--bg-default: #EFF0F4;
+	--bg-secondary: #FBFBFE;
+	--tag1-bg: var(--lavender);
+	--tag1-text: #3027CE;
+	--tag2-bg: #C8EDB8;
+	--tag2-text: #2A5A08;
+	--tag3-bg: #F5C0C0;
+	--tag3-text: #8B1A1A;
+
+
+	/* ---escala tipográfica--- */
 	--fs-xs: 0.75rem;
 	--fs-s: 0.875rem;
 	--fs-base: 1rem;
 	--fs-l: 1.25rem;
-	--fs-xl: 1.5rem;
+	--fs-xl: 1.50rem;
 	--fs-xxl: 2rem;
 	
 }
-/* XXXXXX  POSAR LA PALETA DE COLOR + FONT FAMILY COM A CUSTOM PROPERTIES */
-/* BUSCAR UNA FONT FAMILY ADECUADA */
-
-
 
 /* Reseteo estos css que trae por defecto el navegador */
 * {
@@ -51,7 +58,7 @@
 /* ======= LAYOUT GLOBAL ======== */
 body {
 	font-family: Inter, Arial, Helvetica, sans-serif;
-	background-color: var(--platinum);
+	background-color: var(--bg-default);
 }
 
 /* ======== HEADER ========= */
@@ -64,11 +71,10 @@ body {
 	align-items: center;
 	justify-content: space-between;
 	gap: 10px;
-	/* border: 1px solid pink */
 }
 
 .brand { /* Logo + CompanyName */
-	color: var(--platinum);
+	color: var(--bg-default);
 	text-decoration: none; /*Elimina el subrallado del link*/
 	padding-left: 10px;
 }
@@ -80,11 +86,10 @@ body {
 	gap: 8px; /* Separación entre botones */
 }
 #app-header {
-	background-color: var(--bright-indigo);
+	background-color: var(--brand);
 }
 .company-name, .logo { /* aplica el style a ambos */
-	
-	font-size: var(--fs-l);
+	font-size: var(--fs-xl);
 	/* Quizas usar otra typo mas corporativa para resaltar */
 }
 
@@ -98,8 +103,8 @@ body {
 	cursor:pointer;
 	padding: 7px 10px;
 	border-radius: 10px;
-	background-color: #645ffe;
-	color: var(--platinum);
+	background-color: var(--nav-button);
+	color: var(--bg-default);
 	font-size: var(--fs-s);
 	text-decoration: none; /* elimina subrayado de link */
 	transition: background-color 0.15s ease; /* Hace el cambio mas suave, al entrar y al salir */
@@ -109,13 +114,13 @@ body {
 o si se navega por teclado */
 .nav-button:hover,
 .nav-button:focus-visible {
-	background-color: #9590FF;
+	background-color: var(--nav-button-hover);
 }
 
 /* Técnica "visually-hidden": Oculta visualmente el label
 del buscador al usuario pero lo mantiene accesible para 
-lectores de pantalla. Snippet de la comunidad, no es aportación
-propia. Fuente: Twww.a11yproject.com 
+lectores de pantalla. No es aportación propia. 
+Fuente: www.a11yproject.com 
 */
 .visually-hidden {
 	position: absolute;
@@ -141,18 +146,18 @@ main {
 }
 
 h1 {
-	padding: 30px 0px 10px 0px;
+	padding: 10px 0px 10px 0px;
 	font-size: var(--fs-xl);
 	font-weight: 600; /* Este peso ya lo tengo bajado de GoogleFonts */
 }
 
 .subtitle,
 .legal {
-	color: var(--color-text-secondary);
+	color: var(--text-secondary);
 }
 
 
-
+/* OJO: Demasiados colores??? */
 .legal a {
 	text-decoration: none;
 	font-size: var(--fs-xs);
@@ -169,6 +174,8 @@ form {
 	display: flex;
 	width: 100%;/* No me convence el ancho*/
 	margin: 25px 0px;
+	gap: 10px;
+
 }
 
 
@@ -177,7 +184,8 @@ input {
 	border: none;
 	border-radius: 10px;
 	font-size: var(--fs-l);
-	padding: 10px;	
+	padding: 10px;
+	background-color: var(--bg-secondary);
 }
 
 input:focus {
@@ -191,9 +199,10 @@ form button {
 	border: none;
 	border-radius: 10px;
 	padding: 10px 0px;
-	background-color: var(--bright-indigo);
-	color: var(--platinum);
-	margin: 0 0 0 10px;
+	background-color: var(--brand);
+	color: var(--bg-default);
+	_margin: 0 0 0 10px;
+	width: 30%;
 }
 
 /* ====== CARDS DE RESULTADOS ===== */
@@ -207,18 +216,20 @@ form button {
 
 .li-main {
 	display: flex;
-	justify-content: space-between;
-	background: #fff;
+	flex-direction: column;
+	_justify-content: space-between;
+	background: var(--bg-secondary);
 	border: 1px solid #b8b5e8;
-	border-left: 3px solid var(--bright-indigo);
+	border-left: 3px solid var(--brand);
 	border-radius: 10px;
-	padding: 15px 15px;
-	margin: 5px 10px;
+	padding: 8px 15px;
+	margin: 5px 0px;
 }
 
 .li-main:hover {
-	border: 1px solid var(--ultrasonic-blue);
-	border-left: 3px solid var(--ultrasonic-blue);
+	border: 1px solid var(--brand-secondary);
+	border-left: 3px solid var(--brand-secondary);
+	border-right: 3px solid var(--brand-secondary);
 }
 
 .li-main h2 {
@@ -226,6 +237,59 @@ form button {
 	font-weight: 600;
 }
 .li-subtitle {
-	color: var(--color-text-secondary);
+	color: var(--text-secondary);
 	font-size: var(--fs-xs);
+	padding: 3px 0px;
+	/* font-weight: 600; */
+}
+
+.li-tag-block {
+	display: flex;
+	gap: 10px;
+}
+
+.li-tag {
+	display: inline-flex; /* tag y su texto unidos y con su tamaña justo*/
+	align-items: center;
+	gap: 4px;/* dist % icono y texto */
+	padding: 1px 5px;
+	margin: 2px;
+	border-radius: 5px;
+	font-size: var(--fs-xs);
+	font-weight: 600;
+}
+
+/* .li-decoration {
+	justify-content: end;
+} */
+
+.bi {
+	font-size: 1rem;
+	
+}
+.tag-generic {
+	background: color-mix(in srgb, var(--tag2-bg) 50%, white);
+	color: var(--tag2-text);
+
+}
+
+.tag-recipe {
+	background: color-mix(in srgb, var(--tag1-bg) 75%, white);
+	color: var(--tag1-text);
+}
+
+.tag-psum {
+	background: color-mix(in srgb, var(--tag3-bg) 35%, white);
+	color: var(--tag3-text);
+}
+/* ===== PAGINACIÓN ===== */
+
+.top-info-pagination, #pagination {
+	/* font-weight: 600; */
+	font-size: var(--fs-s);
+	color: var(--text-secondary);
+}
+
+#pagination {
+	margin: 5px 0px 20px 0px;
 }
