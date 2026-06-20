@@ -27,7 +27,8 @@
 	--my-black: #050315;
 	--lavender: #DDDCFF; /* renombrar por semántica */
 	--search-emphasy: var(--lavender); /* renombrado por semántica */
-	--bg-default: #EFF0F4;
+	/* --bg-default: #FBFBFE; */ /* el de la paleta */
+	--bg-default: #e2e3e6; /* mas oscuro que el de la paleta */
 	--bg-secondary: #FBFBFE;
 	--tag1-bg: var(--lavender);
 	--tag1-text: #3027CE;
@@ -74,7 +75,8 @@ body {
 }
 
 .brand { /* Logo + CompanyName */
-	color: var(--bg-default);
+	color: white; /* Opción blanco 100% */
+	/* color: var(--bg-default); */
 	text-decoration: none; /*Elimina el subrallado del link*/
 	padding-left: 10px;
 }
@@ -190,7 +192,7 @@ input {
 
 input:focus {
 	outline: none;
-	outline: 2px solid var(--lavender); /* REVISAR + ADELANTE */
+	outline: 2px solid var(--search-emphasy); /* REVISAR + ADELANTE */
 
 }
 
@@ -201,7 +203,7 @@ form button {
 	padding: 10px 0px;
 	background-color: var(--brand);
 	color: var(--bg-default);
-	_margin: 0 0 0 10px;
+	/* margin: 0 0 0 10px; */
 	width: 30%;
 }
 
@@ -236,6 +238,7 @@ form button {
 	font-size: var(--fs-s);
 	font-weight: 600;
 }
+
 .li-subtitle {
 	color: var(--text-secondary);
 	font-size: var(--fs-xs);
@@ -243,9 +246,15 @@ form button {
 	/* font-weight: 600; */
 }
 
-.li-tag-block {
+.li-bottom-block {
 	display: flex;
-	gap: 10px;
+	gap: 5px;
+}
+
+.li-mid-block {
+	display: flex;
+	justify-content: space-between;
+	align-items: center; /* No se si es necesario? */
 }
 
 .li-tag {
@@ -268,6 +277,7 @@ form button {
 	
 }
 .tag-generic {
+	/* color-mix para mezclar el color del fondo con % blanco */
 	background: color-mix(in srgb, var(--tag2-bg) 50%, white);
 	color: var(--tag2-text);
 
