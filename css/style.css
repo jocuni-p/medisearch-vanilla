@@ -95,6 +95,7 @@ body {
 	/* Quizas usar otra typo mas corporativa para resaltar */
 }
 
+/* xxxxxx OJO: Eliminar si no lo uso */
 .logo {
 	display: none; /* de momento así */
 }
@@ -219,7 +220,7 @@ form button {
 .li-main {
 	display: flex;
 	flex-direction: column;
-	_justify-content: space-between;
+	/* justify-content: space-between; */
 	background: var(--bg-secondary);
 	border: 1px solid #b8b5e8;
 	border-left: 3px solid var(--brand);
@@ -228,6 +229,10 @@ form button {
 	margin: 5px 0px;
 }
 
+.li-main a {
+	text-decoration: none; /* quita el subrayado del user-agent stylesheet */
+	color: inherit; /* hereda y no le pone el azul del enlace */
+}
 .li-main:hover {
 	border: 1px solid var(--brand-secondary);
 	border-left: 3px solid var(--brand-secondary);
@@ -254,7 +259,7 @@ form button {
 .li-mid-block {
 	display: flex;
 	justify-content: space-between;
-	align-items: center; /* No se si es necesario? */
+	align-items: center; /* Centra, aunque ahora casi no se note */
 }
 
 .li-tag {
@@ -303,3 +308,8 @@ form button {
 #pagination {
 	margin: 5px 0px 20px 0px;
 }
+
+/* =====DEBUG===== */
+/* .hidden {
+	display: none;
+} */

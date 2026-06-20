@@ -1,6 +1,6 @@
 // Crea el header con los enlaces que corresponda según la página que lo llame
 
-const LOGO = "💊";
+// const LOGO = "💊";
 const COMPANY = "Medisearch";
 
 // Función interna
