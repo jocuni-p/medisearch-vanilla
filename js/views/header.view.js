@@ -23,10 +23,10 @@ function createBrandLink() {
 	logoAndBrandName.classList.add("brand");
 
 	// Creo el logo
-	const logo = document.createElement("span");
-	logo.textContent = LOGO;
-	logo.setAttribute("aria-hidden", "true"); // Es decorativo: No confundir al lector de pantalla
-	logo.classList.add("logo");
+	// const logo = document.createElement("span");
+	// logo.textContent = LOGO;
+	// logo.setAttribute("aria-hidden", "true"); // Es decorativo: No confundir al lector de pantalla
+	// logo.classList.add("logo");
 
 	// Creo el nombre de la compañia
 	const brandName = document.createElement("span");
@@ -34,7 +34,8 @@ function createBrandLink() {
 	brandName.classList.add("company-name");
 	
 	//Envuelvo lo creado en el contenedor
-	logoAndBrandName.append(logo, brandName);
+	//logoAndBrandName.append(logo, brandName);
+	logoAndBrandName.append(brandName);
 	return logoAndBrandName;
 }
 
