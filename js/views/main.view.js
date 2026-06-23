@@ -1,48 +1,55 @@
 
+// Si he de hacer un truncado del nombre o poner el principio activo la primera en mayuscula, se hace aquí por que son transformaciones de presentación No de datos.
 
 
 /**
  * 
- * @param {*} medicamentos 
+ * @param {*} medications 
  */
 // Toma el array de medicamentos
-export function showMedicamentos(medicamentos) {
+export function showMedications(medications) {
 	const container = document.querySelector('#results-list');
+	container.replaceChildren();
 	// Crea el fragment
 	const fragment = document.createDocumentFragment(); 
 	//Recupera el template
 	const template = document.querySelector('#template-medicine').content;
 	//Bucle que crea el clone y rellena cada dato del template
-	for (const medicamento of medicamentos) {
+	for (const medication of medications) {
 		// Creo un clone
 		const clone = template.cloneNode(true);
 		// Recupero elemento href para página de detalle
 		//clone.querySelector('a').href = `${BASE_URL}/medicamento?nregistro=${medicamento.nregistro}`;
-		clone.querySelector('a').href = "";
+		clone.querySelector('a').href = `detail.html?nregistro=${medication.nregistro}`;
 		// Recupero nombre medicamento
-		clone.querySelector('h2').textContent = medicamento.nombre;
+		clone.querySelector('h2').textContent = medication.nombre;
 		//NOTA: Principio de robustez: asumir que cualquier campo puede fallar o no ser obligatorio (blindar todo con '?.').
-		// Recuperar y construir subtitulo (puede tener 1 o 2 partes)
-		//const subtitleParts = [];
-		// Recupero principio activo (ojo NO son campos obligatorios).Hay que blindarlos.
+		
+		// Recupero principio activo (ojo NO se si son campos obligatorios).Hay que blindarlos.
 		// Si no existe, devuelve undefined sin lanzar error.
-		if (medicamento.vtm?.nombre) {  // es una protección de leer algo que no existe y no se rompe.
-			clone.querySelector('.li-subtitle').textContent = medicamento.vtm.nombre;
+		if (medication.vtm?.nombre) {  // protección para leer algo, que si no existe, no se rompa.
+			// OJO: GESTIONAR TRUNCADO CON CSS
+			clone.querySelector('.li-subtitle').textContent = medication.vtm.nombre;
 		}
-		// Recupero formaFarmaceutica si existe, sino devuelve undefined sin lanzar error
-		/* if (medicamento.formaFarmaceuticaSimplificada?.nombre) {
-			subtitleParts.push(medicamento.formaFarmaceuticaSimplificada.nombre);
+		else {// Aparecerá vacío si no viene texto o hubo algún error
+			clone.querySelector('.li-subtitle').textContent = '';
 		}
-		clone.querySelector('.li-subtitle').textContent = subtitleParts.join(' · '); */
+		
+		
 
-		// Recupero los tags si han de estar presentes
-		if (!medicamento.receta) {
+		//REVISAR, no tengo claro que este bien implementado
+		// Defensa: Recupero los tags que han de estar presentes
+		if (medication.cpresc?.toLowerCase().includes('hospital')) {
+			clone.querySelector('.tag-hospital');
+			//ocultar tag "Receta"
+		}
+		else if (!medication.receta) { // OJO: comprobar que sí existe, pero a lo mejor es 0
 			clone.querySelector('.tag-recipe').classList.add('hidden');
 		}
-		if (!medicamento.generico) {
+		if (!medication.generico) {
 			clone.querySelector('.tag-generic').classList.add('hidden');
 		}
-		if (!medicamento.psum) {
+		if (!medication.psum) {
 			clone.querySelector('.tag-psum').classList.add('hidden');
 		}
 
@@ -51,3 +58,15 @@ export function showMedicamentos(medicamentos) {
 	
 	container.appendChild(fragment);
 }
+
+
+// La llamaré a menudo desde el controller para que me ayude a gestionar el estado
+// en cada momento 
+
+/* function showState(state) {
+    según state:
+	'loading' → muestra spinner, oculta lista, oculta mensajes
+	'empty' → muestra "Sin resultados", oculta spinner y lista
+	'error' → muestra mensaje de error
+	'results' → muestra lista, oculta spinner
+} */

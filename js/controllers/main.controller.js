@@ -1,55 +1,50 @@
 // LLama a un modulo que contiene showHeader() para que rellene el header
 
 import { showHeader } from "../views/header.view.js";
-import { showMedicamentos } from "../views/main.view.js";
-
-// 1. MOSTRAR HEADER
-showHeader("Inicio");
+import { showMedications } from "../views/main.view.js";
+import { fetchMedications } from "../models/medications.model.js";
 
 
-// 2. VALIDAR INPUT
-
-
-// 3. REDIRIGE INPUT AL MODEL
-
-showMedicamentos(inputValidado);
-
-
-
-/* ==== DATOS DE PRUEBA PARA PRIMER MOCK ==== */
-/* 
-const resultados = [
-	{
-		nregistro: "60954",
-		nombre: "COULDINA CON ACIDO ACETILSALICILICO COMPRIMIDOS EFERVESCENTES",
-		comerc: true,
-		receta: false,
-		generico: false,
-		psum: false,
-		formaFarmaceuticaSimplificada: {
-			id: 13,
-			nombre: "COMPRIMIDO EFERVESCENTE",
-		},
-		vtm: {
-			id: 139071000140108,
-			nombre: "ácido acetilsalicílico + clorfenamina + fenilefrina",
-		}
-	},
-	{
-		nregistro: "81807",
-		nombre: "COULDINA CON IBUPROFENO COMPRIMIDOS EFERVESCENTES",
-		comerc: true,
-		receta: false,
-		generico: true,
-		psum: true,
-		formaFarmaceuticaSimplificada: {
-			id: 13,
-			nombre: "COMPRIMIDO EFERVESCENTE",
-		},
-		vtm: {
-			id: 185651000140100,
-			nombre: "ibuprofeno + clorfenamina + fenilefrina",
-		}
-	}
-];
+/**
+ * Recibe el objeto del evento, previene que se recargue la página,
+ * recupera el valor del input, lo trima por si hay espacios antes y/o después,
+ * lo pasa al model para que haga el fetch
+ * @param {*} event 
  */
+async function handleSearch(event) {
+	event.preventDefault(); // para que no recargue la página y se pierdan los datos
+	const input = document.querySelector('#search-input'); // selecciono el elemento por id
+	const valor = input.value.trim(); //recupero su valor (trima espacios, al inicio y al final)
+	//Deberia añadir un validador de string lenght mínimo??
+	console.log(valor);
+	const data = await fetchMedications(valor); // Esta función devuelve una promise
+	console.log(data);
+	//La validacion de si contiene datos ya se ha hecho en el model (fetchMedications)
+	//data es un obj. He de pasarle 
+	showMedications(data.resultados);
+}
+
+function init() {
+	// 1. MOSTRAR HEADER
+	showHeader("Inicio");
+	
+	// 2. IMPLEMENTAR LISTENER AL FORM 
+	const form = document.querySelector('#form');
+	form.addEventListener('submit', handleSearch);
+}
+init();
+
+
+/*
+controller:
+    showState('loading')
+    try:
+        data = await fetchMedications(query)
+        si data.resultados.length === 0:
+            showState('empty')
+        sino:
+            showMedications(data.resultados)
+    catch:
+        showState('error')
+*/
+

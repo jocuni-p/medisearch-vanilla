@@ -57,8 +57,8 @@ export function showHeader(nameOfPage) {
 		// Añado los enlaces al container. append() acepta varios nodos de golpe
 		nav.append(
 			// Crea cada uno de los enlaces
-			createLink("Suministro", "suministro.html"),
-			createLink("Favoritos", "favoritos.html")
+			createLink("Suministro", "supply.html"),
+			createLink("Favoritos", "favorites.html")
 		);
 	} else {
 		nav.setAttribute("aria-label", "Principal"); // Define el rol del nav, no un destino

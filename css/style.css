@@ -35,7 +35,9 @@
 	--tag2-bg: #C8EDB8;
 	--tag2-text: #2A5A08;
 	--tag3-bg: #F5C0C0;
-	--tag3-text: #8B1A1A;
+	--tag3-text: #a91111;
+	--tag4-bg: #f8832e;
+	--tag4-text: rgb(208, 74, 6);
 
 
 	/* ---escala tipográfica--- */
@@ -253,6 +255,7 @@ form button {
 
 .li-bottom-block {
 	display: flex;
+	flex-wrap: wrap; /* Si no caben, pasaran a segunda linea, sin romperse */
 	gap: 5px;
 }
 
@@ -285,17 +288,21 @@ form button {
 	.tag-generic {
 		/* color-mix para mezclar el color del fondo con % blanco */
 		background: color-mix(in srgb, var(--tag2-bg) 50%, white);
-		color: var(--tag2-text);
-		
+		color: var(--tag2-text);	
 	}
 	
 	.tag-recipe {
 		background: color-mix(in srgb, var(--tag1-bg) 75%, white);
 		color: var(--tag1-text);
 	}
+
+	.tag-hospital {
+		background: color-mix(in srgb, var(--tag4-bg) 20%, white);
+		color: var(--tag4-text);
+	}
 	
 	.tag-psum {
-		background: color-mix(in srgb, var(--tag3-bg) 35%, white);
+		background: color-mix(in srgb, var(--tag3-bg) 45%, white);
 		color: var(--tag3-text);
 	}
 	/* ===== PAGINACIÓN ===== */
