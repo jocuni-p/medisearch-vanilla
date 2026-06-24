@@ -210,6 +210,13 @@ form button {
 	width: 30%;
 }
 
+/* ===== MENSAJES DE ESTADO/VALIDACIÓN ===== */
+.state-message { /* FALTAN ESTILOS AQUÍ */
+	/* padding: 10px; 
+	border-radius: 5px; */
+
+}
+
 /* ====== CARDS DE RESULTADOS ===== */
 
 #results-list {
@@ -318,6 +325,8 @@ form button {
 	}
 	
 /* ======= UTILITIES ======== */
+
+/*Separo estilo de estado */
 .hidden {
 	display: none;
 }
