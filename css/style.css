@@ -39,7 +39,6 @@
 	--tag4-bg: #f8832e;
 	--tag4-text: rgb(208, 74, 6);
 
-
 	/* ---escala tipográfica--- */
 	--fs-xs: 0.75rem;
 	--fs-s: 0.875rem;
@@ -288,53 +287,45 @@ form button {
 	justify-content: end;
 	} */
 	
-	.bi {
-		font-size: 1rem;
-		
-	}
-	.tag-generic {
-		/* color-mix para mezclar el color del fondo con % blanco */
-		background: color-mix(in srgb, var(--tag2-bg) 50%, white);
-		color: var(--tag2-text);	
-	}
+.bi {
+	font-size: 1rem;
 	
-	.tag-recipe {
-		background: color-mix(in srgb, var(--tag1-bg) 75%, white);
-		color: var(--tag1-text);
-	}
+}
+.tag-generic {
+	/* color-mix para mezclar el color del fondo con % blanco */
+	background: color-mix(in srgb, var(--tag2-bg) 50%, white);
+	color: var(--tag2-text);	
+}
 
-	.tag-hospital {
-		background: color-mix(in srgb, var(--tag4-bg) 20%, white);
-		color: var(--tag4-text);
-	}
-	
-	.tag-psum {
-		background: color-mix(in srgb, var(--tag3-bg) 45%, white);
-		color: var(--tag3-text);
-	}
-	/* ===== PAGINACIÓN ===== */
-	
-	.top-info-pagination, #pagination {
-		/* font-weight: 600; */
-		font-size: var(--fs-s);
-		color: var(--text-secondary);
-	}
-	
-	#pagination {
-		margin: 5px 0px 20px 0px;
-	}
+.tag-recipe {
+	background: color-mix(in srgb, var(--tag1-bg) 75%, white);
+	color: var(--tag1-text);
+}
+
+.tag-hospital {
+	background: color-mix(in srgb, var(--tag4-bg) 20%, white);
+	color: var(--tag4-text);
+}
+
+.tag-psum {
+	background: color-mix(in srgb, var(--tag3-bg) 45%, white);
+	color: var(--tag3-text);
+}
+/* ===== PAGINACIÓN ===== */
+
+.top-info-pagination, #pagination {
+	/* font-weight: 600; */
+	font-size: var(--fs-s);
+	color: var(--text-secondary);
+}
+
+#pagination {
+	margin: 5px 0px 20px 0px;
+}
 	
 /* ======= UTILITIES ======== */
 
 /*Separo estilo de estado */
 .hidden {
-	display: none;
+	display: none !important;
 }
-
-
-	/* =====DEBUG===== */
-	/* .hidden {
-		display: none;
-
-
-} */

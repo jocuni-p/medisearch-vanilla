@@ -63,41 +63,25 @@
                 />
                 <button type="submit">Buscar</button>
             </form>
-			<div id="state-message" class="state-message hidden" role="status" aria-live="polite">xxxxxxxxxxxxxxxxxxxxx</div>
+
+            <!-- SPINNER de loading -->
+            <div id="spinner" class="spinner hidden" aria-hidden="true">
+                <i class="bi bi-arrow-clockwise spin"></i>
+            </div>
+
+            <!-- CONTAINER PARA MENSAJES DE ERROR Y STATUS (manejado por módulo ui-state)-->
+            <div id="state-message" class="state-message hidden" role="status" aria-live="polite">
+                xxxxxxxxxxxxxxxxxxxxx
+            </div>
+
             <!--div class="hidden" envuelve todas las cards-->
 
             <!-- ========= LISTA DE CARDS ========== -->
-            <p id="results-info" class="top-info-pagination">RESULTADOS  _ de _</p>
-            <ul id="results-list">
-                <!--	
-                    <li class="li-main">
-                        <a href="">
-                            <div class="li-top-block">
-                                <h2>LEXXEMA 1 MG/G EMULSION CUTANEA</h2>
-                          
-                                <div class="li-mid-block">
-                                    <p class="li-subtitle">Ibuprofeno · Comprimidos recubiertos</p>
-                                    <span class="arrow" aria-hidden="true"
-                                        ><i class="bi bi-chevron-compact-right"></i
-                                    ></span>
-                                </div>
-                            </div>
-                            <div class="li-bottom-block">
-                                <span class="li-tag tag-recipe"
-                                    ><i class="bi bi-file-medical"></i>Receta</span
-                                >
-								<span class="li-tag tag-hospital"><i class="bi bi-h-square"></i>Uso hospitalario</span>
-                                <span class="li-tag tag-generic"><i class="bi bi-copy"></i>Genérico</span>
-                                <span class="li-tag tag-psum"
-                                    ><i class="bi bi-exclamation-triangle"></i>Suministro</span
-                                >
-                            </div>
-                        </a>
-                    </li>
-				-->
-            </ul>
-			<!---</div>-->
+            <p id="results-info" class="top-info-pagination">RESULTADOS _ de _</p>
+            <ul id="results-list"></ul>
+            <!---</div>-->
             <nav id="pagination" aria-label="Paginación">&lt;&lt; 1 de 5 &gt;&gt;</nav>
+
             <small class="legal">
                 Datos:
                 <a href="https://cima.aemps.es" target="_blank" rel="noopener">CIMA</a>
@@ -105,6 +89,7 @@
                 <a href="aviso-legal.html">Aviso legal</a>
             </small>
         </main>
+
         <!-- ========= SE OCULTA EN EL NAVEGADOR ========== -->
         <template id="template-medicine">
             <li class="li-main">
@@ -115,7 +100,8 @@
                         <h2>ERROR DE SERVIDOR</h2>
                         <!--------------------------------------------------->
                         <div class="li-mid-block">
-                            <p class="li-subtitle"></p> <!-- Lo dejo vacío por si hubiese error de servidor-->
+                            <p class="li-subtitle"></p>
+                            <!-- Lo dejo vacío por si hubiese error de servidor-->
                             <span class="arrow" aria-hidden="true"
                                 ><i class="bi bi-chevron-compact-right"></i
                             ></span>
@@ -124,9 +110,7 @@
                     <!--------------------------------------------------->
                     <div class="li-bottom-block">
                         <span class="li-tag tag-recipe"><i class="bi bi-file-medical"></i>Receta</span>
-                        <span class="li-tag tag-hospital"
-                            ><i class="bi bi-h-square"></i>Hospitalario</span
-                        >
+                        <span class="li-tag tag-hospital"><i class="bi bi-h-square"></i>Hospitalario</span>
                         <span class="li-tag tag-generic"><i class="bi bi-copy"></i>Genérico</span>
                         <span class="li-tag tag-psum"
                             ><i class="bi bi-exclamation-triangle"></i>Suministro</span

@@ -3,18 +3,25 @@
 
 
 /**
- * LIMPIA la lista de cards (DOM) si contiene algo
+ * LIMPIA la lista de cards del DOM, si contiene algo
  */
 export function clearMedications() {
 	document.querySelector('#results-list').replaceChildren();
 }
 
-
+/* ===========OJO, FUNCION DEMASIADO LARGA: HAY QUE REFACTORIZARLA =========== */
 /**
+ * Renderiza un listado de cards de medicamentos en el contenedor #results-list.
+ * Por cada elemento del array:
+ *  - Clona el template #template-medicine.
+ *  - Rellena nombre, principio activo y enlace a la vista de detalle.
+ *  - Muestra/oculta los tags según las propiedades del medicamento.
+ * Limpia el contenedor antes de pintar (delega en clearMedications).
  * 
- * @param {*} medications 
+ * @param {Array<Object>} medications - Array de objetos medicamento devuelto 
+ *   por la API CIMA. Se espera que cada elemento tenga, al menos, `nregistro` 
+ *   y `nombre`. El resto de campos se manejan de forma defensiva.
  */
-// Toma el array de medicamentos
 export function showMedications(medications) {
 	const container = document.querySelector('#results-list'); // Al final necesito esta var
 	clearMedications();
