@@ -51,15 +51,20 @@ export function showMedications(medications) {
 			clone.querySelector('.li-subtitle').textContent = '';
 		}
 		
+		// ====== GESTION DE LOS TAGS ======
+		// Muestra/oculta los tags según el valor del objeto medicamento recibido
+		const isHospital = medication.cpresc?.toLowerCase().includes('hospital');
 		
-
-		//REVISAR, no tengo claro que este bien implementado
-		// Defensa: Recupero los tags que han de estar presentes
-		if (medication.cpresc?.toLowerCase().includes('hospital')) {
-			clone.querySelector('.tag-hospital');
-			//ocultar tag "Receta"
+		if (isHospital) {
+			clone.querySelector('.tag-hospital').classList.remove('hidden');
+			clone.querySelector('.tag-recipe').classList.add('hidden');
 		}
-		else if (!medication.receta) { // OJO: comprobar que sí existe, pero a lo mejor es 0
+		else if (medication.receta) { // 
+			clone.querySelector('.tag-hospital').classList.add('hidden');
+			clone.querySelector('.tag-recipe').classList.remove('hidden');
+		}
+		else {
+			clone.querySelector('.tag-hospital').classList.add('hidden');
 			clone.querySelector('.tag-recipe').classList.add('hidden');
 		}
 		if (!medication.generico) {
@@ -68,21 +73,8 @@ export function showMedications(medications) {
 		if (!medication.psum) {
 			clone.querySelector('.tag-psum').classList.add('hidden');
 		}
-
 		fragment.appendChild(clone);
 	}
-	
 	container.appendChild(fragment);
 }
 
-
-// La llamaré a menudo desde el controller para que me ayude a gestionar el estado
-// en cada momento 
-
-/* function showState(state) {
-    según state:
-	'loading' → muestra spinner, oculta lista, oculta mensajes
-	'empty' → muestra "Sin resultados", oculta spinner y lista
-	'error' → muestra mensaje de error
-	'results' → muestra lista, oculta spinner
-} */
