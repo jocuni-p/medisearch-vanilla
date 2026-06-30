@@ -3,16 +3,33 @@
 import { showHeader } from "../views/header.view.js";
 import { showMedications, clearMedications } from "../views/main.view.js";
 import { fetchMedications } from "../models/medications.model.js";
-import { showLoading, showEmpty, showError, showResults } from "../views/ui-state.view.js";
+import { showLoading, showEmpty, showResults } from "../views/ui-state.view.js";
 import { MESSAGES } from "../views/ui-messages.js";
 
 /* ==== CONSTANTS ==== */
-
 const VALID_INPUT_REGEX = /^[a-záéíïóúüñ0-9\s\-/.,]+$/i;
 const VALIDATION_MESSAGES = {
     tooShort: MESSAGES.validation.tooShort,
     invalidChars: MESSAGES.validation.invalidChars,
 };
+
+init();
+// Lo pongo o lo quito???
+//document.addEventListener('DOMContentLoaded', init);
+
+/**
+ * Punto de arranque del controller de la vista principal.
+ * Monta el header común y registra el listener del formulario de búsqueda.
+ * Se ejecuta una sola vez al cargar la página.
+ */
+function init() {
+	// 1. MOSTRAR HEADER
+	showHeader("Inicio");
+	// 2. IMPLEMENTA LISTENER DE EVENTOS EN EL FORM
+	const form = document.querySelector("#form");
+	form.addEventListener("submit", handleSearch);
+}
+
 
 /**
  * Valida el texto introducido por el usuario antes de enviar la petición a la API.
@@ -69,7 +86,7 @@ async function handleSearch(event) {
             return;
 		}
 		// o si es por esta otra razón (muestra msg)
-        showError(VALIDATION_MESSAGES[resultInput.reason]); // Oculta spinner, muestra mensaje, oculta lista
+        showEmpty(VALIDATION_MESSAGES[resultInput.reason]); // Oculta spinner, muestra mensaje, oculta lista
         return;
         //console.log(resultInput.reason); // DEBUG TEMP
     }
@@ -97,36 +114,9 @@ async function handleSearch(event) {
         showMedications(data.resultados);
     } catch (error) {
         // Si hubo algún error en el (fetch) proceso lo cazará
-        showError(MESSAGES.response.error); // Oculta spinner, muestra mensaje, oculta lista
+        showEmpty(MESSAGES.response.error); // Oculta spinner, muestra mensaje, oculta lista
         console.log("Ha habido un problema al conectar con CIMA. Inténtalo de nuevo", error.message); // DEBUG
         clearMedications(); // En los dos estados donde puede haber cards previas (empty, error)
     }
 }
 
-/**
- * Punto de arranque del controller de la vista principal.
- * Monta el header común y registra el listener del formulario de búsqueda.
- * Se ejecuta una sola vez al cargar la página.
- */
-function init() {
-    // 1. MOSTRAR HEADER
-    showHeader("Inicio");
-    // 2. IMPLEMENTA LISTENER DE EVENTOS EN EL FORM
-    const form = document.querySelector("#form");
-    form.addEventListener("submit", handleSearch);
-}
-
-init();
-
-/*
-controller:
-    showState('loading')
-    try:
-        data = await fetchMedications(query)
-        si data.resultados.length === 0:
-            showState('empty')
-        sino:
-            showMedications(data.resultados)
-    catch:
-        showState('error')
-*/

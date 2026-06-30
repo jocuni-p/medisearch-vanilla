@@ -8,7 +8,7 @@
             name="description"
             content="Web Multipágina clásica. Proyecto final del Curso de Desarrollo Web Frontend IFCD55 2026"
         />
-        <title>Buscador de medicamentos</title>
+        <title>Medisearch - Buscador de medicamentos</title>
 
         <!-- ======= FUENTE ======= -->
         <!-- Si pongo aquí la fuente importada la descarga antes o en paralelo de los css-->
@@ -34,7 +34,7 @@
 	<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>💊</text></svg>" />  -->
     </head>
     <body>
-        <!-- xxxxxxxxxx OJO: crear selector css con estilo para el noscript-->
+        <!-- TODO: crear selector css con estilo para el noscript-->
         <noscript>
             <div class="alerta-js">
                 <p>⚠️ JavaScript Desactivado</p>
@@ -71,12 +71,10 @@
 
             <!-- CONTAINER PARA MENSAJES DE ERROR Y STATUS (manejado por módulo ui-state)-->
             <div id="state-message" class="state-message hidden" role="status" aria-live="polite">
-                xxxxxxxxxxxxxxxxxxxxx
             </div>
 
-            <!--div class="hidden" envuelve todas las cards-->
-
             <!-- ========= LISTA DE CARDS ========== -->
+            <!--div class="hidden" envuelve todas las cards-->
             <p id="results-info" class="top-info-pagination">RESULTADOS _ de _</p>
             <ul id="results-list"></ul>
             <!---</div>-->
@@ -90,7 +88,7 @@
             </small>
         </main>
 
-        <!-- ========= SE OCULTA EN EL NAVEGADOR ========== -->
+        <!-- ========= TEMPLATE OCULTA ========== -->
         <template id="template-medicine">
             <li class="li-main">
                 <!-- Pendiente ruta a la pagina detalle de la card-->

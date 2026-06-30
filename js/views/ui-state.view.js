@@ -7,8 +7,6 @@
  * Los mensajes de texto se reciben como argumento (ver ui-messages.js para lops textos).
  */
 
-
-
 /* ========= PRIVATE FUNCTIONS ========= */
 
 /**
@@ -26,7 +24,7 @@ function showSpinner(flag) {
 }
 
 /**
- * Establece y muestra un mensaje en el container state-message.
+ * Muestra/oculta un mensaje en el container state-message.
  * Si el parámetro es falsy (string vacio, null, undefined), oculta el mensaje.
  * @param {string} msg - Texto del mensaje a mostrar. Vacío para ocultar.
  */
@@ -63,11 +61,8 @@ function showList(flag) {
 	}
 }
 
-
 /* ========= PUBLIC FUNCTIONS ========= */
-
 /* Son llamadas siempre desde el controller */
-
 
 export function showLoading() {
 	showSpinner(true);
@@ -81,15 +76,17 @@ export function showEmpty(msg) {
 	showList(false);
 }
 
-export function showError(msg) {
-	showSpinner(false);
-	showMessage(msg);
-	showList(false);
-}
-
 export function showResults() {
 	showSpinner(false);
 	hideMessage();
 	showList(true);
 }
 
+/*=== para detail.controller.js ===*/
+export function hideLoading() {
+	showSpinner(false);
+}
+
+export function hideError() {
+	hideMessage();
+}

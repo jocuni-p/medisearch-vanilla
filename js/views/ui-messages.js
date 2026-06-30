@@ -5,6 +5,7 @@
  * Estructura por categorias:
  * 	-validation: mensajes de validación del input.
  * 	-response: mensajes relativos a la respuesta de la API.
+ *  -detail: página detail
  */
 export const MESSAGES = {
 	validation: {
@@ -16,4 +17,10 @@ export const MESSAGES = {
 		error: 'Ha habido un problema al conectar con CIMA. Inténtalo de nuevo.',
 		unexpected: 'No se ha podido procesar la respuesta. Inténtalo más tarde.',
 	},
+	detail: {
+		noNregistro: "Medicamento no especificado. Vuelve al inicio.",
+		fetchError: "No se ha podido cargar el medicamento.",
+		supplyError: "No se han podido cargar los problemas de sumi nistro.",
+		notesError: "No se han podido cargar las notas.",
+	}
 }
