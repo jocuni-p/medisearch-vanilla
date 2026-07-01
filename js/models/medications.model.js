@@ -1,6 +1,7 @@
+import { BASE_URL } from './api-config.js';
 
-const BASE_URL = 'https://cima.aemps.es/cima/rest';
-const PATH = '/medicamentos';
+// TODO: Esto no me gusta así suelto  Buscar solución
+//const PATH = '/medicamentos';
 
 
 /**
@@ -16,7 +17,7 @@ const PATH = '/medicamentos';
  */
 export async function fetchMedications(query) {
 	// Creo la ruta
-	const url = new URL(`${BASE_URL}${PATH}`);
+	const url = new URL(`${BASE_URL}/medicamentos`);
 	url.searchParams.set('nombre', query);
 	url.searchParams.set('comerc', '1');
 

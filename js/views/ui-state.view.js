@@ -53,6 +53,7 @@ function hideMessage() {
  */
 function showList(flag) {
 	const list = document.querySelector('#results-list');
+	if (!list) return; //para que sea reutilizable en páginas que no tienen lista
 	if (flag) {
 		list.classList.remove('hidden');
 	}
@@ -60,6 +61,16 @@ function showList(flag) {
 		list.classList.add('hidden');
 	}
 }
+
+//Privada genérica (showError y showEmpty vienen aquí. Las mantengo ambas porque ayudan por  semántica)
+function setMessageState(msg) {
+	showSpinner(false);
+	showMessage(msg);
+	showList(false);
+}
+
+
+
 
 /* ========= PUBLIC FUNCTIONS ========= */
 /* Son llamadas siempre desde el controller */
@@ -70,11 +81,9 @@ export function showLoading() {
 	showList(false);
 }
 
-export function showEmpty(msg) {
-	showSpinner(false);
-	showMessage(msg);
-	showList(false);
-}
+// Wrappers diferentes de la misma función, para mejorar la semántica
+export function showEmpty(msg) { setMessageState(msg); }
+export function showError(msg) { setMessageState(msg); }
 
 export function showResults() {
 	showSpinner(false);
@@ -82,7 +91,7 @@ export function showResults() {
 	showList(true);
 }
 
-/*=== para detail.controller.js ===*/
+/*=== para detail.controller ===*/
 export function hideLoading() {
 	showSpinner(false);
 }

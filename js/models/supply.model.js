@@ -1,0 +1,1 @@
+//export async function fetchSupply(cn)  // esto a supply.model

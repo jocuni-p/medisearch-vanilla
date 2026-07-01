@@ -7,11 +7,12 @@ import {
 	renderDocs,
 	renderSupplySection,
 	renderNotes,
-	renderFavAction
+	renderFavoritesAction
 } from "../views/detail.view.js"
 import {
 	showLoading,
 	showEmpty,
+	showError,
 	showResults,
 	hideError,
 	hideLoading,
@@ -20,12 +21,16 @@ import { MESSAGES } from "../views/ui-messages.js";
 
 
 /*====CONSTANTS====*/
+//TODO: preparados para que las funciones render* los reciban cuando las implemente
 const ID_MAIN = "medication-identity";
 const ID_DOCS = "medication-docs";
 const ID_SUPP = "medication-supply";
 const ID_NOTE = "medication-notes";
 const ID_FAV = "medication-fav-action";
 
+
+// Arranca el JS al cargar la pagina
+document.addEventListener('DOMContentLoaded', init);
 
 /** =======TODO: ESTA CASI EN ESQUELETO - HAY QUE REFACTORIZARLA , MUY LARGA=========
  */
@@ -34,9 +39,10 @@ async function init() {
 	showHeader("Detalle"); // importa el modulo header
 	// nregistro = leer URL
 	const nregistro = getNregistroFromUrl(); // creada más abajo
-	console.log(nregistro); // DEBUG
+	//getValidatedNregistro(nregistro);
+	
 	if (!isValidNregistro(nregistro)) {
-		// Oculta spinner, muestra mensaje y ojo:oculta lista (esto último puede dar problemas)
+		// Oculta spinner, muestra mensaje y oculta lista si existe
 		showEmpty(MESSAGES.detail.noNregistro)
 		return;
 	}
@@ -44,25 +50,27 @@ async function init() {
 	showLoading();
 	let medication; // Declarada aquí para que tenga vida fuera del try.
 	try {
-		medication = await fetchMedication(nregistro); //importar de medication.model. alli crearé el url y haré la validación
-		//Yo creo que aquí he de validar la response o lo hace el renderIdentity?
+		medication = await fetchMedication(nregistro); //PENDING:de medication.model. alli crearé el url y haré la validación
+		
+		//TODO: La validación del renderIdentity va en el model
 		renderIdentity(medication); // renderiza una sección (asume solo el pintado => view)
 		renderDocs(medication); // renderiza la otra => view
 		// Si 'psum' existe hace un fetch (sin await, cuando llegue)
 		if (medication.psum) {
-			loadSupply (sin await)// render progresivo
+			loadSupply(medication);// PENDING:render progresivo al no tener await
 		}
+		
 		// Si 'notas' existe hace un fetch (sin await, cuando llegue)
 		if (medication.notas) {
-			loadNotes(sin await)// render progresivo
+			loadNotes(medication);// PENDING: render progresivo al no tener await
 		}
 		// TODO: lógica de favoritos
 		// Localiza el botón, comprueba (localStorage)si está ya en favoritos, pinta texto del botón según el estado, conecta un addEventListener que alterna el estado
-		wireFavoriteButton(medication);
+		//wireFavoriteButton(medication); // ESQUELETO
 	} catch (error) {
 		console.error('Error al cargar el medicamento:', error);
 		hideLoading();
-		showEmpty(MESSAGES.detail.fetchError);
+		showError(MESSAGES.detail.fetchError);
 		return;
 	}
 	hideLoading();
@@ -81,3 +89,17 @@ function getNregistroFromUrl() {
 function isValidNregistro(nregistro) {
 	return Boolean(nregistro); 
 }
+
+// Validación básica de nregistro
+/* function getValidatedNregistro(nregistro) {
+	if (!isValidNregistro(nregistro)) {
+			// Oculta spinner, muestra mensaje y ojo:oculta lista (esto último puede dar problemas)
+			showEmpty(MESSAGES.detail.noNregistro)
+			return;
+		}
+
+}
+ */
+
+async function loadSupply(medication) { /* TODO */ }
+async function loadNotes(medication) { /* TODO */ }

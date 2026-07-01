@@ -3,7 +3,7 @@
 import { showHeader } from "../views/header.view.js";
 import { showMedications, clearMedications } from "../views/main.view.js";
 import { fetchMedications } from "../models/medications.model.js";
-import { showLoading, showEmpty, showResults } from "../views/ui-state.view.js";
+import { showLoading, showEmpty, showError, showResults } from "../views/ui-state.view.js";
 import { MESSAGES } from "../views/ui-messages.js";
 
 /* ==== CONSTANTS ==== */
@@ -13,9 +13,8 @@ const VALIDATION_MESSAGES = {
     invalidChars: MESSAGES.validation.invalidChars,
 };
 
-init();
-// Lo pongo o lo quito???
-//document.addEventListener('DOMContentLoaded', init);
+// Arranca el JS al cargar la pagina
+document.addEventListener('DOMContentLoaded', init);
 
 /**
  * Punto de arranque del controller de la vista principal.
@@ -114,7 +113,7 @@ async function handleSearch(event) {
         showMedications(data.resultados);
     } catch (error) {
         // Si hubo algún error en el (fetch) proceso lo cazará
-        showEmpty(MESSAGES.response.error); // Oculta spinner, muestra mensaje, oculta lista
+        showError(MESSAGES.response.error); // Oculta spinner, muestra mensaje, oculta lista
         console.log("Ha habido un problema al conectar con CIMA. Inténtalo de nuevo", error.message); // DEBUG
         clearMedications(); // En los dos estados donde puede haber cards previas (empty, error)
     }
