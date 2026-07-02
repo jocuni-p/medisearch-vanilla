@@ -6,6 +6,7 @@ import {
 	renderIdentity,
 	renderDocs,
 	renderSupplySection,
+	renderSupplyMessage,
 	renderNotes,
 	renderFavoritesAction
 } from "../views/detail.view.js"
@@ -18,6 +19,7 @@ import {
 	hideLoading,
 } from "../views/ui-state.view.js";
 import { MESSAGES } from "../views/ui-messages.js";
+import { fetchSupplyByName } from "../models/supply.model.js";
 
 
 /*====CONSTANTS====*/
@@ -52,17 +54,24 @@ async function init() {
 	try {
 		medication = await fetchMedication(nregistro); //PENDING:de medication.model. alli crearé el url y haré la validación
 		
+		//Pinta la sección identity en el DOM
 		//TODO: La validación del renderIdentity va en el model
-		renderIdentity(medication); // renderiza una sección (asume solo el pintado => view)
-		renderDocs(medication); // renderiza la otra => view
-		// Si 'psum' existe hace un fetch (sin await, cuando llegue)
+		renderIdentity(medication); // renderiza una sección (asume solo el pintado -> view)
+		//Pinta seccion de la documentación(botón enlace al prospecto)
+		renderDocs(medication); // renderiza la otra -> view
+		// Si 'psum' existe, hace un fetch (sin await, cuando llegue)
 		if (medication.psum) {
-			loadSupply(medication);// PENDING:render progresivo al no tener await
+			// Ha de hacer el fetch a la API y pintar los datos al DOM
+			// Dentro de loadSupply hacer el fetch y manejar error si falla con renderSupplyMessage()(ya sea por que falló el fetch o por resultado vacio.
+			// Es una autónoma async y se renderiza progresivamente al no tener await
+			loadSupply(medication.nombre);
 		}
-		
-		// Si 'notas' existe hace un fetch (sin await, cuando llegue)
+	
+		// Si 'notes' existe hace un fetch (sin await, cuando llegue se pintará)
 		if (medication.notas) {
-			loadNotes(medication);// PENDING: render progresivo al no tener await
+			//TODO.
+			// fetch a nuevo endpoint + ?nombre=nregistro y pintar datos al DOM
+			loadNotes(medication.nregistro);// TODO: es async, render progresivo al no tener await
 		}
 		// TODO: lógica de favoritos
 		// Localiza el botón, comprueba (localStorage)si está ya en favoritos, pinta texto del botón según el estado, conecta un addEventListener que alterna el estado
@@ -101,5 +110,30 @@ function isValidNregistro(nregistro) {
 }
  */
 
-async function loadSupply(medication) { /* TODO */ }
-async function loadNotes(medication) { /* TODO */ }
+/**
+ * Proporciona los datos de suministro de forma asíncrona, cuando los recibe llama al pintor
+ * @param {String} nombre - Nombre completo del medicamento, obtenido de /medicamento 
+ */
+async function loadSupply(nombre) { 
+	// Mensaje temp mientras carga 
+	renderSupplyMessage(MESSAGES.detail.supplyLoading);
+
+	try {
+		const supplyResponse = await fetchSupplyByName(nombre); // ella si que espera al fetch.
+		if (supplyResponse.resultados?.length > 0) {
+			renderSupplySection(supplyResponse.resultados[0]);
+		} else {
+			renderSupplyMessage(MESSAGES.detail.supplyEmpty);
+		}
+	} catch (error) {
+		// Registro el fallo en consola
+		console.error('No se han podido cargar los datos de suministro', error);
+		//Si el fetch falló, pinta un mensaje en la section y el init no bloquea, al no enterarse 
+		renderSupplyMessage(MESSAGES.detail.supplyError);
+	}
+}
+ 
+
+
+
+async function loadNotes(nregistro) { /* TODO */ }

@@ -12,8 +12,9 @@
 	--my-black: #050315;
 	--lavender: #DDDCFF; /* renombrar por semántica */
 	--search-emphasy: var(--lavender); /* renombrado por semántica */
-	/* --bg-default: #FBFBFE; */ /* el de la paleta */
-	--bg-default: #e2e3e6; /* mas oscuro que el de la paleta */
+	/*--bg-default: #FBFBFE; */ /* el de la paleta */
+	--bg-default: #EFF0F3; /* termino medio */
+	/*--bg-default: #e2e3e6;  mas oscuro que el de la paleta */
 	--bg-secondary: #FBFBFE;
 	--tag1-bg: var(--lavender);
 	--tag1-text: #3027CE;

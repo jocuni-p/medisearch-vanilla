@@ -1,5 +1,5 @@
 /**
- * Mensajes de ui centralizados.
+ * Mensajes de ui (para USUARIO FINAL) centralizados.
  * Lo importa el modulo ui-state.view.js y los controllers que necesiten pasar las claves de mensaje.
  * 
  * Estructura por categorias:
@@ -18,9 +18,11 @@ export const MESSAGES = {
 		unexpected: 'No se ha podido procesar la respuesta. Inténtalo más tarde.',
 	},
 	detail: {
-		noNregistro: "Medicamento no especificado. Vuelve al inicio.",
-		fetchError: "No se ha podido cargar el medicamento.",
-		supplyError: "No se han podido cargar los problemas de sumi nistro.",
-		notesError: "No se han podido cargar las notas.",
+		noNregistro: 'Medicamento no especificado. Vuelve al inicio.',
+		fetchError: 'No se ha podido cargar el medicamento.',
+		supplyError: 'No se han podido cargar los datos de suministro.',
+		supplyLoading: 'Cargando datos de suministro ...',
+		supplyEmpty: 'Sin datos de suministro disponibles',
+		notesError: 'No se han podido cargar las notas.',
 	}
 }
