@@ -22,7 +22,9 @@ export const MESSAGES = {
 		fetchError: 'No se ha podido cargar el medicamento.',
 		supplyError: 'No se han podido cargar los datos de suministro.',
 		supplyLoading: 'Cargando datos de suministro ...',
-		supplyEmpty: 'Sin datos de suministro disponibles',
+		supplyEmpty: 'Sin datos de suministro disponibles.',
+		notesLoading: 'Cargando notas ...',
+		notesEmpty: 'Sin notas disponibles.',
 		notesError: 'No se han podido cargar las notas.',
 	}
 }

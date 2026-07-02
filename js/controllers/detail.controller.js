@@ -2,12 +2,16 @@
 
 import { showHeader } from "../views/header.view.js";
 import { fetchMedication } from "../models/medication.model.js"
+import { MESSAGES } from "../views/ui-messages.js";
+import { fetchSupplyByName } from "../models/supply.model.js";
+import { fetchNotes } from "../models/notes.model.js";
 import {
 	renderIdentity,
 	renderDocs,
 	renderSupplySection,
 	renderSupplyMessage,
 	renderNotes,
+	renderNotesMessage,
 	renderFavoritesAction
 } from "../views/detail.view.js"
 import {
@@ -18,9 +22,6 @@ import {
 	hideError,
 	hideLoading,
 } from "../views/ui-state.view.js";
-import { MESSAGES } from "../views/ui-messages.js";
-import { fetchSupplyByName } from "../models/supply.model.js";
-
 
 /*====CONSTANTS====*/
 //TODO: preparados para que las funciones render* los reciban cuando las implemente
@@ -135,5 +136,24 @@ async function loadSupply(nombre) {
  
 
 
+/**
+ * Proporciona los datos de 'notas' de forma asíncrona, cuando los recibe llama al pintor
+ * @param {string} nregistro - Número de registro obtenido de /medicamento 
+ */
+async function loadNotes(nregistro) {
+	renderNotesMessage(MESSAGES.detail.notesLoading);
 
-async function loadNotes(nregistro) { /* TODO */ }
+	try {
+		const notesResponse = await fetchNotes(nregistro); // espera al fetch.
+		if (notesResponse.length > 0) {
+			renderNotes(notesResponse[0].asunto);
+		} else {
+			renderNotesMessage(MESSAGES.detail.notesEmpty);
+		}
+	} catch (error) {
+		// Registro el fallo en consola
+		console.error('No se han podido cargar las notas', error);
+		//Si el fetch falló, pinta un mensaje en la section y el init no bloquea, al no enterarse 
+		renderNotesMessage(MESSAGES.detail.notesError);
+	}
+}

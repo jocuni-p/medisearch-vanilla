@@ -113,10 +113,35 @@ export function renderSupplyMessage(msg) {
 
 
 
+/**
+ * 
+ * @param {string} asunto - El texto lo proporciona el controller a partir del fetch a /notas
+ */
+export function renderNotes(asunto) {
+	const container = document.querySelector('#medication-notes');
+	container.replaceChildren();
+	container.classList.remove('hidden');
 
-export function renderNotes(medication) {
-    /* TODO */
+	const notesMessage = document.createElement('p');
+	notesMessage.classList.add('notes-message');
+	notesMessage.textContent = `Nota de seguridad: ${asunto}`;
+
+	container.append(notesMessage);
 }
+
+export function renderNotesMessage(msg) {
+	const container = document.querySelector('#medication-notes');
+	container.replaceChildren();
+	container.classList.remove('hidden');
+
+	const p = document.createElement('p');
+	p.textContent = msg;
+	p.classList.add('notes-msg');  // Personalizar CSS para este caso
+
+	container.append(p);
+}
+
+
 export function renderFavoritesAction(medication) {
     /* TODO */
 }
