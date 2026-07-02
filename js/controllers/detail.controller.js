@@ -1,5 +1,3 @@
-// Es el primer js que se ejecuta de Detail
-
 import { showHeader } from "../views/header.view.js";
 import { fetchMedication } from "../models/medication.model.js"
 import { MESSAGES } from "../views/ui-messages.js";
@@ -18,65 +16,47 @@ import {
 	showLoading,
 	showEmpty,
 	showError,
-	showResults,
-	hideError,
 	hideLoading,
 } from "../views/ui-state.view.js";
-
-/*====CONSTANTS====*/
-//TODO: preparados para que las funciones render* los reciban cuando las implemente
-const ID_MAIN = "medication-identity";
-const ID_DOCS = "medication-docs";
-const ID_SUPP = "medication-supply";
-const ID_NOTE = "medication-notes";
-const ID_FAV = "medication-fav-action";
 
 
 // Arranca el JS al cargar la pagina
 document.addEventListener('DOMContentLoaded', init);
 
-/** =======TODO: ESTA CASI EN ESQUELETO - HAY QUE REFACTORIZARLA , MUY LARGA=========
- */
+
+/** =======TODO: HAY QUE REFACTORIZARLA ES MUY LARGA=========*/
 async function init() {
 
 	showHeader("Detalle"); // importa el modulo header
 	// nregistro = leer URL
 	const nregistro = getNregistroFromUrl(); // creada más abajo
-	//getValidatedNregistro(nregistro);
-	
 	if (!isValidNregistro(nregistro)) {
 		// Oculta spinner, muestra mensaje y oculta lista si existe
 		showEmpty(MESSAGES.detail.noNregistro)
 		return;
 	}
-	// muestra el spinner mientras llega el valor de la promise del fetch 
+	// muestra el spinner mientras llega promesa 
 	showLoading();
 	let medication; // Declarada aquí para que tenga vida fuera del try.
 	try {
-		medication = await fetchMedication(nregistro); //PENDING:de medication.model. alli crearé el url y haré la validación
+		medication = await fetchMedication(nregistro);
 		
 		//Pinta la sección identity en el DOM
-		//TODO: La validación del renderIdentity va en el model
-		renderIdentity(medication); // renderiza una sección (asume solo el pintado -> view)
-		//Pinta seccion de la documentación(botón enlace al prospecto)
-		renderDocs(medication); // renderiza la otra -> view
-		// Si 'psum' existe, hace un fetch (sin await, cuando llegue)
+		renderIdentity(medication);
+		//Pinta seccion de la doc(enlace al prospecto)
+		renderDocs(medication);
 		if (medication.psum) {
-			// Ha de hacer el fetch a la API y pintar los datos al DOM
-			// Dentro de loadSupply hacer el fetch y manejar error si falla con renderSupplyMessage()(ya sea por que falló el fetch o por resultado vacio.
-			// Es una autónoma async y se renderiza progresivamente al no tener await
+			// Hace el fetch a la API, pintar los datos al DOM y maneja los errores
+			//Es autonoma, hace un fetch (sin await, llegará cuando llegue)
 			loadSupply(medication.nombre);
 		}
-	
-		// Si 'notes' existe hace un fetch (sin await, cuando llegue se pintará)
 		if (medication.notas) {
-			//TODO.
-			// fetch a nuevo endpoint + ?nombre=nregistro y pintar datos al DOM
-			loadNotes(medication.nregistro);// TODO: es async, render progresivo al no tener await
+			//Es autonoma, hace un fetch (sin await, llegará cuando llegue)
+			loadNotes(medication.nregistro);
 		}
 		// TODO: lógica de favoritos
 		// Localiza el botón, comprueba (localStorage)si está ya en favoritos, pinta texto del botón según el estado, conecta un addEventListener que alterna el estado
-		//wireFavoriteButton(medication); // ESQUELETO
+		//wireFavoriteButton(medication);
 	} catch (error) {
 		console.error('Error al cargar el medicamento:', error);
 		hideLoading();
@@ -87,8 +67,8 @@ async function init() {
 }
 
 /**
- * Obtiene el parametro 'nregistro' de la url actual
- * @returns <string> 
+ * Obtiene el parametro 'nregistro' de la url actual y lo retorna
+ * @returns {string} 
  */
 function getNregistroFromUrl() {
 	const params = new URLSearchParams(window.location.search);
@@ -100,20 +80,9 @@ function isValidNregistro(nregistro) {
 	return Boolean(nregistro); 
 }
 
-// Validación básica de nregistro
-/* function getValidatedNregistro(nregistro) {
-	if (!isValidNregistro(nregistro)) {
-			// Oculta spinner, muestra mensaje y ojo:oculta lista (esto último puede dar problemas)
-			showEmpty(MESSAGES.detail.noNregistro)
-			return;
-		}
-
-}
- */
-
 /**
  * Proporciona los datos de suministro de forma asíncrona, cuando los recibe llama al pintor
- * @param {String} nombre - Nombre completo del medicamento, obtenido de /medicamento 
+ * @param {string} nombre - Nombre completo del medicamento, obtenido de /medicamento 
  */
 async function loadSupply(nombre) { 
 	// Mensaje temp mientras carga 
@@ -127,15 +96,12 @@ async function loadSupply(nombre) {
 			renderSupplyMessage(MESSAGES.detail.supplyEmpty);
 		}
 	} catch (error) {
-		// Registro el fallo en consola
 		console.error('No se han podido cargar los datos de suministro', error);
 		//Si el fetch falló, pinta un mensaje en la section y el init no bloquea, al no enterarse 
 		renderSupplyMessage(MESSAGES.detail.supplyError);
 	}
 }
  
-
-
 /**
  * Proporciona los datos de 'notas' de forma asíncrona, cuando los recibe llama al pintor
  * @param {string} nregistro - Número de registro obtenido de /medicamento 
@@ -151,7 +117,6 @@ async function loadNotes(nregistro) {
 			renderNotesMessage(MESSAGES.detail.notesEmpty);
 		}
 	} catch (error) {
-		// Registro el fallo en consola
 		console.error('No se han podido cargar las notas', error);
 		//Si el fetch falló, pinta un mensaje en la section y el init no bloquea, al no enterarse 
 		renderNotesMessage(MESSAGES.detail.notesError);

@@ -1,7 +1,7 @@
 import { BASE_URL } from './api-config.js';
 
 
-// ESQUELETO - ACABARLA BIEN
+
 export async function fetchMedication(nregistro) {
 	const url = `${BASE_URL}/medicamento?nregistro=${nregistro}`;
 	const response = await fetch(url);
@@ -9,7 +9,6 @@ export async function fetchMedication(nregistro) {
 	if (!response.ok) {
 		throw new Error(`HTTP ${response.status}`); // Caerá en el catch del detail.controller
 	}
-	
 	const data = await response.json();
 	
 	// Validación mínima: que sea objeto y tenga lo básico
@@ -18,5 +17,3 @@ export async function fetchMedication(nregistro) {
 	}
 	return data; 
 }
-
-//export async function fetchNotes(nregistro)  // esto SI puede ir aquí, no lo reutilizaré 

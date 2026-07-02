@@ -23,7 +23,7 @@ export function renderIdentity(medication) {
 
     //Crea Nodo3: laboratorio
     const lab = document.createElement("p");
-    lab.textContent = 'Laboratorio: ' + medication.labcomercializador || medication.labtitular; //defensivo
+    lab.textContent = 'Laboratorio: ' + (medication.labcomercializador || medication.labtitular); //defensivo
     lab.classList.add("detail-lab");
 
     //Crea Nodo4 compuesto por los tags
@@ -39,7 +39,7 @@ export function renderIdentity(medication) {
 
 /**
  * Pinta la sección del botón que enlaza al prospecto en el DOM
- * @param {Objeto} medication - Devuelto por el fetch en el controller
+ * @param {Object} medication - Devuelto por el fetch en el controller
  */
 export function renderDocs(medication) {
     const container = document.querySelector("#medication-docs");
@@ -75,7 +75,7 @@ export function renderDocs(medication) {
  * @param {Object} supply - Resultado del endpoint /psuministro que contiene las fechas que necesita
  */
 export function renderSupplySection(supply) {
-	// Si no hay supply se maneja en el controller (que se lo pide al model)
+	// Se asume 'supply' válido. Los casos vacios/error los gestiona el controller
 	const container = document.querySelector('#medication-supply');
 	container.replaceChildren();
 	container.classList.remove('hidden');// arranca oculto y quiero mostrarla ahora
@@ -114,7 +114,7 @@ export function renderSupplyMessage(msg) {
 
 
 /**
- * 
+ *  Pinta la sección de notas en el DOM
  * @param {string} asunto - El texto lo proporciona el controller a partir del fetch a /notas
  */
 export function renderNotes(asunto) {
@@ -129,6 +129,10 @@ export function renderNotes(asunto) {
 	container.append(notesMessage);
 }
 
+/**
+ *  Pinta mensaje en la sección de notas del DOM
+ * @param {string} msg - El texto del mensaje lo proporciona el controller del ui-messages
+ */
 export function renderNotesMessage(msg) {
 	const container = document.querySelector('#medication-notes');
 	container.replaceChildren();
