@@ -1,124 +1,116 @@
 import { showHeader } from "../views/header.view.js";
-import { fetchMedication } from "../models/medication.model.js"
+import { fetchMedication } from "../models/medication.model.js";
 import { MESSAGES } from "../views/ui-messages.js";
 import { fetchSupplyByName } from "../models/supply.model.js";
 import { fetchNotes } from "../models/notes.model.js";
 import {
-	renderIdentity,
-	renderDocs,
-	renderSupplySection,
-	renderSupplyMessage,
-	renderNotes,
-	renderNotesMessage,
-	renderFavoritesAction
-} from "../views/detail.view.js"
-import {
-	showLoading,
-	showEmpty,
-	showError,
-	hideLoading,
-} from "../views/ui-state.view.js";
-
+    renderIdentity,
+    renderDocs,
+    renderSupplySection,
+    renderSupplyMessage,
+    renderNotes,
+    renderNotesMessage,
+    renderFavoritesAction,
+} from "../views/detail.view.js";
+import { showLoading, showEmpty, showError, hideLoading } from "../views/ui-state.view.js";
 
 // Arranca el JS al cargar la pagina
-document.addEventListener('DOMContentLoaded', init);
-
+document.addEventListener("DOMContentLoaded", init);
 
 /** =======TODO: HAY QUE REFACTORIZARLA ES MUY LARGA=========*/
 async function init() {
+    showHeader("Detalle"); // importa el modulo header
+    // nregistro = leer URL
+    const nregistro = getNregistroFromUrl(); // creada más abajo
+    if (!isValidNregistro(nregistro)) {
+        // Oculta spinner, muestra mensaje y oculta lista si existe
+        showEmpty(MESSAGES.detail.noNregistro);
+        return;
+    }
+    // muestra el spinner mientras llega promesa
+    showLoading();
+    let medication; // Declarada aquí para que tenga vida fuera del try.
+    try {
+        medication = await fetchMedication(nregistro);
 
-	showHeader("Detalle"); // importa el modulo header
-	// nregistro = leer URL
-	const nregistro = getNregistroFromUrl(); // creada más abajo
-	if (!isValidNregistro(nregistro)) {
-		// Oculta spinner, muestra mensaje y oculta lista si existe
-		showEmpty(MESSAGES.detail.noNregistro)
-		return;
-	}
-	// muestra el spinner mientras llega promesa 
-	showLoading();
-	let medication; // Declarada aquí para que tenga vida fuera del try.
-	try {
-		medication = await fetchMedication(nregistro);
-		
-		//Pinta la sección identity en el DOM
-		renderIdentity(medication);
-		//Pinta seccion de la doc(enlace al prospecto)
-		renderDocs(medication);
-		if (medication.psum) {
-			// Hace el fetch a la API, pintar los datos al DOM y maneja los errores
-			//Es autonoma, hace un fetch (sin await, llegará cuando llegue)
-			loadSupply(medication.nombre);
-		}
-		if (medication.notas) {
-			//Es autonoma, hace un fetch (sin await, llegará cuando llegue)
-			loadNotes(medication.nregistro);
-		}
-		// TODO: lógica de favoritos
-		// Localiza el botón, comprueba (localStorage)si está ya en favoritos, pinta texto del botón según el estado, conecta un addEventListener que alterna el estado
-		//wireFavoriteButton(medication);
-	} catch (error) {
-		console.error('Error al cargar el medicamento:', error);
-		hideLoading();
-		showError(MESSAGES.detail.fetchError);
-		return;
-	}
-	hideLoading();
+        //Pinta la sección identity en el DOM
+        renderIdentity(medication);
+        //Pinta seccion de la doc(enlace al prospecto)
+        renderDocs(medication);
+        if (medication.psum) {
+            // Hace el fetch a la API, pintar los datos al DOM y maneja los errores
+            //Es autonoma, hace un fetch (sin await, llegará cuando llegue)
+            loadSupply(medication.nombre);
+        }
+        if (medication.notas) {
+            //Es autonoma, hace un fetch (sin await, llegará cuando llegue)
+            loadNotes(medication.nregistro);
+        }
+        // TODO: lógica de favoritos
+        // Localiza el botón, comprueba (localStorage)si está ya en favoritos, pinta texto del botón según el estado, conecta un addEventListener que alterna el estado
+        //wireFavoriteButton(medication);
+    } catch (error) {
+        console.error("Error al cargar el medicamento:", error);
+        hideLoading();
+        showError(MESSAGES.detail.fetchError);
+        return;
+    }
+    hideLoading();
 }
 
 /**
  * Obtiene el parametro 'nregistro' de la url actual y lo retorna
- * @returns {string} 
+ * @returns {string}
  */
 function getNregistroFromUrl() {
-	const params = new URLSearchParams(window.location.search);
-	return params.get('nregistro');
+    const params = new URLSearchParams(window.location.search);
+    return params.get("nregistro");
 }
 
 // Verifico si existe o no nregistro
 function isValidNregistro(nregistro) {
-	return Boolean(nregistro); 
+    return Boolean(nregistro);
 }
 
 /**
  * Proporciona los datos de suministro de forma asíncrona, cuando los recibe llama al pintor
- * @param {string} nombre - Nombre completo del medicamento, obtenido de /medicamento 
+ * @param {string} nombre - Nombre completo del medicamento, obtenido de /medicamento
  */
-async function loadSupply(nombre) { 
-	// Mensaje temp mientras carga 
-	renderSupplyMessage(MESSAGES.detail.supplyLoading);
+async function loadSupply(nombre) {
+    // Mensaje temp mientras carga
+    renderSupplyMessage(MESSAGES.detail.supplyLoading);
 
-	try {
-		const supplyResponse = await fetchSupplyByName(nombre); // ella si que espera al fetch.
-		if (supplyResponse.resultados?.length > 0) {
-			renderSupplySection(supplyResponse.resultados[0]);
-		} else {
-			renderSupplyMessage(MESSAGES.detail.supplyEmpty);
-		}
-	} catch (error) {
-		console.error('No se han podido cargar los datos de suministro', error);
-		//Si el fetch falló, pinta un mensaje en la section y el init no bloquea, al no enterarse 
-		renderSupplyMessage(MESSAGES.detail.supplyError);
-	}
+    try {
+        const supplyResponse = await fetchSupplyByName(nombre); // ella si que espera al fetch.
+        if (supplyResponse.resultados?.length > 0) {
+            renderSupplySection(supplyResponse.resultados[0]);
+        } else {
+            renderSupplyMessage(MESSAGES.detail.supplyEmpty);
+        }
+    } catch (error) {
+        console.error("No se han podido cargar los datos de suministro", error);
+        //Si el fetch falló, pinta un mensaje en la section y el init no bloquea, al no enterarse
+        renderSupplyMessage(MESSAGES.detail.supplyError);
+    }
 }
- 
+
 /**
  * Proporciona los datos de 'notas' de forma asíncrona, cuando los recibe llama al pintor
- * @param {string} nregistro - Número de registro obtenido de /medicamento 
+ * @param {string} nregistro - Número de registro obtenido de /medicamento
  */
 async function loadNotes(nregistro) {
-	renderNotesMessage(MESSAGES.detail.notesLoading);
+    renderNotesMessage(MESSAGES.detail.notesLoading);
 
-	try {
-		const notesResponse = await fetchNotes(nregistro); // espera al fetch.
-		if (notesResponse.length > 0) {
-			renderNotes(notesResponse[0].asunto);
-		} else {
-			renderNotesMessage(MESSAGES.detail.notesEmpty);
-		}
-	} catch (error) {
-		console.error('No se han podido cargar las notas', error);
-		//Si el fetch falló, pinta un mensaje en la section y el init no bloquea, al no enterarse 
-		renderNotesMessage(MESSAGES.detail.notesError);
-	}
+    try {
+        const notesResponse = await fetchNotes(nregistro); // espera al fetch.
+        if (notesResponse.length > 0) {
+            renderNotes(notesResponse[0].asunto);
+        } else {
+            renderNotesMessage(MESSAGES.detail.notesEmpty);
+        }
+    } catch (error) {
+        console.error("No se han podido cargar las notas", error);
+        //Si el fetch falló, pinta un mensaje en la section y el init no bloquea, al no enterarse
+        renderNotesMessage(MESSAGES.detail.notesError);
+    }
 }

@@ -14,7 +14,7 @@ const VALIDATION_MESSAGES = {
 };
 
 // Arranca el JS al cargar la pagina
-document.addEventListener('DOMContentLoaded', init);
+document.addEventListener("DOMContentLoaded", init);
 
 /**
  * Punto de arranque del controller de la vista principal.
@@ -22,13 +22,12 @@ document.addEventListener('DOMContentLoaded', init);
  * Se ejecuta una sola vez al cargar la página.
  */
 function init() {
-	// 1. MOSTRAR HEADER
-	showHeader("Inicio");
-	// 2. IMPLEMENTA LISTENER DE EVENTOS EN EL FORM
-	const form = document.querySelector("#form");
-	form.addEventListener("submit", handleSearch);
+    // 1. MOSTRAR HEADER
+    showHeader("Inicio");
+    // 2. IMPLEMENTA LISTENER DE EVENTOS EN EL FORM
+    const form = document.querySelector("#form");
+    form.addEventListener("submit", handleSearch);
 }
-
 
 /**
  * Valida el texto introducido por el usuario antes de enviar la petición a la API.
@@ -76,15 +75,15 @@ async function handleSearch(event) {
     const valor = input.value.trim(); //recupero valor con espacios trimados al inicio y final
     // 1. VALIDACIÓN DEL INPUT
     const resultInput = validateInput(valor);
-	if (!resultInput.valid) {
-		// Primero limpio si hay algo en la lista
-		clearMedications();
+    if (!resultInput.valid) {
+        // Primero limpio si hay algo en la lista
+        clearMedications();
         // Si no es válido
         if (resultInput.reason === "empty") {
             // porque está vacío
             return;
-		}
-		// o si es por esta otra razón (muestra msg)
+        }
+        // o si es por esta otra razón (muestra msg)
         showEmpty(VALIDATION_MESSAGES[resultInput.reason]); // Oculta spinner, muestra mensaje, oculta lista
         return;
         //console.log(resultInput.reason); // DEBUG TEMP
@@ -118,4 +117,3 @@ async function handleSearch(event) {
         clearMedications(); // En los dos estados donde puede haber cards previas (empty, error)
     }
 }
-

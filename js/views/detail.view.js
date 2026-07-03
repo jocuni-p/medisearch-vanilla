@@ -18,12 +18,12 @@ export function renderIdentity(medication) {
 
     //Crea Nodo2: principios activos
     const activePrinciples = document.createElement("p");
-    activePrinciples.textContent = 'Principio activo: ' + medication.pactivos;
+    activePrinciples.textContent = "Principio activo: " + medication.pactivos;
     activePrinciples.classList.add("detail-active-principles");
 
     //Crea Nodo3: laboratorio
     const lab = document.createElement("p");
-    lab.textContent = 'Laboratorio: ' + (medication.labcomercializador || medication.labtitular); //defensivo
+    lab.textContent = "Laboratorio: " + (medication.labcomercializador || medication.labtitular); //defensivo
     lab.classList.add("detail-lab");
 
     //Crea Nodo4 compuesto por los tags
@@ -75,58 +75,56 @@ export function renderDocs(medication) {
  * @param {Object} supply - Resultado del endpoint /psuministro que contiene las fechas que necesita
  */
 export function renderSupplySection(supply) {
-	// Se asume 'supply' válido. Los casos vacios/error los gestiona el controller
-	const container = document.querySelector('#medication-supply');
-	container.replaceChildren();
-	container.classList.remove('hidden');// arranca oculto y quiero mostrarla ahora
+    // Se asume 'supply' válido. Los casos vacios/error los gestiona el controller
+    const container = document.querySelector("#medication-supply");
+    container.replaceChildren();
+    container.classList.remove("hidden"); // arranca oculto y quiero mostrarla ahora
 
-	const supplyMessage = document.createElement('p');
-	supplyMessage.classList.add('supply-message');
-	supplyMessage.textContent = `Este medicamento presenta problemas de suministro desde el ${supply.fini ? formatDate(supply.fini) : '(sin fecha inicial)'} hasta el ${supply.ffin ? formatDate(supply.ffin) : '(sin fecha final)'}.`; // Aquí manejo los posibles valores null de fini y ffin y el controller valida la presencia del recurso.
+    const supplyMessage = document.createElement("p");
+    supplyMessage.classList.add("supply-message");
+    supplyMessage.textContent = `Este medicamento presenta problemas de suministro desde el ${supply.fini ? formatDate(supply.fini) : "(sin fecha inicial)"} hasta el ${supply.ffin ? formatDate(supply.ffin) : "(sin fecha final)"}.`; // Aquí manejo los posibles valores null de fini y ffin y el controller valida la presencia del recurso.
 
-	container.append(supplyMessage);
+    container.append(supplyMessage);
 }
 
 // Función helper privada de este file
 // Usa la API nativa de JS con el objeto Date
-function formatDate(timestamp) { //recibe un num formato unix en milisegundos
-	return new Date(timestamp).toLocaleDateString('es-ES', {
-		day: 'numeric',
-		month: 'short',
-		year: 'numeric',
-	});
+function formatDate(timestamp) {
+    //recibe un num formato unix en milisegundos
+    return new Date(timestamp).toLocaleDateString("es-ES", {
+        day: "numeric",
+        month: "short",
+        year: "numeric",
+    });
 }
-
 
 // Viene del controller si falló el supply al hacer fetch al psuministro por resultado vació
 export function renderSupplyMessage(msg) {
-	const container = document.querySelector('#medication-supply');
-	// limpiar contenedor
-	container.replaceChildren();
-	// quitar hidden para hacerlo visible
-	container.classList.remove('hidden');
-	const p = document.createElement('p');
-	p.textContent = msg;
-	p.classList.add('supply-msg-neutral');  // Personalizar CSS para este caso
-	container.append(p);
+    const container = document.querySelector("#medication-supply");
+    // limpiar contenedor
+    container.replaceChildren();
+    // quitar hidden para hacerlo visible
+    container.classList.remove("hidden");
+    const p = document.createElement("p");
+    p.textContent = msg;
+    p.classList.add("supply-msg-neutral"); // Personalizar CSS para este caso
+    container.append(p);
 }
-
-
 
 /**
  *  Pinta la sección de notas en el DOM
  * @param {string} asunto - El texto lo proporciona el controller a partir del fetch a /notas
  */
 export function renderNotes(asunto) {
-	const container = document.querySelector('#medication-notes');
-	container.replaceChildren();
-	container.classList.remove('hidden');
+    const container = document.querySelector("#medication-notes");
+    container.replaceChildren();
+    container.classList.remove("hidden");
 
-	const notesMessage = document.createElement('p');
-	notesMessage.classList.add('notes-message');
-	notesMessage.textContent = `Nota de seguridad: ${asunto}`;
+    const notesMessage = document.createElement("p");
+    notesMessage.classList.add("notes-message");
+    notesMessage.textContent = `Nota de seguridad: ${asunto}`;
 
-	container.append(notesMessage);
+    container.append(notesMessage);
 }
 
 /**
@@ -134,19 +132,17 @@ export function renderNotes(asunto) {
  * @param {string} msg - El texto del mensaje lo proporciona el controller del ui-messages
  */
 export function renderNotesMessage(msg) {
-	const container = document.querySelector('#medication-notes');
-	container.replaceChildren();
-	container.classList.remove('hidden');
+    const container = document.querySelector("#medication-notes");
+    container.replaceChildren();
+    container.classList.remove("hidden");
 
-	const p = document.createElement('p');
-	p.textContent = msg;
-	p.classList.add('notes-msg');  // Personalizar CSS para este caso
+    const p = document.createElement("p");
+    p.textContent = msg;
+    p.classList.add("notes-msg"); // Personalizar CSS para este caso
 
-	container.append(p);
+    container.append(p);
 }
-
 
 export function renderFavoritesAction(medication) {
     /* TODO */
 }
-
