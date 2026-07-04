@@ -26,5 +26,10 @@ export const MESSAGES = {
 		notesLoading: 'Cargando notas ...',
 		notesEmpty: 'Sin notas disponibles.',
 		notesError: 'No se han podido cargar las notas.',
+	},
+	favorites: {
+		empty: 'No tienes favoritos guardados. Búscalos y añádelos desde su detalle.',
+		loading: 'Cargando lista de favoritos.',
+		fetchError: 'No se han podido cargar tus favoritos. Intentalo mas tarde.',
 	}
 }

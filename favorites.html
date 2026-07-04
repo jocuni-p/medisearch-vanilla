@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="es">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta name="author" content="Joan Cuní" />
+        <meta
+            name="description"
+            content="Web Multipágina clásica. Proyecto final del Curso de Desarrollo Web Frontend IFCD55 2026"
+        />
+        <title>Favoritos - Medisearch</title>
+
+        <!-- ======= FUENTE ======= -->
+        <!-- Si pongo aquí la fuente importada la descarga antes o en paralelo de los css-->
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+        <link
+            href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap"
+            rel="stylesheet"
+        />
+        <!-- ====== ESTILOS ====== -->
+        <link rel="stylesheet" href="css/style.css" />
+
+        <!-- CDN BOOTSTRAP PARA ICONS-->
+        <link
+            rel="stylesheet"
+            href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css"
+        />
+
+        <!-- ======= JAVASCRIPT =======-->
+        <script src="js/controllers/favorites.controller.js" type="module"></script>
+    </head>
+    <body>
+        <noscript>
+            <div class="alert-js">
+                <p>⚠️ JavaScript Desactivado</p>
+                <p>Activa JavaScript en tu navegador para disfrutar de una experiencia completa.</p>
+            </div>
+        </noscript>
+
+        <!--- ====== HEADER ======-->
+        <header id="app-header"></header>
+
+        <main>
+            <h1>Mis favoritos</h1>
+            <p class="favorites-subtitle">Medicamentos guardados para consulta rápida.</p>
+
+            <!-- SPINNER DE LOADING -->
+            <div id="spinner" class="spinner hidden" aria-hidden="true">
+                <i class="bi bi-arrow-clockwise spin"></i>
+            </div>
+
+            <!-- MENSAJES DE ERROR Y STATUS (módulo ui-state)-->
+            <div id="state-message" class="state-message hidden" role="status" aria-live="polite"></div>
+
+            <!-- ========= LISTA DE CARDS ========== -->
+            <div class="favorites-card">
+                <ul id="favorites-list"></ul>
+            </div>
+
+            <small class="legal">
+                <a href="legal-policy.html">Aviso legal</a>
+            </small>
+        </main>
+    </body>
+</html>

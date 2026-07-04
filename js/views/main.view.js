@@ -32,25 +32,20 @@ export function showMedications(medications) {
         // Creo un clone
         const clone = template.cloneNode(true);
         // Recupero elemento href para página de detalle
-        //clone.querySelector('a').href = `${BASE_URL}/medicamento?nregistro=${medicamento.nregistro}`;
         clone.querySelector("a").href = `detail.html?nregistro=${medication.nregistro}`;
         // Recupero nombre medicamento
-        // OJO: GESTIONAR TRUNCADO CON CSS
         clone.querySelector("h2").textContent = medication.nombre;
-        //NOTA: Principio de robustez: asumir que cualquier campo puede fallar o no ser obligatorio (blindar todo con '?.').
-
         // Recupero principio activo (OJO: cómo NO sé si son campos obligatorios, habrá que blindarlos.
         // Si no existe, devuelve undefined sin lanzar error.
         if (medication.vtm?.nombre) {
             // protección para leer algo, que si no existe, no se rompa.
-            // OJO: GESTIONAR TRUNCADO CON CSS
             clone.querySelector(".li-subtitle").textContent = medication.vtm.nombre;
         } else {
             // Aparecerá vacío si no viene texto o hubo algún error
             clone.querySelector(".li-subtitle").textContent = "";
         }
 
-        // ====== GESTION DE LOS TAGS ======
+        // ====== TAGS ======
         // Muestra/oculta los tags según el valor del objeto medicamento recibido
         const isHospital = medication.cpresc?.toLowerCase().includes("hospital");
 

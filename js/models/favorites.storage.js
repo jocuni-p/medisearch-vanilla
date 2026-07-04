@@ -30,7 +30,7 @@ function writeList(favorites) {
 
 /**
  * Recupera un array con la lista de favoritos
- * @returns Array con los nregistro favoritos
+ * @returns {Array} Array con los nregistro favoritos
  */
 export function getFavoritesList() {
 	return readList();
