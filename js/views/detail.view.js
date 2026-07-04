@@ -1,4 +1,5 @@
 import { createTags } from "./tags.view.js";
+import { isInFavoritesList, toggleFavoriteStatus } from "../models/favorites.storage.js";
 
 /**
  * Pinta en el DOM la section de identity del medicamento (nombre, principio activo, laboratorio, tags).
@@ -143,6 +144,51 @@ export function renderNotesMessage(msg) {
     container.append(p);
 }
 
-export function renderFavoritesAction(medication) {
-    /* TODO */
+
+export function renderFavoritesAction(nregistro) {
+	const container = document.querySelector('#medication-fav-action');
+	// Garantiza que si se llama dos veces no acumula botenes ni listeners
+	// Se limpia lo que habia y lo fuerza a crear contenido nuevo con listener fresco
+	container.replaceChildren();
+
+	const button = document.createElement('button');
+	button.classList.add('favorite-btn');
+
+	const icon = document.createElement('i');
+	icon.classList.add('bi');  //classe base, la especifica la pondrá updateButtonState
+	button.append(icon);
+
+	//Inicial: refleja el estado del botón según lo que haya en localStorage
+	updateButtonState(button, isInFavoritesList(nregistro));
+
+	//Listener que alterna el estado del botón y refresca el estado
+	button.addEventListener('click', () => {
+		// Devuelve el nuevo estado
+		const currentState = toggleFavoriteStatus(nregistro);
+		//Actualiza el estado del botón con el booleano (activo/inactivo)
+		updateButtonState(button, currentState);
+	})
+
+	container.append(button);
+
+}
+
+//Helper privado
+/**
+ * Maneja la lógica del estado del botón favorito, al entrar en la página y al hacer click en él.
+ * Aplica el estado visual al boton cada vez que se llama
+ * @param {Object} button 
+ * @param {Boolean} isActive  true = activo en Favs, false = ausente en Favs
+ */
+function updateButtonState(button, isActive) {
+	const icon = button.querySelector('i');
+	icon.classList.toggle('bi-heart', !isActive);
+	icon.classList.toggle('bi-heart-fill', isActive);
+	button.setAttribute('aria-label', isActive ? 'Eliminar favorito' : 'Añadir favorito');
+	
+	// Creo accesibilidad para botones toggle
+	button.setAttribute('aria-pressed', isActive);
+	// Añade o elimina la clase dependiendo de si el segundo argumento es true o false.
+	button.classList.toggle('is-active', isActive);
+	console.log('Botón pintado. Icono:', icon.className, '| aria-pressed:', button.getAttribute('aria-pressed'));
 }

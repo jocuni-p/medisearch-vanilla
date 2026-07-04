@@ -338,3 +338,18 @@ de sus containers padres y se deje truncar bien.*/
 .hidden {
 	display: none !important;
 }
+
+/*=====TEMPORAL PARA TEST DE DETAIL =========*/
+.favorite-btn {
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    font-size: 1.5rem;
+    color: crimson;
+}
+.favorite-btn .bi-heart-fill {
+    color: crimson;
+}
+.favorite-btn .bi-heart {
+    color: crimson;
+}

@@ -14,6 +14,8 @@ import {
 } from "../views/detail.view.js";
 import { showLoading, showEmpty, showError, hideLoading } from "../views/ui-state.view.js";
 
+
+
 // Arranca el JS al cargar la pagina
 document.addEventListener("DOMContentLoaded", init);
 
@@ -48,7 +50,7 @@ async function init() {
         }
         // TODO: lógica de favoritos
         // Localiza el botón, comprueba (localStorage)si está ya en favoritos, pinta texto del botón según el estado, conecta un addEventListener que alterna el estado
-        //wireFavoriteButton(medication);
+		renderFavoritesAction(medication.nregistro);
     } catch (error) {
         console.error("Error al cargar el medicamento:", error);
         hideLoading();
