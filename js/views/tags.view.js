@@ -1,3 +1,4 @@
+//OJO: Revisar detalladamente
 export const TAG_DEFINITIONS = [
     {
         // condición: función que recibe el medicamento y devuelve boolean

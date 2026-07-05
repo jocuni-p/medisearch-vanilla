@@ -31,7 +31,7 @@
         <script src="js/controllers/main.controller.js" type="module"></script>
     </head>
     <body>
-        <!-- TODO: crear selector css con estilo para el noscript-->
+        <!-- TODO: crear selector css con estilos para el noscript-->
         <noscript>
             <div class="alert-js">
                 <p>⚠️ JavaScript Desactivado</p>
@@ -39,11 +39,9 @@
             </div>
         </noscript>
 
-        <!--- ===================== HEADER =============================-->
         <header id="app-header"></header>
 
         <main>
-            <!--========== VISTA PRINCIPAL ==========-->
             <h1>Buscador de medicamentos</h1>
             <p class="subtitle">
                 Busca por nombre comercial y consulta fichas, prospectos y problemas de suministro.
@@ -61,21 +59,22 @@
                 <button type="submit">Buscar</button>
             </form>
 
-            <!-- SPINNER de loading -->
+            <!-- SPINNER -->
             <div id="spinner" class="spinner hidden" aria-hidden="true">
                 <i class="bi bi-arrow-clockwise spin"></i>
             </div>
 
-            <!-- CONTAINER PARA MENSAJES DE ERROR Y STATUS (manejado por módulo ui-state)-->
-            <div id="state-message" class="state-message hidden" role="status" aria-live="polite">
-            </div>
+            <!-- ERROR MSG & STATUS (módulo ui-state)-->
+            <div id="state-message" class="state-message hidden" role="status" aria-live="polite"></div>
 
-            <!-- ========= LISTA DE CARDS ========== -->
-            <!--div class="hidden" envuelve todas las cards-->
-            <p id="results-info" class="top-info-pagination">RESULTADOS _ de _</p>
+            <!-- TODO: Linea futura de desarrollo. Paginación
+            <p id="results-info" class="top-info-pagination">RESULTADOS _ de _</p>-->
+			
+            <!--  CARDS LIST --- -->
             <ul id="results-list"></ul>
-            <!---</div>-->
-            <nav id="pagination" aria-label="Paginación">&lt;&lt; 1 de 5 &gt;&gt;</nav>
+
+			<!-- TODO: Linea futtura de desarrollo
+            <nav id="pagination" aria-label="Paginación">&lt;&lt; 1 de 5 &gt;&gt;</nav>-->
 
             <small class="legal">
                 Datos:
@@ -85,24 +84,22 @@
             </small>
         </main>
 
-        <!-- ========= TEMPLATE OCULTA ========== -->
+        <!--  TEMPLATE  -->
         <template id="template-medicine">
             <li class="li-main">
-                <!-- Pendiente ruta a la pagina detalle de la card-->
-                <a href="xxxxxxxxxxxxxxxx">
-                    <!-------------------------------------------------->
+                <a href="">
                     <div class="li-top-block">
-                        <h2>ERROR DE SERVIDOR</h2>
-                        <!--------------------------------------------------->
+                        <h2></h2>
+
                         <div class="li-mid-block">
                             <p class="li-subtitle"></p>
-                            <!-- Lo dejo vacío por si hubiese error de servidor-->
+
                             <span class="arrow" aria-hidden="true"
                                 ><i class="bi bi-chevron-compact-right"></i
                             ></span>
                         </div>
                     </div>
-                    <!--------------------------------------------------->
+
                     <div class="li-bottom-block">
                         <span class="li-tag tag-recipe"><i class="bi bi-file-medical"></i>Receta</span>
                         <span class="li-tag tag-hospital"><i class="bi bi-h-square"></i>Hospitalario</span>

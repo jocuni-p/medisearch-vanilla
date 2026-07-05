@@ -22,9 +22,8 @@ document.addEventListener("DOMContentLoaded", init);
  * Se ejecuta una sola vez al cargar la página.
  */
 function init() {
-    // 1. MOSTRAR HEADER
     showHeader("Inicio");
-    // 2. IMPLEMENTA LISTENER DE EVENTOS EN EL FORM
+    // IMPLEMENTA LISTENER DE EVENTOS EN EL FORM
     const form = document.querySelector("#form");
     form.addEventListener("submit", handleSearch);
 }

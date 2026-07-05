@@ -11,7 +11,7 @@ export function renderFavoritesList(medications) {
 	//mapea cada medicamento a nodo <li> con su nombre y un enlace
 	const items = medications.map(medication => buildFavoriteItem(medication));
 
-	// Los inserta como elementos sueltos, todos los nodos de golpe en la lista
+	// Los inserta en la lista como elementos sueltos y todos de golpe.
 	container.append(...items);
 }
 

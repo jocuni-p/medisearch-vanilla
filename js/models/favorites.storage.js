@@ -26,7 +26,7 @@ function writeList(favorites) {
 }
 
 
-/*------------PUBLIC FUNCTIONS-----------*/
+/*-------PUBLIC FUNCTIONS-------*/
 
 /**
  * Recupera un array con la lista de favoritos
@@ -35,11 +35,11 @@ function writeList(favorites) {
 export function getFavoritesList() {
 	return readList();
 }
-///OJOOOOOOO DOCUMENTACION: verificar si me llega un number o un string en nregistro
+
 /**
  * Comprueba si un nregistro está en la lista de favoritos.
  * @param {string} nregistro
- * @returns Booleano (true = presente en Favs, false = ausente en Favs)
+ * @returns {boolean} Booleano (true = presente en Favs, false = ausente en Favs)
  */
 export function isInFavoritesList(nregistro) {
 	return readList().includes(nregistro);

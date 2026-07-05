@@ -1,11 +1,38 @@
 /**
  * Este módulo es reutilizable para gestión de estados de UI (loading, empty, error, results).
  * 
- * Se llama desde el controller que necesite mostrar feedback al usuario durante las operaciones asíncronas. Lo usaré en main.controller y probablemente en supply.controller y favorites.controller.
+ * Se llama desde el controller que necesite mostrar feedback al usuario durante las operaciones asíncronas. Lo usaré en main.controller y en detail, supply y favorites.
  * 
  * El llamador indica el state deseado y el módulo muestra/oculta el elemento correspondiente.
  * Los mensajes de texto se reciben como argumento (ver ui-messages.js para lops textos).
  */
+
+
+/* ========= PUBLIC FUNCTIONS ========= */
+
+export function showLoading() {
+	showSpinner(true);
+	hideMessage();
+	showList(false);
+}
+
+// Wrappers diferentes de la misma función, para mejorar semántica
+export function showEmpty(msg) { setMessageState(msg); }
+export function showError(msg) { setMessageState(msg); }
+
+export function showResults() {
+	showSpinner(false);
+	hideMessage();
+	showList(true);
+}
+
+export function hideLoading() {
+	showSpinner(false);
+}
+
+export function hideError() {
+	hideMessage();
+}
 
 /* ========= PRIVATE FUNCTIONS ========= */
 
@@ -67,35 +94,4 @@ function setMessageState(msg) {
 	showSpinner(false);
 	showMessage(msg);
 	showList(false);
-}
-
-
-
-
-/* ========= PUBLIC FUNCTIONS ========= */
-/* Son llamadas siempre desde el controller */
-
-export function showLoading() {
-	showSpinner(true);
-	hideMessage();
-	showList(false);
-}
-
-// Wrappers diferentes de la misma función, para mejorar la semántica
-export function showEmpty(msg) { setMessageState(msg); }
-export function showError(msg) { setMessageState(msg); }
-
-export function showResults() {
-	showSpinner(false);
-	hideMessage();
-	showList(true);
-}
-
-/*=== para detail.controller ===*/
-export function hideLoading() {
-	showSpinner(false);
-}
-
-export function hideError() {
-	hideMessage();
 }

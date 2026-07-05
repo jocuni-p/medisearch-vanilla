@@ -32,20 +32,19 @@
             </div>
         </noscript>
 
-        <!--- ===================== HEADER =============================-->
         <header id="app-header"></header>
 
         <main>
             <div class="detail-card">
-                <!-- ESTADO GLOBAL -->
+                <!-- ESTADO  -->
                 <div id="spinner" class="spinner hidden" aria-hidden="true">
                     <i class="bi bi-arrow-clockwise spin"></i>
                 </div>
 
-                <!-- MENSAJES DE ERROR Y STATUS (manejo por ui-state)-->
+                <!-- ERROR MSG Y STATUS (manejo por ui-state)-->
                 <div id="state-message" class="state-message hidden" role="status" aria-live="polite"></div>
 
-                <!--======== CONTENT BLOCKS ========-->
+                <!-- CONTENT BLOCKS -->
                 <section id="medication-identity">
                     <!-- JS pintará h1, p subtitulo(vtm), lab, tags con .li-tag-->
                 </section>
@@ -55,11 +54,11 @@
                 </section>
 
                 <section id="medication-supply" class="hidden">
-                    <!-- condicional:título + dos fechas | skeleton | error -->
+                    <!-- condicional: pintará título + dos fechas | error -->
                 </section>
 
                 <section id="medication-notes" class="hidden">
-                    <!-- condicional: título + string | skeleton | error -->
+                    <!-- condicional: pintará título + string | error -->
                 </section>
 
                 <section id="medication-fav-action">

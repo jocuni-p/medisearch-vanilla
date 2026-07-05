@@ -7,7 +7,6 @@ import { isInFavoritesList, toggleFavoriteStatus } from "../models/favorites.sto
  * @param {Object} medication - objeto medicamento devuelto por /medicamento
  */
 export function renderIdentity(medication) {
-    // Recupera el container de la sección
     const container = document.querySelector("#medication-identity");
     // Limpia, si habia algo anterior
     container.replaceChildren();
@@ -27,14 +26,14 @@ export function renderIdentity(medication) {
     lab.textContent = "Laboratorio: " + (medication.labcomercializador || medication.labtitular); //defensivo
     lab.classList.add("detail-lab");
 
-    //Crea Nodo4 compuesto por los tags
+    //Crea Nodo4: tags
     const tagsContainer = document.createElement("div");
     tagsContainer.classList.add("detail-tags");
     // Crea un array solo con los tags que usaré en este detalle
     const tagArr = createTags(medication);
     tagsContainer.append(...tagArr); // con spread convierto array en elementos individuales
 
-    // Añado todos al DOM real en una sola operación (y no en varias)
+    // Añado todos al DOM real en una única operación.
     container.append(name, activePrinciples, lab, tagsContainer);
 }
 
@@ -60,7 +59,6 @@ export function renderDocs(medication) {
         container.append(noUrl);
         return;
     }
-
     const link = document.createElement("a");
     link.textContent = "Ver prospecto";
     link.href = linkUrl;
@@ -92,14 +90,18 @@ export function renderSupplySection(supply) {
 // Usa la API nativa de JS con el objeto Date
 function formatDate(timestamp) {
     //recibe un num formato unix en milisegundos
-    return new Date(timestamp).toLocaleDateString("es-ES", {
+	return new Date(timestamp).toLocaleDateString("es-ES", {
+		//defino como quiero el retorno
         day: "numeric",
         month: "short",
         year: "numeric",
     });
 }
 
-// Viene del controller si falló el supply al hacer fetch al psuministro por resultado vació
+/**
+ * Crea y renderiza el mensaje de error si el fetch del controller vino vacío
+ * @param {string} msg 
+ */
 export function renderSupplyMessage(msg) {
     const container = document.querySelector("#medication-supply");
     // limpiar contenedor
@@ -144,18 +146,21 @@ export function renderNotesMessage(msg) {
     container.append(p);
 }
 
-
+/**
+ * Pinta el botón toggle de favoritos en '#medication-fav-action'.
+ * El botón refleja el estado actual del localStorage (icono lleno o vacío) y al hacer click alterna su estado repintándolo en la página.
+ * @param {string} nregistro - Número de registro del medicamento, usado como clave en localStorage.
+ */
 export function renderFavoritesAction(nregistro) {
 	const container = document.querySelector('#medication-fav-action');
-	// Garantiza que si se llama dos veces no acumula botenes ni listeners
-	// Se limpia lo que habia y lo fuerza a crear contenido nuevo con listener fresco
+	// Limpia. Garantiza que si se llama dos veces no acumula botones ni listeners.
 	container.replaceChildren();
 
 	const button = document.createElement('button');
 	button.classList.add('favorite-btn');
 
 	const icon = document.createElement('i');
-	icon.classList.add('bi');  //classe base, la especifica la pondrá updateButtonState
+	icon.classList.add('bi');  //clase base, la especifica la pondrá updateButtonState
 	button.append(icon);
 
 	//Inicial: refleja el estado del botón según lo que haya en localStorage
@@ -168,17 +173,15 @@ export function renderFavoritesAction(nregistro) {
 		//Actualiza el estado del botón con el booleano (activo/inactivo)
 		updateButtonState(button, currentState);
 	})
-
 	container.append(button);
-
 }
 
 //Helper privado
 /**
  * Maneja la lógica del estado del botón favorito, al entrar en la página y al hacer click en él.
  * Aplica el estado visual al boton cada vez que se llama
- * @param {Object} button 
- * @param {Boolean} isActive  true = activo en Favs, false = ausente en Favs
+ * @param {HTMLButtonElement} button Botón sobre el que aplicar el estado
+ * @param {boolean} isActive  true = activo en Favs, false = ausente en Favs
  */
 function updateButtonState(button, isActive) {
 	const icon = button.querySelector('i');
@@ -190,5 +193,4 @@ function updateButtonState(button, isActive) {
 	button.setAttribute('aria-pressed', isActive);
 	// Añade o elimina la clase dependiendo de si el segundo argumento es true o false.
 	button.classList.toggle('is-active', isActive);
-	console.log('Botón pintado. Icono:', icon.className, '| aria-pressed:', button.getAttribute('aria-pressed'));
 }

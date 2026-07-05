@@ -17,7 +17,7 @@ export async function fetchMedications(query) {
     url.searchParams.set("nombre", query);
     url.searchParams.set("comerc", "1");
 
-    const response = await fetch(url); //El fetch() tambien puede lanzar su propio TypeError "Failed to fetch" que escalará hasta el catch del controller.
+    const response = await fetch(url); //El fetch() tambien puede lanzar su propio TypeError 
     if (!response.ok) {
         // Errores de HTTP no-OK (404, 500)
         // Lanzo un error (instancio la clase nativa Error que muestra un mensaje informativo)

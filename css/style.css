@@ -1,15 +1,14 @@
-
-/* ======= VARIABLES Y RESET======= */
-
 /* Custom Properties */
 :root {
 	/* ---paleta de color--- */
 	--text-secondary: #888;
+	--text-legal: #505050;
 	--brand-secondary: #3027CE;
 	--brand: #433BFF;
 	--nav-button: #645ffe;
 	--nav-button-hover: #9590FF;
 	--my-black: #050315;
+	--my-white: #fff;
 	--lavender: #DDDCFF; /* renombrar por semántica */
 	--search-emphasy: var(--lavender); /* renombrado por semántica */
 	/*--bg-default: #FBFBFE; */ /* el de la paleta */
@@ -40,6 +39,7 @@
 	box-sizing: border-box;
 	margin: 0;
 	padding: 0;
+	_outline: 1px solid red;
 }
 
 
@@ -82,10 +82,6 @@ body {
 	/* Quizas usar otra typo mas corporativa para resaltar */
 }
 
-/* xxxxxx OJO: Eliminar si no lo uso */
-.logo {
-	display: none; /* de momento así */
-}
 /* Botones del nav */
 .nav-button {
 	appearance: none; /* Elimina los navegador default styles */
@@ -132,20 +128,35 @@ main {
 	padding: 10px 10px;
 	display: flex;
 	flex-direction: column;
+	
 }
 
 h1 {
-	padding: 10px 0px 10px 0px;
+	padding: 30px 0px 10px 0px;
 	font-size: var(--fs-xl);
 	font-weight: 600; /* Este peso ya lo tengo bajado de GoogleFonts */
+	text-align: center;
+	color: var(--my-black);
 }
 
 .subtitle,
-.legal {
+.legal,
+.favorites-subtitle {
 	color: var(--text-secondary);
+	text-align: center;
 }
 
+/* Únicamente existe en legal-policy */
+h2 {
+	font-size: var(--fs-base);
+	padding: 15px 0px;
+	color: var(--my-black);
+}
 
+.main-legal p {
+	font-size: var(--fs-s);
+	color: var(--text-legal);
+}
 /* OJO: Demasiados colores??? */
 .legal a {
 	text-decoration: none;
@@ -172,15 +183,14 @@ input {
 	flex-grow: 2; /* Al crecer se lleva 2/3 del espacio sobrante */
 	border: none;
 	border-radius: 10px;
-	font-size: var(--fs-l);
+	font-size: var(--fs-base);
 	padding: 10px;
-	background-color: var(--bg-secondary);
+	color: var(--my-black);
+	
 }
 
 input:focus {
-	outline: none;
-	outline: 2px solid var(--search-emphasy); /* REVISAR + ADELANTE */
-
+	outline: 1px solid var(--brand);
 }
 
 form button {
@@ -196,9 +206,8 @@ form button {
 
 /* ===== MENSAJES DE ESTADO/VALIDACIÓN ===== */
 .state-message { /* FALTAN ESTILOS AQUÍ */
-	/* padding: 10px; 
-	border-radius: 5px; */
-
+	padding: 50px 10px; 
+	text-align: center;
 }
 
 /* ====== CARDS DE RESULTADOS ===== */
@@ -339,7 +348,7 @@ de sus containers padres y se deje truncar bien.*/
 	display: none !important;
 }
 
-/*=====TEMPORAL PARA TEST DE DETAIL =========*/
+/*=====TEMPORAL TEST DETAIL CORAZON FAVORITOS=========*/
 .favorite-btn {
     background: transparent;
     border: none;

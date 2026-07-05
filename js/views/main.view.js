@@ -7,7 +7,7 @@ export function clearMedications() {
     document.querySelector("#results-list").replaceChildren();
 }
 
-/* ===========OJO, FUNCION DEMASIADO LARGA: HAY QUE REFACTORIZARLA =========== */
+/* TODO: refactorizar, demasiado larga */
 /**
  * Renderiza un listado de cards de medicamentos en el contenedor #results-list.
  * Por cada elemento del array:
@@ -21,13 +21,13 @@ export function clearMedications() {
  *   y `nombre`. El resto de campos se manejan de forma defensiva.
  */
 export function showMedications(medications) {
-    const container = document.querySelector("#results-list"); // Al final necesito esta var
+    const container = document.querySelector("#results-list");
     clearMedications();
-    // Crea el fragment
+    // Crea Fragment: memoria temporal antes del volcado al DOM
     const fragment = document.createDocumentFragment();
-    //Recupera el template
+    //Recupera el template (lo que tiene dentro)
     const template = document.querySelector("#template-medicine").content;
-    //Bucle que crea el clone y rellena cada dato del template
+    //Bucle: crea el clon y rellena cada dato del template
     for (const medication of medications) {
         // Creo un clone
         const clone = template.cloneNode(true);
@@ -35,7 +35,6 @@ export function showMedications(medications) {
         clone.querySelector("a").href = `detail.html?nregistro=${medication.nregistro}`;
         // Recupero nombre medicamento
         clone.querySelector("h2").textContent = medication.nombre;
-        // Recupero principio activo (OJO: cómo NO sé si son campos obligatorios, habrá que blindarlos.
         // Si no existe, devuelve undefined sin lanzar error.
         if (medication.vtm?.nombre) {
             // protección para leer algo, que si no existe, no se rompa.

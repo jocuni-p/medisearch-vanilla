@@ -3,9 +3,10 @@
  * Lo importa el modulo ui-state.view.js y los controllers que necesiten pasar las claves de mensaje.
  * 
  * Estructura por categorias:
- * 	-validation: mensajes de validación del input.
+ * 	-validation: mensajes de validación del input (search).
  * 	-response: mensajes relativos a la respuesta de la API.
- *  -detail: página detail
+ *  -detail: mensajes de la página detail
+ *  -favorites: mensajes de la página favorites
  */
 export const MESSAGES = {
 	validation: {
