@@ -30,6 +30,56 @@ function init() {
 }
 
 /**
+ * Manejador del evento submit del formulario de búsqueda.
+ * Orquesta todo el flujo de búsqueda:
+ *  1. Previene la recarga de la página.
+ *  2. Lee y trimea el valor del input.
+ *  3. Valida el input (delega en validateInput).
+ *  4. Llama al model para hacer la petición a la API.
+ *  5. Valida la estructura de la respuesta.
+ *  6. Pasa los datos a la view (o muestra mensaje si no hay resultados / hay error).
+ *
+ * @param {SubmitEvent} event - Evento submit del formulario.
+ * @returns {Promise<void>}
+ */
+async function handleSearch(event) {
+    event.preventDefault(); // previene la recarga de la página para que no se pierdan los datos
+    const input = document.querySelector("#search-input");
+    const valor = input.value.trim();
+    // Validación del input
+    const resultInput = validateInput(valor);
+    if (!resultInput.valid) {
+        handleValidationError(resultInput.reason);
+        return;
+    }
+    showLoading(); // Mostrará el spinner hasta que llegue la response
+    try {
+		// Petición a la API
+		const data = await fetchMedications(valor);
+		// Valida y pinta la respuesta de la API
+		renderSearchResponse(data);
+    } catch (error) {
+		console.error("Ha habido un problema al conectar con CIMA.", error.message);
+        showError(MESSAGES.response.error); // Oculta spinner, muestra mensaje, oculta lista
+        clearMedications(); // En los dos estados donde puede haber cards previas (empty, error)
+    }
+}
+
+/**
+ * Maneja el error de validación del input, mostrando al usuario un error explicito 
+ * @param {string} reason   Razón del error de validación: 'empty' | 'tooShort' | 'invalidChars'
+ */
+function handleValidationError(reason) {
+    // Primero limpio si hay algo en la lista
+    clearMedications();
+    if (reason === "empty") {
+        return;
+    }
+    // si es por otra razón muestra msg
+    showEmpty(VALIDATION_MESSAGES[reason]); // Oculta spinner, muestra mensaje, oculta lista
+}
+
+/**
  * Valida el texto introducido por el usuario antes de enviar la petición a la API.
  * Aplica tres reglas en orden:
  *  1. No vacío.
@@ -55,65 +105,23 @@ function validateInput(input) {
     return { valid: true };
 }
 
-/* ===========OJO, FUNCION DEMASIADO LARGA: HAY QUE REFACTORIZARLA =========== */
 /**
- * Manejador del evento submit del formulario de búsqueda.
- * Orquesta todo el flujo de búsqueda:
- *  1. Previene la recarga de la página.
- *  2. Lee y trimea el valor del input.
- *  3. Valida el input (delega en validateInput).
- *  4. Llama al model para hacer la petición a la API.
- *  5. Valida la estructura de la respuesta.
- *  6. Pasa los datos a la view (o muestra mensaje si no hay resultados / hay error).
- *
- * @param {SubmitEvent} event - Evento submit del formulario.
- * @returns {Promise<void>}
+ * Valida la estructura de la respuesta y decide la respuesta que aplicará (mostrar error/pintar las cards)
+ * @param {Object} data - Objeto de la response de la API con propiedad 'resultados'
+ * @throws {Error}  Si 'resultados' no es un array
  */
-async function handleSearch(event) {
-    event.preventDefault(); // previene la recarga de la página para que no se pierdan los datos
-    const input = document.querySelector("#search-input"); // selecciono el elemento por id
-    const valor = input.value.trim(); //recupero valor con espacios trimados al inicio y final
-    // 1. VALIDACIÓN DEL INPUT
-    const resultInput = validateInput(valor);
-    if (!resultInput.valid) {
-        // Primero limpio si hay algo en la lista
-        clearMedications();
-        // Si no es válido
-        if (resultInput.reason === "empty") {
-            // porque está vacío
-            return;
-        }
-        // o si es por esta otra razón (muestra msg)
-        showEmpty(VALIDATION_MESSAGES[resultInput.reason]); // Oculta spinner, muestra mensaje, oculta lista
-        return;
-        //console.log(resultInput.reason); // DEBUG TEMP
-    }
-    //console.log(valor); // DEBUG
-    showLoading(); // Mostrará el spinner hasta que llegue la response
-    try {
-        // 2. PETICIÓN A LA API
-        const data = await fetchMedications(valor); // Esta función devuelve una promise
-        // 3. VALIDACIÓN DE LA RESPONSE (en el controller, porque la petición fué ok, pero sin contenido)
-        // Valido que la response sea un array (es raro pero podría pasar si modifican la API)
-        if (!Array.isArray(data.resultados)) {
-            throw new Error("Respuesta inesperada de la API");
-        }
-        // Verifico si es una response ok, pero con contenido 0
-        if (data.resultados.length === 0) {
-            // La response es ok, pero no trae ningún resultado
-            clearMedications(); // Limpia el listado de cards previas
-            showEmpty(MESSAGES.response.empty);
-            //console.log('No se han encontrado resultados'); // TEMP: Habrá que mostrarlo en el div del navegador
-            return;
-        }
-        showResults(); //Oculta el spinner, oculta el mensaje, muestra la lista
-        // RESPONSE VÁLIDA CON RESULTADOS
-        //data es un obj. He de pasarle un array.
-        showMedications(data.resultados);
-    } catch (error) {
-        // Si hubo algún error en el (fetch) proceso lo cazará
-        showError(MESSAGES.response.error); // Oculta spinner, muestra mensaje, oculta lista
-        console.log("Ha habido un problema al conectar con CIMA. Inténtalo de nuevo", error.message); // DEBUG
-        clearMedications(); // En los dos estados donde puede haber cards previas (empty, error)
-    }
+function renderSearchResponse(data) {
+	if (!Array.isArray(data.resultados)) {
+		// Este error subirá hasta el catch de la función padre
+		throw new Error("Respuesta inesperada de la API");
+	}
+	// si es una response ok, pero con contenido 0
+	if (data.resultados.length === 0) {
+		clearMedications(); // Limpia el listado de cards previas
+		showEmpty(MESSAGES.response.empty);
+		return;
+	}
+	showResults(); //Oculta el spinner, oculta el mensaje, muestra la lista
+	// Pinta el contenido de la response
+	showMedications(data.resultados);
 }

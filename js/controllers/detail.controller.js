@@ -19,37 +19,23 @@ import { showLoading, showEmpty, showError, hideLoading } from "../views/ui-stat
 // Arranca el JS al cargar la pagina
 document.addEventListener("DOMContentLoaded", init);
 
-/** =======TODO: HAY QUE REFACTORIZARLA ES MUY LARGA=========*/
+
 async function init() {
-    showHeader("Detalle"); // importa el modulo header
-    // nregistro = leer URL
-    const nregistro = getNregistroFromUrl(); // creada más abajo
-    if (!isValidNregistro(nregistro)) {
-        // Oculta spinner, muestra mensaje y oculta lista si existe
-        showEmpty(MESSAGES.detail.noNregistro);
-        return;
-    }
+    showHeader("Detalle");
+	// nregistro = leer URL
+	const nregistro = getValidatedNregistro();
+	if (!nregistro) return;
     // muestra el spinner mientras llega promesa
     showLoading();
-    let medication; // Declarada aquí para que tenga vida fuera del try.
     try {
-        medication = await fetchMedication(nregistro);
-
+        const medication = await fetchMedication(nregistro);
         //Pinta la sección identity en el DOM
         renderIdentity(medication);
-        //Pinta seccion de la doc(enlace al prospecto)
-        renderDocs(medication);
-        if (medication.psum) {
-            // Hace el fetch a la API, pintar los datos al DOM y maneja los errores
-            //Es autonoma, hace un fetch (sin await, llegará cuando llegue)
-            loadSupply(medication.nombre);
-        }
-        if (medication.notas) {
-            //Es autonoma, hace un fetch (sin await, llegará cuando llegue)
-            loadNotes(medication.nregistro);
-        }
-        // TODO: lógica de favoritos
-        // Localiza el botón, comprueba (localStorage)si está ya en favoritos, pinta texto del botón según el estado, conecta un addEventListener que alterna el estado
+        //Pinta seccion del enlace al prospecto
+		renderDocs(medication);
+		//Recupera y pinta los datos psum y notas, si existen
+		triggerSecondaryLoads(medication);
+        // Pinta el botón toggle de favoritos con su estado actual desde localStorage
 		renderFavoritesAction(medication.nregistro);
     } catch (error) {
         console.error("Error al cargar el medicamento:", error);
@@ -61,6 +47,20 @@ async function init() {
 }
 
 /**
+ * Lee el nrgistro de la URL, lo valida de forma básica y devuelve su valor o null si es inválido
+ * Pinta mensaje al usuario si es invalido.
+ * @returns {string|null}
+ */
+function getValidatedNregistro() {
+	const nregistro = getNregistroFromUrl();
+	if (!isValidNregistro(nregistro)) {
+        showEmpty(MESSAGES.detail.noNregistro);
+        return null; // comunica inválido
+	}
+	return nregistro;
+}
+
+/**
  * Obtiene el parametro 'nregistro' de la url actual y lo retorna
  * @returns {string}
  */
@@ -69,9 +69,26 @@ function getNregistroFromUrl() {
     return params.get("nregistro");
 }
 
-// Verifico si existe o no nregistro
+// Verifico si existe o no el nregistro
 function isValidNregistro(nregistro) {
     return Boolean(nregistro);
+}
+
+
+/**
+ * Se encarga de recuperar y renderizar los datos de 'psum' y 'notas' si existen
+ * @param {Object} medication Objeto que retornó la API
+ */
+function triggerSecondaryLoads(medication) {
+	if (medication.psum) {
+            // Hace el fetch a la API, pintar los datos al DOM y maneja los errores
+            //Es autónoma, hace un fetch (sin await, llegará cuando llegue)
+            loadSupply(medication.nombre);
+        }
+        if (medication.notas) {
+            //Es autónoma, hace un fetch (sin await, llegará cuando llegue)
+            loadNotes(medication.nregistro);
+        }
 }
 
 /**
