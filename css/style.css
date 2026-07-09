@@ -147,7 +147,7 @@ h1 {
 }
 
 /* Únicamente existe en legal-policy */
-h2 {
+.main-legal h2 {
 	font-size: var(--fs-base);
 	padding: 15px 0px;
 	color: var(--my-black);
@@ -245,7 +245,7 @@ form button {
 .li-main h2 {
 	font-size: var(--fs-s);
 	font-weight: 600;
-	/* Para truncar a 2 lineas max + ... */
+	/* OJO REVISAR    Para truncar a 2 lineas max + ... */
 	display: -webkit-box;
 	-webkit-line-clamp: 2;
 	-webkit-box-orient: vertical;

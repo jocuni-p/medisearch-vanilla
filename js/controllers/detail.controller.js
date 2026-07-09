@@ -1,4 +1,5 @@
 import { showHeader } from "../views/header.view.js";
+import { showFooter } from "../views/footer.view.js";
 import { fetchMedication } from "../models/medication.model.js";
 import { MESSAGES } from "../views/ui-messages.js";
 import { fetchSupplyByName } from "../models/supply.model.js";
@@ -14,17 +15,15 @@ import {
 } from "../views/detail.view.js";
 import { showLoading, showEmpty, showError, hideLoading } from "../views/ui-state.view.js";
 
-
-
 // Arranca el JS al cargar la pagina
 document.addEventListener("DOMContentLoaded", init);
 
-
 async function init() {
     showHeader("Detalle");
-	// nregistro = leer URL
-	const nregistro = getValidatedNregistro();
-	if (!nregistro) return;
+    showFooter();
+    // nregistro = leer URL
+    const nregistro = getValidatedNregistro();
+    if (!nregistro) return;
     // muestra el spinner mientras llega promesa
     showLoading();
     try {
@@ -32,11 +31,11 @@ async function init() {
         //Pinta la sección identity en el DOM
         renderIdentity(medication);
         //Pinta seccion del enlace al prospecto
-		renderDocs(medication);
-		//Recupera y pinta los datos psum y notas, si existen
-		triggerSecondaryLoads(medication);
+        renderDocs(medication);
+        //Recupera y pinta los datos psum y notas, si existen
+        triggerSecondaryLoads(medication);
         // Pinta el botón toggle de favoritos con su estado actual desde localStorage
-		renderFavoritesAction(medication.nregistro);
+        renderFavoritesAction(medication.nregistro);
     } catch (error) {
         console.error("Error al cargar el medicamento:", error);
         hideLoading();
@@ -52,12 +51,12 @@ async function init() {
  * @returns {string|null}
  */
 function getValidatedNregistro() {
-	const nregistro = getNregistroFromUrl();
-	if (!isValidNregistro(nregistro)) {
+    const nregistro = getNregistroFromUrl();
+    if (!isValidNregistro(nregistro)) {
         showEmpty(MESSAGES.detail.noNregistro);
         return null; // comunica inválido
-	}
-	return nregistro;
+    }
+    return nregistro;
 }
 
 /**
@@ -74,21 +73,20 @@ function isValidNregistro(nregistro) {
     return Boolean(nregistro);
 }
 
-
 /**
  * Se encarga de recuperar y renderizar los datos de 'psum' y 'notas' si existen
  * @param {Object} medication Objeto que retornó la API
  */
 function triggerSecondaryLoads(medication) {
-	if (medication.psum) {
-            // Hace el fetch a la API, pintar los datos al DOM y maneja los errores
-            //Es autónoma, hace un fetch (sin await, llegará cuando llegue)
-            loadSupply(medication.nombre);
-        }
-        if (medication.notas) {
-            //Es autónoma, hace un fetch (sin await, llegará cuando llegue)
-            loadNotes(medication.nregistro);
-        }
+    if (medication.psum) {
+        // Hace el fetch a la API, pintar los datos al DOM y maneja los errores
+        //Es autónoma, hace un fetch (sin await, llegará cuando llegue)
+        loadSupply(medication.nombre);
+    }
+    if (medication.notas) {
+        //Es autónoma, hace un fetch (sin await, llegará cuando llegue)
+        loadNotes(medication.nregistro);
+    }
 }
 
 /**

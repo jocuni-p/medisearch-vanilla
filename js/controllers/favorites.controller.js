@@ -1,4 +1,5 @@
 import { showHeader } from "../views/header.view.js";
+import { showFooter } from "../views/footer.view.js";
 import { fetchMedication } from "../models/medication.model.js";
 import { MESSAGES } from "../views/ui-messages.js";
 import { showLoading, showEmpty, showError, hideLoading } from "../views/ui-state.view.js";
@@ -11,6 +12,7 @@ document.addEventListener("DOMContentLoaded", init);
 
 async function init() {
 	showHeader("Favoritos");
+	showFooter();
 	//Array
 	const nregistros = getFavoritesList();
 	if (nregistros.length === 0) {

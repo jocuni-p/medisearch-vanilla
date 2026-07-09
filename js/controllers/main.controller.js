@@ -1,6 +1,7 @@
 // LLama a un modulo que contiene showHeader() para que rellene el header
 
 import { showHeader } from "../views/header.view.js";
+import { showFooter } from "../views/footer.view.js";
 import { showMedications, clearMedications } from "../views/main.view.js";
 import { fetchMedications } from "../models/medications.model.js";
 import { showLoading, showEmpty, showError, showResults } from "../views/ui-state.view.js";
@@ -23,9 +24,10 @@ document.addEventListener("DOMContentLoaded", init);
  */
 function init() {
     showHeader("Inicio");
+	showFooter();
     // IMPLEMENTA LISTENER DE EVENTOS EN EL FORM
     const form = document.querySelector("#form");
-    form.addEventListener("submit", handleSearch);
+	form.addEventListener("submit", handleSearch);
 }
 
 /**
