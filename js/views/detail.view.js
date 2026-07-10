@@ -74,6 +74,7 @@ export function renderDocs(medication) {
  * @param {Object} supply - Resultado del endpoint /psuministro que contiene las fechas que necesita
  */
 export function renderSupplySection(supply) {
+
     // Se asume 'supply' válido. Los casos vacios/error los gestiona el controller
     const container = document.querySelector("#medication-supply");
     container.replaceChildren();
@@ -96,6 +97,15 @@ function formatDate(timestamp) {
         month: "short",
         year: "numeric",
     });
+}
+
+/**
+ * Oculta el tag de problemas de sumnistro cuando ya se muestra la sección con el mensaje (evita redundancia visual).
+ */
+export function hideSupplyTag() {
+	//solo hay un 'tag-psum' en todo el detail.
+	const tagPsum = document.querySelector('.tag-psum');
+	tagPsum?.classList.add('hidden');
 }
 
 /**
@@ -194,3 +204,4 @@ function updateButtonState(button, isActive) {
 	// Añade o elimina la clase dependiendo de si el segundo argumento es true o false.
 	button.classList.toggle('is-active', isActive);
 }
+

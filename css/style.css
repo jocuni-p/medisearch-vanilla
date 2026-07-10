@@ -39,7 +39,8 @@
 	box-sizing: border-box;
 	margin: 0;
 	padding: 0;
-	_outline: 1px solid red;
+	/*---DEBBUGER----*/
+	/* outline: 1px solid red; */
 }
 
 
@@ -47,6 +48,11 @@
 body {
 	font-family: Inter, Arial, Helvetica, sans-serif;
 	background-color: var(--bg-default);
+
+	display: flex;
+	flex-direction: column;
+	min-height: 100vh;
+
 }
 
 /* ======== HEADER ========= */
@@ -61,14 +67,12 @@ body {
 	gap: 10px;
 }
 
-.brand { /* Logo + CompanyName */
+.brand {
 	color: white; /* Opción blanco 100% */
-	/* color: var(--bg-default); */
 	text-decoration: none; /*Elimina el subrallado del link*/
 	padding-left: 10px;
 }
 
-/*Quizas los botones deberian ser mas pequeños en formato movil ?? */
 /* Doble selector para que solo toque el nav del header */
 #app-header nav {
 	display: flex;
@@ -77,9 +81,8 @@ body {
 #app-header {
 	background-color: var(--brand);
 }
-.company-name, .logo { /* aplica el style a ambos */
+.company-name {
 	font-size: var(--fs-xl);
-	/* Quizas usar otra typo mas corporativa para resaltar */
 }
 
 /* Botones del nav */
@@ -124,10 +127,12 @@ Fuente: www.a11yproject.com
 /* ===== MAIN ==== */
 main {
 	max-width: 800px;
+	width: 100%;
 	margin: 0 auto; /* Centra el bloque horizontalmente */
 	padding: 10px 10px;
 	display: flex;
 	flex-direction: column;
+	flex: 1;  /* Con esto se estira en vertical para empujar el footer */
 	
 }
 
@@ -140,7 +145,6 @@ h1 {
 }
 
 .subtitle,
-.legal,
 .favorites-subtitle {
 	color: var(--text-secondary);
 	text-align: center;
@@ -157,16 +161,6 @@ h1 {
 	font-size: var(--fs-s);
 	color: var(--text-legal);
 }
-/* OJO: Demasiados colores??? */
-.legal a {
-	text-decoration: none;
-	font-size: var(--fs-xs);
-}
-
-.legal a:hover,
-.legal a:focus-visible {
-	text-decoration: underline;
-}
 
 /* ===== FORMULARIO DE BÚSQUEDA ==== */
 
@@ -175,7 +169,6 @@ form {
 	width: 100%;/* No me convence el ancho*/
 	margin: 25px 0px;
 	gap: 10px;
-
 }
 
 
@@ -201,12 +194,14 @@ form button {
 	background-color: var(--brand);
 	color: var(--bg-default);
 	/* margin: 0 0 0 10px; */
-	width: 30%;
 }
 
 /* ===== MENSAJES DE ESTADO/VALIDACIÓN ===== */
-.state-message { /* FALTAN ESTILOS AQUÍ */
-	padding: 50px 10px; 
+
+.state-message {
+	padding: 50px 10px;
+	font-size: var(--fs-l);
+	color: var(--text-secondary);
 	text-align: center;
 }
 
@@ -329,17 +324,19 @@ de sus containers padres y se deje truncar bien.*/
 	background: color-mix(in srgb, var(--tag3-bg) 45%, white);
 	color: var(--tag3-text);
 }
-/* ===== PAGINACIÓN ===== */
+/* ===== DESARROLLO FUTURO: PAGINACIÓN ===== */
 
-.top-info-pagination, #pagination {
-	/* font-weight: 600; */
+/* .top-info-pagination, #pagination {
+	display: flex;
+	flex-direction: column;
+	text-align: center;
 	font-size: var(--fs-s);
 	color: var(--text-secondary);
 }
 
 #pagination {
 	margin: 5px 0px 20px 0px;
-}
+} */
 	
 /* ======= UTILITIES ======== */
 
@@ -348,17 +345,114 @@ de sus containers padres y se deje truncar bien.*/
 	display: none !important;
 }
 
-/*=====TEMPORAL TEST DETAIL CORAZON FAVORITOS=========*/
+
+/*----------FOOTER--------*/
+#app-footer {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	font-size: var(--fs-xs);
+}
+
+#app-footer nav {
+	padding: 10px 70px;
+	border-top: 1px solid var(--text-secondary);
+}
+.link-footer {
+	text-decoration: none; /* quita el subrayado del user-agent stylesheet */
+	padding: 0px 10px;
+	color: var(--text-secondary);
+}
+
+.link-footer:hover,
+.link-footer:focus-visible {
+	text-decoration: underline;
+}
+
+
+/* ============DETAIL ============= */
+.detail-card {
+	display: flex;
+	flex-direction: column;
+	_gap: 20px;
+	background: var(--bg-secondary);
+	border: 1px solid #b8b5e8;
+	border-left: 3px solid var(--brand);
+	border-radius: 10px;
+	padding: 8px 15px;
+	margin: 5px 0px;
+}
+
+/* Section primera de detail*/
+#medication-identity, 
+.detail-name,
+.detail-active-principles,
+.detail-lab,
+.detail-tags {
+	padding-top: 20px;
+	text-align: left;
+	overflow-wrap: break-word; /* protector: permite partir una palabra larga, solo si no cabe de otra forma*/
+}
+
+.detail-card section:not(:last-child) { /* En el último hijo <section> no actua */
+	margin-bottom: 30px;
+}
+.detail-name {
+	font-size: var(--fs-base);
+}
+
+
+
+#medication-fav-action {
+	text-align: right;
+}
+
 .favorite-btn {
-    background: transparent;
-    border: none;
-    cursor: pointer;
-    font-size: 1.5rem;
-    color: crimson;
+	background: transparent;
+	border: none;
+	cursor: pointer;
+	color: crimson;
+	padding: 10px;
 }
-.favorite-btn .bi-heart-fill {
-    color: crimson;
-}
+
+.favorite-btn .bi-heart-fill,
 .favorite-btn .bi-heart {
-    color: crimson;
+	color: crimson;
 }
+/* .favorite-btn .bi-heart {
+	color: crimson;
+} */
+
+.favorite-btn .bi { /* icono de favorito (corazón) */
+	font-size: var(--fs-xl); 
+}
+
+.external-link { /* Link a Prospecto */
+	border: none;
+	border-radius: 10px;
+	padding: 10px 30px;
+	background-color: var(--brand);
+	color: var(--bg-default);
+	text-decoration: none;
+	
+}
+
+.external-link:hover, /* al pasar mouse */
+.external-link:focus-visible { /* para nav por teclado */
+	background-color: var(--brand-secondary);
+}
+
+.external-link-empty,
+.supply-msg-neutral {
+	font-style: italic;
+	color: var(--text-secondary);
+}
+
+.supply-message {
+	background: color-mix(in srgb, var(--tag3-bg) 45%, white);
+	color: var(--tag3-text);
+	padding: 20px 10px;
+	border-radius: 5px;
+	font-weight: 600;
+}
+

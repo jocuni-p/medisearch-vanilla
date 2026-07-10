@@ -11,7 +11,8 @@ import {
     renderSupplyMessage,
     renderNotes,
     renderNotesMessage,
-    renderFavoritesAction,
+	renderFavoritesAction,
+	hideSupplyTag,
 } from "../views/detail.view.js";
 import { showLoading, showEmpty, showError, hideLoading } from "../views/ui-state.view.js";
 
@@ -100,8 +101,10 @@ async function loadSupply(nombre) {
     try {
         const supplyResponse = await fetchSupplyByName(nombre); // ella si que espera al fetch.
         if (supplyResponse.resultados?.length > 0) {
-            renderSupplySection(supplyResponse.resultados[0]);
-        } else {
+			renderSupplySection(supplyResponse.resultados[0]);
+			//AQUI OCULTO EL TAG PSUM porque se encontraron resultados (para no duplicar info)
+			hideSupplyTag();
+		} else {
             renderSupplyMessage(MESSAGES.detail.supplyEmpty);
         }
     } catch (error) {
