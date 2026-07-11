@@ -31,10 +31,8 @@
 	--fs-l: 1.25rem;
 	--fs-xl: 1.50rem;
 	--fs-xxl: 2rem;
-	
 }
 
-/* Reseteo estos css que trae por defecto el navegador */
 * {
 	box-sizing: border-box;
 	margin: 0;
@@ -43,16 +41,17 @@
 	/* outline: 1px solid red; */
 }
 
-
 /* ======= LAYOUT GLOBAL ======== */
+
 body {
 	font-family: Inter, Arial, Helvetica, sans-serif;
 	background-color: var(--bg-default);
 
 	display: flex;
 	flex-direction: column;
-	min-height: 100vh;
-
+	/* Ocupa al menos toda la altura visible, 
+	pero puede crecer si el contenido lo necesita. */
+	min-height: 100vh; 
 }
 
 /* ======== HEADER ========= */
@@ -81,6 +80,7 @@ body {
 #app-header {
 	background-color: var(--brand);
 }
+
 .company-name {
 	font-size: var(--fs-xl);
 }
@@ -125,6 +125,7 @@ Fuente: www.a11yproject.com
 }
 
 /* ===== MAIN ==== */
+
 main {
 	max-width: 800px;
 	width: 100%;
@@ -133,13 +134,12 @@ main {
 	display: flex;
 	flex-direction: column;
 	flex: 1;  /* Con esto se estira en vertical para empujar el footer */
-	
 }
 
 h1 {
 	padding: 30px 0px 10px 0px;
 	font-size: var(--fs-xl);
-	font-weight: 600; /* Este peso ya lo tengo bajado de GoogleFonts */
+	font-weight: 600;
 	text-align: center;
 	color: var(--my-black);
 }
@@ -148,18 +148,6 @@ h1 {
 .favorites-subtitle {
 	color: var(--text-secondary);
 	text-align: center;
-}
-
-/* Únicamente existe en legal-policy */
-.main-legal h2 {
-	font-size: var(--fs-base);
-	padding: 15px 0px;
-	color: var(--my-black);
-}
-
-.main-legal p {
-	font-size: var(--fs-s);
-	color: var(--text-legal);
 }
 
 /* ===== FORMULARIO DE BÚSQUEDA ==== */
@@ -171,7 +159,6 @@ form {
 	gap: 10px;
 }
 
-
 input {
 	flex-grow: 2; /* Al crecer se lleva 2/3 del espacio sobrante */
 	border: none;
@@ -179,7 +166,6 @@ input {
 	font-size: var(--fs-base);
 	padding: 10px;
 	color: var(--my-black);
-	
 }
 
 input:focus {
@@ -212,10 +198,10 @@ form button {
 	display:flex;
 	flex-direction: column;
 	margin: 10px 0px;
-
 }
 
-.li-main {
+.li-main,
+.favorites-item {
 	display: flex;
 	flex-direction: column;
 	/* justify-content: space-between; */
@@ -227,11 +213,14 @@ form button {
 	margin: 5px 0px;
 }
 
-.li-main a {
+.li-main a,
+.favorites-item a {
 	text-decoration: none; /* quita el subrayado del user-agent stylesheet */
 	color: inherit; /* hereda y no le pone el azul del enlace */
 }
-.li-main:hover {
+
+.li-main:hover,
+.favorites-item:hover {
 	border: 1px solid var(--brand-secondary);
 	border-left: 3px solid var(--brand-secondary);
 	border-right: 3px solid var(--brand-secondary);
@@ -275,15 +264,11 @@ de sus containers padres y se deje truncar bien.*/
 	min-width: 0;
 }
 
-
-
 .li-bottom-block {
 	display: flex;
 	flex-wrap: wrap; /* Si no caben, pasaran a segunda linea, sin romperse */
 	gap: 5px;
 }
-
-
 
 .li-tag {
 	display: inline-flex; /* tag y su texto unidos y con su tamaña justo*/
@@ -295,10 +280,6 @@ de sus containers padres y se deje truncar bien.*/
 	font-size: var(--fs-xs);
 	font-weight: 600;
 }
-
-/* .li-decoration {
-	justify-content: end;
-	} */
 	
 .bi {
 	font-size: 1rem;
@@ -345,8 +326,8 @@ de sus containers padres y se deje truncar bien.*/
 	display: none !important;
 }
 
+/* ======= FOOTER ====== */
 
-/*----------FOOTER--------*/
 #app-footer {
 	display: flex;
 	flex-direction: column;
@@ -369,12 +350,11 @@ de sus containers padres y se deje truncar bien.*/
 	text-decoration: underline;
 }
 
-
 /* ============DETAIL ============= */
+
 .detail-card {
 	display: flex;
 	flex-direction: column;
-	_gap: 20px;
 	background: var(--bg-secondary);
 	border: 1px solid #b8b5e8;
 	border-left: 3px solid var(--brand);
@@ -401,8 +381,6 @@ de sus containers padres y se deje truncar bien.*/
 	font-size: var(--fs-base);
 }
 
-
-
 #medication-fav-action {
 	text-align: right;
 }
@@ -419,9 +397,6 @@ de sus containers padres y se deje truncar bien.*/
 .favorite-btn .bi-heart {
 	color: crimson;
 }
-/* .favorite-btn .bi-heart {
-	color: crimson;
-} */
 
 .favorite-btn .bi { /* icono de favorito (corazón) */
 	font-size: var(--fs-xl); 
@@ -434,7 +409,6 @@ de sus containers padres y se deje truncar bien.*/
 	background-color: var(--brand);
 	color: var(--bg-default);
 	text-decoration: none;
-	
 }
 
 .external-link:hover, /* al pasar mouse */
@@ -456,3 +430,39 @@ de sus containers padres y se deje truncar bien.*/
 	font-weight: 600;
 }
 
+/* ======= FAVORITES ======= */
+
+.favorites-item { /* El <a> lo hereda porque es único hijo*/
+	font-size: var(--fs-s);
+	font-weight: 600;
+	overflow-wrap: break-word;
+	margin: 10px 0px;
+}
+
+.favorites-subtitle {
+	margin-bottom: 20px;
+}
+
+/* ====== LEGAL POLICY ====== */
+
+/* Únicamente existe en legal-policy */
+.main-legal h2 {
+	font-size: var(--fs-base);
+	padding: 30px 0px 20px 0px;
+	color: var(--my-black);
+	text-align: center;
+}
+
+.main-legal p {
+	font-size: var(--fs-s);
+	color: var(--text-legal);
+	line-height: 1.6; /* Sin unidad se hace proporcional al font-size */
+	text-align: justify; /* Justifica texto a ambos margenes */
+	hyphens: auto; /* Parte palabras con guiones al final de linea */
+	padding-inline: 15px;
+	
+}
+
+.main-legal h1 {
+	margin-bottom: 20px;
+}

@@ -24,7 +24,7 @@ export function renderFavoritesList(medications) {
  */
 function buildFavoriteItem(medication) {
 	const li = document.createElement('li');
-	li.classList.add('favorite-item');
+	li.classList.add('favorites-item');
 
 	// Crea el link a la página de detalle
 	const link = document.createElement('a');
