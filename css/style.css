@@ -191,6 +191,25 @@ form button {
 	text-align: center;
 }
 
+/* ========= SPINNER ======== */
+
+.spinner {
+	text-align: center;
+	
+}
+
+.spinner .spin {
+	display: inline-block; /* Sin esto se bloquea el movimiento del spinner*/
+	font-size: 2rem;
+	animation: spin 0.7s linear infinite;
+}
+
+/* Activa el movimiento del icono */
+@keyframes spin {
+	from { transform: rotate(0deg); }
+	to { transform: rotate(360deg); }
+}
+
 /* ====== CARDS DE RESULTADOS ===== */
 
 #results-list {
@@ -352,6 +371,9 @@ de sus containers padres y se deje truncar bien.*/
 
 /* ============DETAIL ============= */
 
+.main-detail {
+	justify-content: center;
+}
 .detail-card {
 	display: flex;
 	flex-direction: column;
@@ -361,6 +383,7 @@ de sus containers padres y se deje truncar bien.*/
 	border-radius: 10px;
 	padding: 8px 15px;
 	margin: 5px 0px;
+	font-size: var(--fs-s);
 }
 
 /* Section primera de detail*/
