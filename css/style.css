@@ -145,7 +145,8 @@ h1 {
 }
 
 .subtitle,
-.favorites-subtitle {
+.favorites-subtitle,
+.supply-subtitle {
 	color: var(--text-secondary);
 	text-align: center;
 }
@@ -324,6 +325,7 @@ de sus containers padres y se deje truncar bien.*/
 	background: color-mix(in srgb, var(--tag3-bg) 45%, white);
 	color: var(--tag3-text);
 }
+
 /* ===== DESARROLLO FUTURO: PAGINACIÓN ===== */
 
 /* .top-info-pagination, #pagination {
@@ -448,7 +450,7 @@ de sus containers padres y se deje truncar bien.*/
 .supply-message {
 	background: color-mix(in srgb, var(--tag3-bg) 45%, white);
 	color: var(--tag3-text);
-	padding: 20px 10px;
+	padding: 10px 10px;
 	border-radius: 5px;
 	font-weight: 600;
 }
