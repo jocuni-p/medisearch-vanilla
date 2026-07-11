@@ -97,12 +97,11 @@ function triggerSecondaryLoads(medication) {
 async function loadSupply(nombre) {
     // Mensaje temp mientras carga
     renderSupplyMessage(MESSAGES.detail.supplyLoading);
-
     try {
         const supplyResponse = await fetchSupplyByName(nombre); // ella si que espera al fetch.
         if (supplyResponse.resultados?.length > 0) {
 			renderSupplySection(supplyResponse.resultados[0]);
-			//AQUI OCULTO EL TAG PSUM porque se encontraron resultados (para no duplicar info)
+			//Oculta el tag psum porque se encontraron resultados (para no duplicar info)
 			hideSupplyTag();
 		} else {
             renderSupplyMessage(MESSAGES.detail.supplyEmpty);
@@ -120,7 +119,6 @@ async function loadSupply(nombre) {
  */
 async function loadNotes(nregistro) {
     renderNotesMessage(MESSAGES.detail.notesLoading);
-
     try {
         const notesResponse = await fetchNotes(nregistro); // espera al fetch.
         if (notesResponse.length > 0) {

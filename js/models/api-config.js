@@ -1,3 +1,3 @@
-// CONSTANTS varias y  url de los endpoints
+/* ===== CONSTANTS ====== */
 
 export const BASE_URL = 'https://cima.aemps.es/cima/rest';

@@ -16,7 +16,6 @@ export async function fetchMedications(query) {
     const url = new URL(`${BASE_URL}/medicamentos`);
     url.searchParams.set("nombre", query);
     url.searchParams.set("comerc", "1");
-
     const response = await fetch(url); //El fetch() tambien puede lanzar su propio TypeError 
     if (!response.ok) {
         // Errores de HTTP no-OK (404, 500)

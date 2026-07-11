@@ -1,5 +1,3 @@
-// NOTA: Si he de hacer un truncado del nombre o poner el principio activo la primera en mayuscula, se hace aquí por que son transformaciones de presentación No de datos.
-
 /**
  * LIMPIA la lista de cards del DOM, si contiene algo
  */
@@ -43,7 +41,6 @@ export function showMedications(medications) {
             // Aparecerá vacío si no viene texto o hubo algún error
             clone.querySelector(".li-subtitle").textContent = "";
         }
-
         // ====== TAGS ======
         // Muestra/oculta los tags según el valor del objeto medicamento recibido
         const isHospital = medication.cpresc?.toLowerCase().includes("hospital");

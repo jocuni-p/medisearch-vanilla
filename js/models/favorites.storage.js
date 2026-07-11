@@ -5,7 +5,6 @@ const STORAGE_KEY = 'medisearch:favorites';
 /*-------PRIVATE FUNCTIONS---------*/
 // Nunca las toca nadie desde fuera, ni el controller de forma directa
 
-
 /**
  * Lee del localStorage el valor de la clave STORAGE_KEY y lo retorna parseado como array.
  * @returns  Array con los valores nregistro o array vacío si no contiene nada
@@ -24,7 +23,6 @@ function readList() {
 function writeList(favorites) {
 	localStorage.setItem(STORAGE_KEY, JSON.stringify(favorites));
 }
-
 
 /*-------PUBLIC FUNCTIONS-------*/
 

@@ -1,21 +1,36 @@
-/* Custom Properties */
+/* ===============================
+	ÍNDICE
+	1. Variables (:root)
+	2. Reset (*)
+	3. Layout global (body, main)
+	4. Componentes globales (header, footer, nav-button)
+	5. Utilidades (visually-hidden, hidden)
+	6. Componentes reutilizables (cards .li-main .favorites-item, tags, state-message, spinner)
+	7. Página: Index (form)
+	8. Página: Detail
+	9. Página: Favorites
+	10. Página: Legal-Policy
+	11. Página: Supply (bocetada)
+	12. Responsive (media queries)
+================================== */
+
+/* ==== 1. VARIABLES (:root) ==== */
+
 :root {
 	/* ---paleta de color--- */
 	--text-secondary: #888;
+	--text-placeholder: #b9b9b9;
 	--text-legal: #505050;
 	--brand-secondary: #3027CE;
 	--brand: #433BFF;
 	--nav-button: #645ffe;
 	--nav-button-hover: #9590FF;
-	--my-black: #050315;
-	--my-white: #fff;
-	--lavender: #DDDCFF; /* renombrar por semántica */
-	--search-emphasy: var(--lavender); /* renombrado por semántica */
-	/*--bg-default: #FBFBFE; */ /* el de la paleta */
-	--bg-default: #EFF0F3; /* termino medio */
-	/*--bg-default: #e2e3e6;  mas oscuro que el de la paleta */
+	--card-border: #b8b5e8;
+	--almost-black: #050315;
+	--favorite-color: crimson;
+	--bg-default: #EFF0F3;
 	--bg-secondary: #FBFBFE;
-	--tag1-bg: var(--lavender);
+	--tag1-bg: #DDDCFF;
 	--tag1-text: #3027CE;
 	--tag2-bg: #C8EDB8;
 	--tag2-text: #2A5A08;
@@ -33,46 +48,73 @@
 	--fs-xxl: 2rem;
 }
 
+/* ====== 2. RESET (*) ====== */
+
 * {
 	box-sizing: border-box;
 	margin: 0;
 	padding: 0;
-	/*---DEBBUGER----*/
-	/* outline: 1px solid red; */
+	/* outline: 1px solid red; */ /*---DEBBUGER----*/
 }
 
-/* ======= LAYOUT GLOBAL ======== */
+/* ======= 3. LAYOUT GLOBAL (body, main) ======== */
 
 body {
 	font-family: Inter, Arial, Helvetica, sans-serif;
 	background-color: var(--bg-default);
-
+	
 	display: flex;
 	flex-direction: column;
 	/* Ocupa al menos toda la altura visible, 
-	pero puede crecer si el contenido lo necesita. */
+	pero puede crecer si el contenido lo necesita */
 	min-height: 100vh; 
 }
 
-/* ======== HEADER ========= */
+main {
+	max-width: 800px;
+	width: 100%;
+	margin: 0 auto; /* Centra el bloque horizontalmente */
+	padding: 10px 10px;
+	display: flex;
+	flex-direction: column;
+	flex: 1;  /* se estira en vertical para empujar el footer */
+}
+
+h1 {
+	padding: 30px 0px 10px 0px;
+	font-size: var(--fs-xl);
+	font-weight: 600;
+	text-align: center;
+	color: var(--almost-black);
+}
+
+.subtitle,
+.favorites-subtitle,
+.supply-subtitle {
+	color: var(--text-secondary);
+	text-align: center;
+}
+
+/* ======= 4. COMPONENTES GLOBALES (header, footer, nav-button) ======== */
+
+/* header */
 .header-container {
-	max-width: 800px; /*ancho max del contenido*/
+	max-width: 800px; /* ancho max del contenido */
 	margin: 0 auto;
 	height: 80px;
 	padding: 0 10px;
-	display: flex; /* Si no digo nada, es horizontal*/
+	display: flex; /* Si no especifico, es horizontal por default*/
 	align-items: center;
 	justify-content: space-between;
 	gap: 10px;
 }
 
 .brand {
-	color: white; /* Opción blanco 100% */
-	text-decoration: none; /*Elimina el subrallado del link*/
+	color: white;
+	text-decoration: none; /* Elimina el subrallado del link */
 	padding-left: 10px;
 }
 
-/* Doble selector para que solo toque el nav del header */
 #app-header nav {
 	display: flex;
 	gap: 8px; /* Separación entre botones */
@@ -85,7 +127,6 @@ body {
 	font-size: var(--fs-xl);
 }
 
-/* Botones del nav */
 .nav-button {
 	appearance: none; /* Elimina los navegador default styles */
 	border: none; /* Elimina los navegador default styles */
@@ -99,11 +140,41 @@ body {
 	transition: background-color 0.15s ease; /* Hace el cambio mas suave, al entrar y al salir */
 }
 
-/* Al pasar el mouse por encima 
-o si se navega por teclado */
 .nav-button:hover,
 .nav-button:focus-visible {
 	background-color: var(--nav-button-hover);
+}
+
+/* footer */
+
+#app-footer {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	font-size: var(--fs-xs);
+}
+
+#app-footer nav {
+	padding: 10px 70px;
+	border-top: 1px solid var(--text-secondary);
+}
+
+.link-footer {
+	text-decoration: none; /* quita el subrayado del user-agent stylesheet */
+	padding: 0px 10px;
+	color: var(--text-secondary);
+}
+
+.link-footer:hover,
+.link-footer:focus-visible {
+	text-decoration: underline;
+}
+
+/* ======= 5. UTILIDADES (visually-hidden, hidden) ======== */
+
+/*Separo estilo de estado */
+.hidden {
+	display: none !important;
 }
 
 /* Técnica "visually-hidden": Oculta visualmente el label
@@ -124,66 +195,9 @@ Fuente: www.a11yproject.com
 	border: 0;
 }
 
-/* ===== MAIN ==== */
+/* ======= 6. COMPONENTES REUTILIZABLES (cards .li-main/.favorites-item, tags, state-message, spinner)======== */
 
-main {
-	max-width: 800px;
-	width: 100%;
-	margin: 0 auto; /* Centra el bloque horizontalmente */
-	padding: 10px 10px;
-	display: flex;
-	flex-direction: column;
-	flex: 1;  /* Con esto se estira en vertical para empujar el footer */
-}
-
-h1 {
-	padding: 30px 0px 10px 0px;
-	font-size: var(--fs-xl);
-	font-weight: 600;
-	text-align: center;
-	color: var(--my-black);
-}
-
-.subtitle,
-.favorites-subtitle,
-.supply-subtitle {
-	color: var(--text-secondary);
-	text-align: center;
-}
-
-/* ===== FORMULARIO DE BÚSQUEDA ==== */
-
-form {
-	display: flex;
-	width: 100%;/* No me convence el ancho*/
-	margin: 25px 0px;
-	gap: 10px;
-}
-
-input {
-	flex-grow: 2; /* Al crecer se lleva 2/3 del espacio sobrante */
-	border: none;
-	border-radius: 10px;
-	font-size: var(--fs-base);
-	padding: 10px;
-	color: var(--my-black);
-}
-
-input:focus {
-	outline: 1px solid var(--brand);
-}
-
-form button {
-	flex-grow: 1; /* Al crecer se lleva 1/3 del espacio sobrante */
-	border: none;
-	border-radius: 10px;
-	padding: 10px 0px;
-	background-color: var(--brand);
-	color: var(--bg-default);
-	/* margin: 0 0 0 10px; */
-}
-
-/* ===== MENSAJES DE ESTADO/VALIDACIÓN ===== */
+/* mensajes de estado */
 
 .state-message {
 	padding: 50px 10px;
@@ -192,11 +206,10 @@ form button {
 	text-align: center;
 }
 
-/* ========= SPINNER ======== */
+/* spinner */
 
 .spinner {
 	text-align: center;
-	
 }
 
 .spinner .spin {
@@ -205,32 +218,24 @@ form button {
 	animation: spin 0.7s linear infinite;
 }
 
-/* Activa el movimiento del icono */
-@keyframes spin {
+@keyframes spin {  /* Activa el movimiento del icono/spinner */
 	from { transform: rotate(0deg); }
 	to { transform: rotate(360deg); }
 }
 
-/* ====== CARDS DE RESULTADOS ===== */
-
-#results-list {
-	width: 100%;
-	display:flex;
-	flex-direction: column;
-	margin: 10px 0px;
-}
+/* cards */
 
 .li-main,
 .favorites-item {
 	display: flex;
 	flex-direction: column;
-	/* justify-content: space-between; */
 	background: var(--bg-secondary);
-	border: 1px solid #b8b5e8;
+	border: 1px solid var(--card-border);
 	border-left: 3px solid var(--brand);
 	border-radius: 10px;
 	padding: 8px 15px;
 	margin: 5px 0px;
+	transition: border-color 0.30s ease;
 }
 
 .li-main a,
@@ -249,9 +254,10 @@ form button {
 .li-main h2 {
 	font-size: var(--fs-s);
 	font-weight: 600;
-	/* OJO REVISAR    Para truncar a 2 lineas max + ... */
-	display: -webkit-box;
-	-webkit-line-clamp: 2;
+	/*Fuente: css-tricks.com/line-clanpin */
+	display: -webkit-box; /* trunca el título a 2 líneas máximo con ... */
+	-webkit-line-clamp: 2; /* versión clásica */
+	line-clamp:2; /* versión moderna, silencia el aviso del linter */
 	-webkit-box-orient: vertical;
 	overflow: hidden;
 }
@@ -270,7 +276,6 @@ form button {
 	white-space: nowrap;
 	overflow: hidden;
 	text-overflow: ellipsis;
-	/* font-weight: 600; */
 }
 
 /* Para que el li-subtitle no desborde los anchos 
@@ -303,8 +308,8 @@ de sus containers padres y se deje truncar bien.*/
 	
 .bi {
 	font-size: 1rem;
-	
 }
+
 .tag-generic {
 	/* color-mix para mezclar el color del fondo con % blanco */
 	background: color-mix(in srgb, var(--tag2-bg) 50%, white);
@@ -326,61 +331,64 @@ de sus containers padres y se deje truncar bien.*/
 	color: var(--tag3-text);
 }
 
-/* ===== DESARROLLO FUTURO: PAGINACIÓN ===== */
+/* ======= 7. PÁGINA: INDEX (form)======== */
 
-/* .top-info-pagination, #pagination {
+form {
 	display: flex;
+	width: 100%;/* No me convence el ancho*/
+	margin: 25px 0px;
+	gap: 10px;
+}
+
+input {
+	flex-grow: 2; /* Al crecer se lleva 2/3 del espacio sobrante */
+	border: none;
+	border-radius: 10px;
+	font-size: var(--fs-base);
+	padding: 10px;
+	color: var(--almost-black);
+}
+
+input::placeholder {
+	color: var(--text-placeholder);
+}
+
+input:focus {
+	outline: 1px solid var(--brand);
+}
+
+form button {
+	flex-grow: 1; /* Al crecer se lleva 1/3 del espacio sobrante */
+	border: none;
+	border-radius: 10px;
+	padding: 10px 0px;
+	background-color: var(--brand);
+	color: var(--bg-default);
+	transition: background-color 0.15s ease;
+}
+
+#form button:hover {
+	background-color: var(--brand-secondary);
+}
+
+#results-list {
+	width: 100%;
+	display:flex;
 	flex-direction: column;
-	text-align: center;
-	font-size: var(--fs-s);
-	color: var(--text-secondary);
+	margin: 10px 0px;
 }
 
-#pagination {
-	margin: 5px 0px 20px 0px;
-} */
-	
-/* ======= UTILITIES ======== */
-
-/*Separo estilo de estado */
-.hidden {
-	display: none !important;
-}
-
-/* ======= FOOTER ====== */
-
-#app-footer {
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-	font-size: var(--fs-xs);
-}
-
-#app-footer nav {
-	padding: 10px 70px;
-	border-top: 1px solid var(--text-secondary);
-}
-.link-footer {
-	text-decoration: none; /* quita el subrayado del user-agent stylesheet */
-	padding: 0px 10px;
-	color: var(--text-secondary);
-}
-
-.link-footer:hover,
-.link-footer:focus-visible {
-	text-decoration: underline;
-}
-
-/* ============DETAIL ============= */
+/* ======= 8. PÁGINA: DETAIL ======== */
 
 .main-detail {
 	justify-content: center;
 }
+
 .detail-card {
 	display: flex;
 	flex-direction: column;
 	background: var(--bg-secondary);
-	border: 1px solid #b8b5e8;
+	border: 1px solid var(--card-border);
 	border-left: 3px solid var(--brand);
 	border-radius: 10px;
 	padding: 8px 15px;
@@ -388,20 +396,20 @@ de sus containers padres y se deje truncar bien.*/
 	font-size: var(--fs-s);
 }
 
-/* Section primera de detail*/
-#medication-identity, 
+#medication-identity, /* Section primera de detail*/
 .detail-name,
 .detail-active-principles,
 .detail-lab,
 .detail-tags {
 	padding-top: 20px;
 	text-align: left;
-	overflow-wrap: break-word; /* protector: permite partir una palabra larga, solo si no cabe de otra forma*/
+	overflow-wrap: break-word; /* protector: parte una palabra larga, solo si no cabe de otra forma */
 }
 
 .detail-card section:not(:last-child) { /* En el último hijo <section> no actua */
 	margin-bottom: 30px;
 }
+
 .detail-name {
 	font-size: var(--fs-base);
 }
@@ -414,13 +422,13 @@ de sus containers padres y se deje truncar bien.*/
 	background: transparent;
 	border: none;
 	cursor: pointer;
-	color: crimson;
+	color: var(--favorite-color);
 	padding: 10px;
 }
 
 .favorite-btn .bi-heart-fill,
 .favorite-btn .bi-heart {
-	color: crimson;
+	color: var(--favorite-color);
 }
 
 .favorite-btn .bi { /* icono de favorito (corazón) */
@@ -455,7 +463,7 @@ de sus containers padres y se deje truncar bien.*/
 	font-weight: 600;
 }
 
-/* ======= FAVORITES ======= */
+/* ======= 9. PÁGINA: FAVORITES ======== */
 
 .favorites-item { /* El <a> lo hereda porque es único hijo*/
 	font-size: var(--fs-s);
@@ -468,13 +476,12 @@ de sus containers padres y se deje truncar bien.*/
 	margin-bottom: 20px;
 }
 
-/* ====== LEGAL POLICY ====== */
+/* ======= 10. PÁGINA: LEGAL-POLICY ======== */
 
-/* Únicamente existe en legal-policy */
 .main-legal h2 {
 	font-size: var(--fs-base);
 	padding: 30px 0px 20px 0px;
-	color: var(--my-black);
+	color: var(--almost-black);
 	text-align: center;
 }
 
@@ -482,12 +489,32 @@ de sus containers padres y se deje truncar bien.*/
 	font-size: var(--fs-s);
 	color: var(--text-legal);
 	line-height: 1.6; /* Sin unidad se hace proporcional al font-size */
-	text-align: justify; /* Justifica texto a ambos margenes */
-	hyphens: auto; /* Parte palabras con guiones al final de linea */
+	text-align: justify; /* Justifica texto en ambos margenes laterales */
+	hyphens: auto; /* Parte palabras con guión al final de línea */
 	padding-inline: 15px;
-	
+	max-width: 65ch;
+	margin-inline: auto;
 }
 
-.main-legal h1 {
+.main-legal h1,
+.main-legal {
 	margin-bottom: 20px;
+}
+
+/* ======= 11. PÁGINA: SUPPLY ======== */
+
+/* ======= 12. RESPONSIVE ======== */
+
+@media (min-width: 768px) {
+	#results-list,
+	#favorites-list {
+		display: grid;
+		grid-template-columns: repeat(2, 1fr);
+		gap: 10px;
+	}
+	/* Reescribe propiedades para no arrastrar preferencias */
+	.li-main,
+	.favorites-item {
+		margin: 0;
+	}
 }

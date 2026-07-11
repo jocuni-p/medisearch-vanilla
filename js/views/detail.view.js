@@ -55,7 +55,7 @@ export function renderDocs(medication) {
     if (!linkUrl) {
         const noUrl = document.createElement("p");
         noUrl.textContent = "Medicamento sin prospecto disponible.";
-        noUrl.classList.add("external-link-empty"); // TODO: crear el selector en CCS
+        noUrl.classList.add("external-link-empty");
         container.append(noUrl);
         return;
     }
@@ -64,7 +64,7 @@ export function renderDocs(medication) {
     link.href = linkUrl;
     link.target = "_blank";
     link.rel = "noopener";
-    link.classList.add("external-link"); // TODO: darle forma de botón o similar por CSS
+    link.classList.add("external-link");
 
     container.append(link);
 }
@@ -74,7 +74,6 @@ export function renderDocs(medication) {
  * @param {Object} supply - Resultado del endpoint /psuministro que contiene las fechas que necesita
  */
 export function renderSupplySection(supply) {
-
     // Se asume 'supply' válido. Los casos vacios/error los gestiona el controller
     const container = document.querySelector("#medication-supply");
     container.replaceChildren();
@@ -151,7 +150,7 @@ export function renderNotesMessage(msg) {
 
     const p = document.createElement("p");
     p.textContent = msg;
-    p.classList.add("notes-msg"); // Personalizar CSS para este caso
+    p.classList.add("notes-msg");
 
     container.append(p);
 }

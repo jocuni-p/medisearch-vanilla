@@ -1,5 +1,3 @@
-// LLama a un modulo que contiene showHeader() para que rellene el header
-
 import { showHeader } from "../views/header.view.js";
 import { showFooter } from "../views/footer.view.js";
 import { showMedications, clearMedications } from "../views/main.view.js";
@@ -8,6 +6,7 @@ import { showLoading, showEmpty, showError, showResults } from "../views/ui-stat
 import { MESSAGES } from "../views/ui-messages.js";
 
 /* ==== CONSTANTS ==== */
+
 const VALID_INPUT_REGEX = /^[a-záéíïóúüñ0-9\s\-/.,]+$/i;
 const VALIDATION_MESSAGES = {
     tooShort: MESSAGES.validation.tooShort,
@@ -25,7 +24,7 @@ document.addEventListener("DOMContentLoaded", init);
 function init() {
     showHeader("Inicio");
 	showFooter();
-    // IMPLEMENTA LISTENER DE EVENTOS EN EL FORM
+    // Implementa listener de eventos en el form
     const form = document.querySelector("#form");
 	form.addEventListener("submit", handleSearch);
 }

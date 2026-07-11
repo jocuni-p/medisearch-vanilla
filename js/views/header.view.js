@@ -42,9 +42,9 @@ export function showHeader(nameOfPage) {
 // Crea un contenedor con company_name que es un enlace
 function createBrandLink() {
     // Creo el contenedor con un <a> para que sea enlazable
-    const logoAndBrandName = document.createElement("a");
-    logoAndBrandName.href = "index.html";
-    logoAndBrandName.classList.add("brand");
+    const containerBrandName = document.createElement("a");
+    containerBrandName.href = "index.html";
+    containerBrandName.classList.add("brand");
 
     // Creo el nombre de la compañia
     const brandName = document.createElement("span");
@@ -52,8 +52,8 @@ function createBrandLink() {
     brandName.classList.add("company-name");
 
     //Envuelvo lo creado en el contenedor
-    logoAndBrandName.append(brandName);
-    return logoAndBrandName;
+    containerBrandName.append(brandName);
+    return containerBrandName;
 }
 
 /**

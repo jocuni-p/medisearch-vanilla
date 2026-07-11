@@ -11,17 +11,15 @@ export function showFooter() {
     const nav = document.createElement("nav");
     nav.setAttribute("aria-label", "Datos legales"); //Define el rol del nav para accesibilidad
 
-	const divider = document.createElement("span");
-	divider.textContent = " · ";
-	divider.setAttribute("aria-hidden", "true");
-	
-	nav.append(
-		
-		createFooterLink(CIMA_LABEL, "https://cima.aemps.es", true),
-		divider,
+    const divider = document.createElement("span");
+    divider.textContent = " · ";
+    divider.setAttribute("aria-hidden", "true");
+
+    nav.append(
+        createFooterLink(CIMA_LABEL, "https://cima.aemps.es", true),
+        divider,
         createFooterLink("Aviso legal", "legal-policy.html", false),
     );
-
     // Envoltorio global
     appFooter.append(nav);
 }
@@ -31,17 +29,17 @@ export function showFooter() {
  * @param {string} name - Texto del enlace
  * @param {string} link - ruta del enlace
  * @param {boolean} isExternal - define si ha de llevar o no los atributos
- * 
+ *
  * @returns {HTMLAnchorElement} Node - Nodo que contiene el enlace <a>
  */
 function createFooterLink(name, link, isExternal) {
     const a = document.createElement("a");
     a.textContent = name;
     a.href = link; // ruta
-	a.classList.add("link-footer");
-	if (isExternal) {
-		a.target = "_blank";
-		a.rel = "noopener";
-	}
+    a.classList.add("link-footer");
+    if (isExternal) {
+        a.target = "_blank";
+        a.rel = "noopener";
+    }
     return a;
 }

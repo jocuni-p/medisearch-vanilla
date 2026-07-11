@@ -20,7 +20,6 @@ async function init() {
 		return;
 	}
 	showLoading();
-
 	try {
 		// Para cada nregistro del array hace un fetch a /medicamento. 
 		// Devuelve un array de promesas pendientes.
@@ -33,7 +32,6 @@ async function init() {
 		hideLoading();
 		// Pinta la lista
 		renderFavoritesList(medications);
-
 	} catch (error) {
 		console.error("Error cargando favoritos: ", error);
 		hideLoading();

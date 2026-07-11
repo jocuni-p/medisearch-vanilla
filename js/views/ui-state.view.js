@@ -7,7 +7,6 @@
  * Los mensajes de texto se reciben como argumento (ver ui-messages.js para lops textos).
  */
 
-
 /* ========= PUBLIC FUNCTIONS ========= */
 
 export function showLoading() {
