@@ -30,14 +30,14 @@
 	--favorite-color: crimson;
 	--bg-default: #EFF0F3;
 	--bg-secondary: #FBFBFE;
-	--tag1-bg: #DDDCFF;
-	--tag1-text: #3027CE;
-	--tag2-bg: #C8EDB8;
-	--tag2-text: #2A5A08;
-	--tag3-bg: #F5C0C0;
-	--tag3-text: #a91111;
-	--tag4-bg: #f8832e;
-	--tag4-text: rgb(208, 74, 6);
+	--tag-recipe-bg: #DDDCFF;
+	--tag-recipe-text: #3027CE;
+	--tag-generic-bg: #C8EDB8;
+	--tag-generic-text: #2A5A08;
+	--tag-psum-bg: #F5C0C0;
+	--tag-psum-text: #a91111;
+	--tag-hospital-bg: #f8832e;
+	--tag-hospital-text: rgb(208, 74, 6);
 
 	/* ---escala tipográfica--- */
 	--fs-xs: 0.75rem;
@@ -296,7 +296,7 @@ de sus containers padres y se deje truncar bien.*/
 }
 
 .li-tag {
-	display: inline-flex; /* tag y su texto unidos y con su tamaña justo*/
+	display: inline-flex; /* tag y su texto unidos y con su tamaño justo*/
 	align-items: center;
 	gap: 4px;/* dist % icono y texto */
 	padding: 1px 5px;
@@ -312,23 +312,23 @@ de sus containers padres y se deje truncar bien.*/
 
 .tag-generic {
 	/* color-mix para mezclar el color del fondo con % blanco */
-	background: color-mix(in srgb, var(--tag2-bg) 50%, white);
-	color: var(--tag2-text);	
+	background: color-mix(in srgb, var(--tag-generic-bg) 50%, white);
+	color: var(--tag-generic-text);	
 }
 
 .tag-recipe {
-	background: color-mix(in srgb, var(--tag1-bg) 75%, white);
-	color: var(--tag1-text);
+	background: color-mix(in srgb, var(--tag-recipe-bg) 75%, white);
+	color: var(--tag-recipe-text);
 }
 
 .tag-hospital {
-	background: color-mix(in srgb, var(--tag4-bg) 20%, white);
-	color: var(--tag4-text);
+	background: color-mix(in srgb, var(--tag-hospital-bg) 20%, white);
+	color: var(--tag-hospital-text);
 }
 
 .tag-psum {
-	background: color-mix(in srgb, var(--tag3-bg) 45%, white);
-	color: var(--tag3-text);
+	background: color-mix(in srgb, var(--tag-psum-bg) 45%, white);
+	color: var(--tag-psum-text);
 }
 
 /* ======= 7. PÁGINA: INDEX (form)======== */
@@ -456,8 +456,8 @@ form button {
 }
 
 .supply-message {
-	background: color-mix(in srgb, var(--tag3-bg) 45%, white);
-	color: var(--tag3-text);
+	background: color-mix(in srgb, var(--tag-psum-bg) 45%, white);
+	color: var(--tag-psum-text);
 	padding: 10px 10px;
 	border-radius: 5px;
 	font-weight: 600;

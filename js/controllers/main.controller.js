@@ -18,7 +18,7 @@ document.addEventListener("DOMContentLoaded", init);
 
 /**
  * Punto de arranque del controller de la vista principal.
- * Monta el header común y registra el listener del formulario de búsqueda.
+ * Monta el header y footer común y registra el listener del formulario de búsqueda.
  * Se ejecuta una sola vez al cargar la página.
  */
 function init() {
