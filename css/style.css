@@ -5,7 +5,7 @@
 	3. Layout global (body, main)
 	4. Componentes globales (header, footer, nav-button)
 	5. Utilidades (visually-hidden, hidden)
-	6. Componentes reutilizables (cards .li-main .favorites-item, tags, state-message, spinner)
+	6. Componentes reutilizables (cards .li-main .favorites-item, tag-pill(forma), tag-X(color)state-message, spinner)
 	7. Página: Index (form)
 	8. Página: Detail
 	9. Página: Favorites
@@ -195,7 +195,7 @@ Fuente: www.a11yproject.com
 	border: 0;
 }
 
-/* ======= 6. COMPONENTES REUTILIZABLES (cards .li-main/.favorites-item, tags, state-message, spinner)======== */
+/* ======= 6. COMPONENTES REUTILIZABLES (cards .li-main/.favorites-item, tag-pill(forma), tag-X(color) state-message, spinner)======== */
 
 /* mensajes de estado */
 
@@ -292,43 +292,45 @@ de sus containers padres y se deje truncar bien.*/
 .li-bottom-block {
 	display: flex;
 	flex-wrap: wrap; /* Si no caben, pasaran a segunda linea, sin romperse */
-	gap: 5px;
 }
 
-.li-tag {
+.tag-pill {
 	display: inline-flex; /* tag y su texto unidos y con su tamaño justo*/
 	align-items: center;
-	gap: 4px;/* dist % icono y texto */
+	gap: 2px;/* dist % icono y texto */
 	padding: 1px 5px;
 	margin: 2px;
 	border-radius: 5px;
 	font-size: var(--fs-xs);
 	font-weight: 600;
+	background: var(--tag-bg);
+	color: var(--tag-text);
 }
 	
-.bi {
-	font-size: 1rem;
-}
-
+/* No aplica nada. Solo se declara/porta color para el texto y el fondo de cada tag */
 .tag-generic {
-	/* color-mix para mezclar el color del fondo con % blanco */
-	background: color-mix(in srgb, var(--tag-generic-bg) 50%, white);
-	color: var(--tag-generic-text);	
+	/* color-mix: mezcla el color del fondo con % blanco */
+	--tag-bg: color-mix(in srgb, var(--tag-generic-bg) 50%, white);
+	--tag-text: var(--tag-generic-text);	
 }
 
 .tag-recipe {
-	background: color-mix(in srgb, var(--tag-recipe-bg) 75%, white);
-	color: var(--tag-recipe-text);
+	--tag-bg: color-mix(in srgb, var(--tag-recipe-bg) 75%, white);
+	--tag-text: var(--tag-recipe-text);
 }
 
 .tag-hospital {
-	background: color-mix(in srgb, var(--tag-hospital-bg) 20%, white);
-	color: var(--tag-hospital-text);
+	--tag-bg: color-mix(in srgb, var(--tag-hospital-bg) 20%, white);
+	--tag-text: var(--tag-hospital-text);
 }
 
 .tag-psum {
-	background: color-mix(in srgb, var(--tag-psum-bg) 45%, white);
-	color: var(--tag-psum-text);
+	--tag-bg: color-mix(in srgb, var(--tag-psum-bg) 45%, white);
+	--tag-text: var(--tag-psum-text);
+}
+
+.bi {
+	font-size: 1rem;
 }
 
 /* ======= 7. PÁGINA: INDEX (form)======== */
@@ -456,8 +458,9 @@ form button {
 }
 
 .supply-message {
-	background: color-mix(in srgb, var(--tag-psum-bg) 45%, white);
-	color: var(--tag-psum-text);
+	/* Propiedades de color de los tags están declaradas en el apartado 6 */
+	background: var(--tag-bg);
+	color: var(--tag-text);
 	padding: 10px 10px;
 	border-radius: 5px;
 	font-weight: 600;

@@ -29,8 +29,8 @@ export function renderIdentity(medication) {
     //Crea Nodo4: tags
     const tagsContainer = document.createElement("div");
     tagsContainer.classList.add("detail-tags");
-    // Crea un array solo con los tags que usaré en este detalle
-    const tagArr = createTags(medication);
+    // Crea un array con los tags que usaré en detail, excluye tag de problemas de sumnistro
+    const tagArr = createTags(medication, { omit: ["supply"] });
     tagsContainer.append(...tagArr); // con spread convierto array en elementos individuales
 
     // Añado todos al DOM real en una única operación.
@@ -80,7 +80,7 @@ export function renderSupplySection(supply) {
     container.classList.remove("hidden"); // arranca oculto y quiero mostrarla ahora
 
     const supplyMessage = document.createElement("p");
-    supplyMessage.classList.add("supply-message");
+    supplyMessage.classList.add("supply-message", "tag-psum");
     supplyMessage.textContent = `Este medicamento presenta problemas de suministro desde el ${supply.fini ? formatDate(supply.fini) : "(sin fecha inicial)"} hasta el ${supply.ffin ? formatDate(supply.ffin) : "(sin fecha final)"}.`; // Aquí manejo los posibles valores null de fini y ffin y el controller valida la presencia del recurso.
 
     container.append(supplyMessage);
@@ -90,8 +90,8 @@ export function renderSupplySection(supply) {
 // Usa la API nativa de JS con el objeto Date
 function formatDate(timestamp) {
     //recibe un num formato unix en milisegundos
-	return new Date(timestamp).toLocaleDateString("es-ES", {
-		//defino como quiero el retorno
+    return new Date(timestamp).toLocaleDateString("es-ES", {
+        //defino como quiero el retorno
         day: "numeric",
         month: "short",
         year: "numeric",
@@ -99,17 +99,8 @@ function formatDate(timestamp) {
 }
 
 /**
- * Oculta el tag de problemas de sumnistro cuando ya se muestra la sección con el mensaje (evita redundancia visual).
- */
-export function hideSupplyTag() {
-	//solo hay un 'tag-psum' en todo el detail.
-	const tagPsum = document.querySelector('.tag-psum');
-	tagPsum?.classList.add('hidden');
-}
-
-/**
  * Crea y renderiza el mensaje de error si el fetch del controller vino vacío
- * @param {string} msg 
+ * @param {string} msg
  */
 export function renderSupplyMessage(msg) {
     const container = document.querySelector("#medication-supply");
@@ -161,28 +152,28 @@ export function renderNotesMessage(msg) {
  * @param {string} nregistro - Número de registro del medicamento, usado como clave en localStorage.
  */
 export function renderFavoritesAction(nregistro) {
-	const container = document.querySelector('#medication-fav-action');
-	// Limpia. Garantiza que si se llama dos veces no acumula botones ni listeners.
-	container.replaceChildren();
+    const container = document.querySelector("#medication-fav-action");
+    // Limpia. Garantiza que si se llama dos veces no acumula botones ni listeners.
+    container.replaceChildren();
 
-	const button = document.createElement('button');
-	button.classList.add('favorite-btn');
+    const button = document.createElement("button");
+    button.classList.add("favorite-btn");
 
-	const icon = document.createElement('i');
-	icon.classList.add('bi');  //clase base, la especifica la pondrá updateButtonState
-	button.append(icon);
+    const icon = document.createElement("i");
+    icon.classList.add("bi"); //clase base, la especifica la pondrá updateButtonState
+    button.append(icon);
 
-	//Inicial: refleja el estado del botón según lo que haya en localStorage
-	updateButtonState(button, isInFavoritesList(nregistro));
+    //Inicial: refleja el estado del botón según lo que haya en localStorage
+    updateButtonState(button, isInFavoritesList(nregistro));
 
-	//Listener que alterna el estado del botón y refresca el estado
-	button.addEventListener('click', () => {
-		// Devuelve el nuevo estado
-		const currentState = toggleFavoriteStatus(nregistro);
-		//Actualiza el estado del botón con el booleano (activo/inactivo)
-		updateButtonState(button, currentState);
-	})
-	container.append(button);
+    //Listener que alterna el estado del botón y refresca el estado
+    button.addEventListener("click", () => {
+        // Devuelve el nuevo estado
+        const currentState = toggleFavoriteStatus(nregistro);
+        //Actualiza el estado del botón con el booleano (activo/inactivo)
+        updateButtonState(button, currentState);
+    });
+    container.append(button);
 }
 
 //Helper privado
@@ -193,14 +184,13 @@ export function renderFavoritesAction(nregistro) {
  * @param {boolean} isActive  true = activo en Favs, false = ausente en Favs
  */
 function updateButtonState(button, isActive) {
-	const icon = button.querySelector('i');
-	icon.classList.toggle('bi-heart', !isActive);
-	icon.classList.toggle('bi-heart-fill', isActive);
-	button.setAttribute('aria-label', isActive ? 'Eliminar favorito' : 'Añadir favorito');
-	
-	// Creo accesibilidad para botones toggle
-	button.setAttribute('aria-pressed', isActive);
-	// Añade o elimina la clase dependiendo de si el segundo argumento es true o false.
-	button.classList.toggle('is-active', isActive);
-}
+    const icon = button.querySelector("i");
+    icon.classList.toggle("bi-heart", !isActive);
+    icon.classList.toggle("bi-heart-fill", isActive);
+    button.setAttribute("aria-label", isActive ? "Eliminar favorito" : "Añadir favorito");
 
+    // Creo accesibilidad para botones toggle
+    button.setAttribute("aria-pressed", isActive);
+    // Añade o elimina la clase dependiendo de si el segundo argumento es true o false.
+    button.classList.toggle("is-active", isActive);
+}
