@@ -1,6 +1,7 @@
 import { createTagLines, createTags } from "./tags.view.js";
 import { isInFavoritesList, toggleFavoriteStatus } from "../models/favorites.storage.js";
 
+
 /**
  * Pinta en el DOM la section de identity del medicamento (nombre, principio activo, laboratorio, tags).
  * Su responsabilidad es traducir el objeto de negocio a representación visual.
@@ -11,47 +12,97 @@ export function renderIdentity(medication) {
     // Limpia, si habia algo anterior
     container.replaceChildren();
 
-    // Crea Nodo1: título
+    // Crea Nodo de título
     const name = document.createElement("h1");
     name.textContent = medication.nombre;
     name.classList.add("detail-name");
+	
+	// Para poder dar estilos por separado al título y al valor de principio activo y laboratorio
+	// se crean como elementos de una description list <dl>
+    // Crea nodo padre de description list
+	const descriptionList = document.createElement("dl");
+	descriptionList.classList.add("detail-data");
 
-    //Crea Nodo2: principios activos
-    const activePrinciples = document.createElement("p");
-    activePrinciples.textContent = "Principio activo: " + medication.pactivos;
-    activePrinciples.classList.add("detail-active-principles");
+	// Crea el par de nodos de principio activo
+    const activePrinciplesTitle = document.createElement("dt");
+    activePrinciplesTitle.textContent = "Principio activo";
+	const activePrinciplesValue = document.createElement("dd");
+	activePrinciplesValue.classList.add("active-principles-dd")
+    activePrinciplesValue.textContent = medication.pactivos;
 
-    //Crea Nodo3: laboratorio
-    const lab = document.createElement("p");
-    lab.textContent = "Laboratorio: " + (medication.labcomercializador || medication.labtitular); //defensivo
-    lab.classList.add("detail-lab");
+	// Crea el par de nodos de Laboratorio
+    const labTitle = document.createElement("dt");
+    labTitle.textContent = "Laboratorio";
+    const labValue = document.createElement("dd");
+    labValue.textContent = medication.labcomercializador || medication.labtitular;
 
-    // Creo array con los nodos que SEGURO se han de mostrar
-	const nodes = [name, activePrinciples, lab];
+	// Pongo los nodos <dt> y <dd> dentro del <dl> padre
+	descriptionList.append(activePrinciplesTitle, activePrinciplesValue, labTitle, labValue);
 
-    //Crea Nodo4: tags en forma de pildoras
+    // Creo array con los nodos que SEGURO se han de mostrar (los tags solo si aplican)
+    const nodes = [name, descriptionList];
+
+    //Crea Nodo de tags en forma de pildoras
     // Crea un array con los tags pildora, excluye el tag de problemas de sumnistro (caso especial)
     const tagArr = createTags(medication, { omit: ["supply", "hospital"] });
-	// Si hay tag/s pildora, crea un container para él en el DOM
+    // Si hay tag/s pildora, crea un container para él en el DOM
     if (tagArr.length > 0) {
         const tagsContainer = document.createElement("div");
-		tagsContainer.classList.add("detail-tags");
-		tagsContainer.append(...tagArr);
+        tagsContainer.classList.add("detail-tags");
+        tagsContainer.append(...tagArr);
         nodes.push(tagsContainer);
     }
 
-    //Crea Nodo5: tags en forma de definiciones
+    //Crea Nodo de tags en forma de definiciones
     // Crea un array con los tags definición, excluye los que no aplican
     const tagLineArr = createTagLines(medication, { omit: ["supply", "recipe", "generic"] });
-	if (tagLineArr.length > 0) {
-		const tagsLineContainer = document.createElement("div");
-		tagsLineContainer.classList.add("detail-tag-lines");
-		tagsLineContainer.append(...tagLineArr);
-		nodes.push(tagsLineContainer);
-	}
-
-    // Añado todos al DOM real en una única operación.
+    if (tagLineArr.length > 0) {
+        const tagsLineContainer = document.createElement("div");
+        tagsLineContainer.classList.add("detail-tag-lines");
+        tagsLineContainer.append(...tagLineArr);
+        nodes.push(tagsLineContainer);
+    }
+	
+    // Añado todos los nodos al DOM real en una única operación.
     container.append(...nodes);
+}
+
+/**
+ *  Pinta la sección de notas en el DOM
+ * @param {string} asunto - El texto lo proporciona el controller a partir del fetch a /notas
+ */
+export function renderNotes(asunto) {
+	const container = document.querySelector("#medication-notes");
+	container.replaceChildren();
+	container.classList.remove("hidden");
+
+	// Creo un node <p> para toda la nota
+	const securityNote = document.createElement("p");
+	securityNote.classList.add("security-note");
+
+	// Creo un node <strong> para el título
+	const noteTitle = document.createElement("strong");
+	noteTitle.classList.add("note-title");
+	noteTitle.textContent = "Nota de seguridad: ";
+
+	securityNote.append(noteTitle, document.createTextNode(asunto));
+	container.append(securityNote);
+}
+
+/**
+ *  Pinta mensaje en la sección de notas del DOM
+ * @param {string} msg - El texto del mensaje lo proporciona el controller del ui-messages
+ */
+export function renderNotesMessage(msg) {
+	const container = document.querySelector("#medication-notes");
+	container.replaceChildren();
+	container.classList.remove("hidden");
+
+	const p = document.createElement("p");
+	p.textContent = msg;
+	p.classList.add("notes-msg");
+
+	container.append(p);
 }
 
 /**
@@ -79,8 +130,7 @@ export function renderSupplySection(supply) {
     container.append(subContainer);
 }
 
-// Función helper privada de este file
-// Usa la API nativa de JS con el objeto Date
+// Helper: Usa la API nativa de JS con el objeto Date
 function formatDate(timestamp) {
     //recibe un num formato unix en milisegundos
     return new Date(timestamp).toLocaleDateString("es-ES", {
@@ -107,37 +157,6 @@ export function renderSupplyMessage(msg) {
     container.append(p);
 }
 
-/**
- *  Pinta la sección de notas en el DOM
- * @param {string} asunto - El texto lo proporciona el controller a partir del fetch a /notas
- */
-export function renderNotes(asunto) {
-    const container = document.querySelector("#medication-notes");
-    container.replaceChildren();
-    container.classList.remove("hidden");
-
-    const notesMessage = document.createElement("p");
-    notesMessage.classList.add("notes-message");
-    notesMessage.textContent = `Nota de seguridad: ${asunto}`;
-
-    container.append(notesMessage);
-}
-
-/**
- *  Pinta mensaje en la sección de notas del DOM
- * @param {string} msg - El texto del mensaje lo proporciona el controller del ui-messages
- */
-export function renderNotesMessage(msg) {
-    const container = document.querySelector("#medication-notes");
-    container.replaceChildren();
-    container.classList.remove("hidden");
-
-    const p = document.createElement("p");
-    p.textContent = msg;
-    p.classList.add("notes-msg");
-
-    container.append(p);
-}
 
 /**
  * Pinta la sección del botón que enlaza al prospecto en el DOM
