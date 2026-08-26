@@ -17,164 +17,164 @@
 /* ==== 1. VARIABLES (:root) ==== */
 
 :root {
-	/* ---paleta de color--- */
-	--text-secondary: #888;
-	--text-placeholder: #b9b9b9;
-	--text-legal: #505050;
-	--brand-secondary: #3027CE;
-	--brand: #433BFF;
-	--nav-button: #645ffe;
-	--nav-button-hover: #9590FF;
-	--card-border: #b8b5e8;
-	--almost-black: #050315;
-	--favorite-color: crimson;
-	--bg-default: #EFF0F3;
-	--bg-secondary: #FBFBFE;
-	--tag-recipe-bg: #f3dbfd;
-	--tag-recipe-text: #9E2BCB;
-	--tag-generic-bg: #C8EDB8;
-	--tag-generic-text: #2A5A08;
-	--tag-psum-bg: #fcd5e0;
-	--tag-psum-text: #d50139;
-	--tag-hospital-bg: #84b2fd;
-	--tag-hospital-text: rgb(1, 5, 251);
+    /* ---paleta de color--- */
+    --text-secondary: #888;
+    --text-placeholder: #b9b9b9;
+    --text-legal: #505050;
+    --brand-secondary: #3027ce;
+    --brand: #433bff;
+    --brand-third: #645ffe;
+    --brand-third-hover: #9590ff;
+    --card-border: #b8b5e8;
+    --almost-black: #050315;
+    --favorite-color: crimson;
+    --bg-default: #eff0f3;
+    --bg-secondary: #fbfbfe;
+    --tag-recipe-bg: #f3dbfd;
+    --tag-recipe-text: #9e2bcb;
+    --tag-generic-bg: #c8edb8;
+    --tag-generic-text: #2a5a08;
+    --tag-psum-bg: #fcd5e0;
+    --tag-psum-text: #d50139;
+    --tag-hospital-bg: #84b2fd;
+    --tag-hospital-text: rgb(1, 5, 251);
 
-	/* ---escala tipográfica--- */
-	--fs-xs: 0.75rem;
-	--fs-s: 0.875rem;
-	--fs-base: 1rem;
-	--fs-l: 1.25rem;
-	--fs-xl: 1.50rem;
-	--fs-xxl: 2rem;
+    /* ---escala tipográfica--- */
+    --fs-xs: 0.75rem;
+    --fs-s: 0.875rem;
+    --fs-base: 1rem;
+    --fs-l: 1.25rem;
+    --fs-xl: 1.5rem;
+    --fs-xxl: 2rem;
 }
 
 /* ====== 2. RESET (*) ====== */
 
 * {
-	box-sizing: border-box;
-	margin: 0;
-	padding: 0;
-	/* outline: 1px solid red; */ /*---DEBBUGER----*/
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    /* outline: 1px solid red; */ /*---DEBBUGER----*/
 }
 
 /* ======= 3. LAYOUT GLOBAL (body, main) ======== */
 
 body {
-	font-family: Inter, Arial, Helvetica, sans-serif;
-	background-color: var(--bg-default);
-	
-	display: flex;
-	flex-direction: column;
-	/* Ocupa al menos toda la altura visible, 
+    font-family: Inter, Arial, Helvetica, sans-serif;
+    background-color: var(--bg-default);
+
+    display: flex;
+    flex-direction: column;
+    /* Ocupa al menos toda la altura visible, 
 	pero puede crecer si el contenido lo necesita */
-	min-height: 100vh; 
+    min-height: 100vh;
 }
 
 main {
-	max-width: 800px;
-	width: 100%;
-	margin: 0 auto; /* Centra el bloque horizontalmente */
-	padding: 10px 10px;
-	display: flex;
-	flex-direction: column;
-	flex: 1;  /* se estira en vertical para empujar el footer */
+    max-width: 800px;
+    width: 100%;
+    margin: 0 auto; /* Centra el bloque horizontalmente */
+    padding: 10px 10px;
+    display: flex;
+    flex-direction: column;
+    flex: 1; /* se estira en vertical para empujar el footer */
 }
 
 h1 {
-	padding: 30px 0px 10px 0px;
-	font-size: var(--fs-xl);
-	font-weight: 600;
-	text-align: center;
-	color: var(--almost-black);
+    padding: 30px 0px 10px 0px;
+    font-size: var(--fs-xl);
+    font-weight: 600;
+    text-align: center;
+    color: var(--almost-black);
 }
 
 .subtitle,
 .favorites-subtitle,
 .supply-subtitle {
-	color: var(--text-secondary);
-	text-align: center;
+    color: var(--text-secondary);
+    text-align: center;
 }
 
 /* ======= 4. COMPONENTES GLOBALES (header, footer, nav-button) ======== */
 
 /* header */
 .header-container {
-	max-width: 800px; /* ancho max del contenido */
-	margin: 0 auto;
-	height: 80px;
-	padding: 0 10px;
-	display: flex; /* Si no especifico, es horizontal por default*/
-	align-items: center;
-	justify-content: space-between;
-	gap: 10px;
+    max-width: 800px; /* ancho max del contenido */
+    margin: 0 auto;
+    height: 80px;
+    padding: 0 10px;
+    display: flex; /* Si no especifico, es horizontal por default*/
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
 }
 
 .brand {
-	color: white;
-	text-decoration: none; /* Elimina el subrallado del link */
-	padding-left: 10px;
+    color: white;
+    text-decoration: none; /* Elimina el subrallado del link */
+    padding-left: 10px;
 }
 
 #app-header nav {
-	display: flex;
-	gap: 8px; /* Separación entre botones */
+    display: flex;
+    gap: 8px; /* Separación entre botones */
 }
 #app-header {
-	background-color: var(--brand);
+    background-color: var(--brand);
 }
 
 .company-name {
-	font-size: var(--fs-xl);
+    font-size: var(--fs-xl);
 }
 
 .nav-button {
-	appearance: none; /* Elimina los navegador default styles */
-	border: none; /* Elimina los navegador default styles */
-	cursor:pointer;
-	padding: 7px 10px;
-	border-radius: 10px;
-	background-color: var(--nav-button);
-	color: var(--bg-default);
-	font-size: var(--fs-s);
-	text-decoration: none; /* elimina subrayado de link */
-	transition: background-color 0.15s ease; /* Hace el cambio mas suave, al entrar y al salir */
+    appearance: none; /* Elimina los navegador default styles */
+    border: none; /* Elimina los navegador default styles */
+    cursor: pointer;
+    padding: 7px 10px;
+    border-radius: 10px;
+    background-color: var(--brand-third);
+    color: var(--bg-default);
+    font-size: var(--fs-s);
+    text-decoration: none; /* elimina subrayado de link */
+    transition: background-color 0.15s ease; /* Hace el cambio mas suave, al entrar y al salir */
 }
 
 .nav-button:hover,
 .nav-button:focus-visible {
-	background-color: var(--nav-button-hover);
+    background-color: var(--brand-third-hover);
 }
 
 /* footer */
 
 #app-footer {
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-	font-size: var(--fs-xs);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-size: var(--fs-xs);
 }
 
 #app-footer nav {
-	padding: 10px 70px;
-	border-top: 1px solid var(--text-secondary);
+    padding: 10px 70px;
+    border-top: 1px solid var(--text-secondary);
 }
 
 .link-footer {
-	text-decoration: none; /* quita el subrayado del user-agent stylesheet */
-	padding: 0px 10px;
-	color: var(--text-secondary);
+    text-decoration: none; /* quita el subrayado del user-agent stylesheet */
+    padding: 0px 10px;
+    color: var(--text-secondary);
 }
 
 .link-footer:hover,
 .link-footer:focus-visible {
-	text-decoration: underline;
+    text-decoration: underline;
 }
 
 /* ======= 5. UTILIDADES (visually-hidden, hidden) ======== */
 
 /*Separo estilo de estado */
 .hidden {
-	display: none !important;
+    display: none !important;
 }
 
 /* Técnica "visually-hidden": Oculta visualmente el label
@@ -183,16 +183,16 @@ lectores de pantalla. No es aportación propia.
 Fuente: www.a11yproject.com 
 */
 .visually-hidden {
-	position: absolute;
-	width: 1px;
-	height: 1px;
-	padding: 0;
-	margin: -1px;
-	overflow: hidden;
-	clip: rect(0, 0, 0, 0);
-	clip-path: inset(50%);
-	white-space: nowrap;
-	border: 0;
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    clip-path: inset(50%);
+    white-space: nowrap;
+    border: 0;
 }
 
 /* ======= 6. COMPONENTES REUTILIZABLES (cards .li-main/.favorites-item, tag-pill(forma), tag-X(color) state-message, spinner)======== */
@@ -200,82 +200,87 @@ Fuente: www.a11yproject.com
 /* mensajes de estado */
 
 .state-message {
-	padding: 50px 10px;
-	font-size: var(--fs-l);
-	color: var(--text-secondary);
-	text-align: center;
+    padding: 50px 10px;
+    font-size: var(--fs-l);
+    color: var(--text-secondary);
+    text-align: center;
 }
 
 /* spinner */
 
 .spinner {
-	text-align: center;
+    text-align: center;
 }
 
 .spinner .spin {
-	display: inline-block; /* Sin esto se bloquea el movimiento del spinner*/
-	font-size: 2rem;
-	animation: spin 0.7s linear infinite;
+    display: inline-block; /* Sin esto se bloquea el movimiento del spinner*/
+    font-size: 2rem;
+    animation: spin 0.7s linear infinite;
 }
 
-@keyframes spin {  /* Activa el movimiento del icono/spinner */
-	from { transform: rotate(0deg); }
-	to { transform: rotate(360deg); }
+@keyframes spin {
+    /* Activa el movimiento del icono/spinner */
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
 }
 
 /* cards */
 
 .li-main,
 .favorites-item {
-	display: flex;
-	flex-direction: column;
-	background: var(--bg-secondary);
-	border: 1px solid var(--card-border);
-	border-left: 3px solid var(--brand);
-	border-radius: 10px;
-	padding: 8px 15px;
-	margin: 5px 0px;
-	transition: border-color 0.30s ease;
+    display: flex;
+    flex-direction: column;
+    background: var(--bg-secondary);
+    border: 1px solid var(--card-border);
+    border-left: 3px solid var(--brand);
+    border-radius: 10px;
+    padding: 8px 15px;
+    margin: 5px 0px;
+    transition: border-color 0.3s ease;
 }
 
 .li-main a,
 .favorites-item a {
-	text-decoration: none; /* quita el subrayado del user-agent stylesheet */
-	color: inherit; /* hereda y no le pone el azul del enlace */
+    text-decoration: none; /* quita el subrayado del user-agent stylesheet */
+    color: inherit; /* hereda y no le pone el azul del enlace */
 }
 
 .li-main:hover,
 .favorites-item:hover {
-	border: 1px solid var(--brand-secondary);
-	border-left: 3px solid var(--brand-secondary);
-	border-right: 3px solid var(--brand-secondary);
+    border: 1px solid var(--brand-secondary);
+    border-left: 3px solid var(--brand-secondary);
+    border-right: 3px solid var(--brand-secondary);
 }
 
 .li-main h2 {
-	font-size: var(--fs-s);
-	font-weight: 600;
-	/*Fuente: css-tricks.com/line-clanpin */
-	display: -webkit-box; /* trunca el título a 2 líneas máximo con ... */
-	-webkit-line-clamp: 2; /* versión clásica */
-	line-clamp:2; /* versión moderna, silencia el aviso del linter */
-	-webkit-box-orient: vertical;
-	overflow: hidden;
+    font-size: var(--fs-s);
+    font-weight: 600;
+    /*Fuente: css-tricks.com/line-clanpin */
+    display: -webkit-box; /* trunca el título a 2 líneas máximo con ... */
+    -webkit-line-clamp: 2; /* versión clásica */
+    line-clamp: 2; /* versión moderna, silencia el aviso del linter */
+    -webkit-box-orient: vertical;
+    overflow: hidden;
 }
 
 .li-mid-block {
-	display: flex;
-	justify-content: space-between;
-	align-items: center; /* Centra, aunque ahora casi no se note */
+    display: flex;
+    justify-content: space-between;
+    align-items: center; /* Centra, aunque ahora casi no se note */
 }
 
 .li-subtitle {
-	color: var(--text-secondary);
-	font-size: var(--fs-xs);
-	padding: 3px 0px;
-	/* trunca a 1 línea + ... */
-	white-space: nowrap;
-	overflow: hidden;
-	text-overflow: ellipsis;
+    color: var(--text-secondary);
+    font-size: var(--fs-xs);
+    padding: 3px 0px;
+    /* trunca a 1 línea + ... */
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 /* Para que el li-subtitle no desborde los anchos 
@@ -286,240 +291,271 @@ de sus containers padres y se deje truncar bien.*/
 .li-top-block,
 .li-mid-block,
 .li-subtitle {
-	min-width: 0;
+    min-width: 0;
 }
 
 .li-bottom-block {
-	display: flex;
-	flex-wrap: wrap; /* Si no caben, pasaran a segunda linea, sin romperse */
-	gap: 5px;
+    display: flex;
+    flex-wrap: wrap; /* Si no caben, pasaran a segunda linea, sin romperse */
+    gap: 5px;
 }
 
 /* Propiedades de forma de los tags pildora*/
 .tag-pill {
-	display: inline-flex; /* tag y su texto unidos y con su tamaño justo*/
-	align-items: center;
-	gap: 2px;/* dist % icono y texto */
-	padding: 1px 5px;
-	border-radius: 5px;
-	font-size: var(--fs-xs);
-	font-weight: 600;
-	background: var(--tag-bg);
-	color: var(--tag-text);
+    display: inline-flex; /* tag y su texto unidos y con su tamaño justo*/
+    align-items: center;
+    gap: 2px; /* dist % icono y texto */
+    padding: 1px 5px;
+    border-radius: 5px;
+    font-size: var(--fs-xs);
+    font-weight: 600;
+    background: var(--tag-bg);
+    color: var(--tag-text);
 }
-	
+
 /* Propiedades de forma de los tags en linea */
 .tag-line {
-	display: flex;
-	gap: 4px;
-	padding: 10px 5px;
-	border-radius: 5px;
-	font-weight: 600;
-	background: var(--tag-bg);
-	color: var(--tag-text);
+    display: flex;
+    gap: 4px;
+    padding: 10px 5px;
+    border-radius: 5px;
+    font-weight: 600;
+    background: var(--tag-bg);
+    color: var(--tag-text);
 }
 
 /* Propiedades de color de los tags */
 /* No aplica nada. Solo se declara/porta color para el texto y el fondo de cada tag */
 .tag-generic {
-	/* color-mix: mezcla el color del fondo con % blanco */
-	--tag-bg: color-mix(in srgb, var(--tag-generic-bg) 50%, white);
-	--tag-text: var(--tag-generic-text);	
+    /* color-mix: mezcla el color del fondo con % blanco */
+    --tag-bg: color-mix(in srgb, var(--tag-generic-bg) 50%, white);
+    --tag-text: var(--tag-generic-text);
 }
 
 .tag-recipe {
-	--tag-bg: color-mix(in srgb, var(--tag-recipe-bg) 75%, white);
-	--tag-text: var(--tag-recipe-text);
+    --tag-bg: color-mix(in srgb, var(--tag-recipe-bg) 75%, white);
+    --tag-text: var(--tag-recipe-text);
 }
 
 .tag-hospital {
-	--tag-bg: color-mix(in srgb, var(--tag-hospital-bg) 20%, white);
-	--tag-text: var(--tag-hospital-text);
+    --tag-bg: color-mix(in srgb, var(--tag-hospital-bg) 20%, white);
+    --tag-text: var(--tag-hospital-text);
 }
 
 .tag-psum {
-	--tag-bg: color-mix(in srgb, var(--tag-psum-bg) 45%, white);
-	--tag-text: var(--tag-psum-text);
+    --tag-bg: color-mix(in srgb, var(--tag-psum-bg) 45%, white);
+    --tag-text: var(--tag-psum-text);
 }
 
 .bi {
-	font-size: 1rem;
+    font-size: 1rem;
 }
 
 /* ======= 7. PÁGINA: INDEX (form)======== */
 
 form {
-	display: flex;
-	width: 100%;/* No me convence el ancho*/
-	margin: 25px 0px;
-	gap: 10px;
+    display: flex;
+    width: 100%; /* No me convence el ancho*/
+    margin: 25px 0px;
+    gap: 10px;
 }
 
 input {
-	flex-grow: 2; /* Al crecer se lleva 2/3 del espacio sobrante */
-	border: none;
-	border-radius: 10px;
-	font-size: var(--fs-base);
-	padding: 10px;
-	color: var(--almost-black);
+    flex-grow: 2; /* Al crecer se lleva 2/3 del espacio sobrante */
+    border: none;
+    border-radius: 10px;
+    font-size: var(--fs-base);
+    padding: 10px;
+    color: var(--almost-black);
 }
 
 input::placeholder {
-	color: var(--text-placeholder);
+    color: var(--text-placeholder);
 }
 
 input:focus {
-	outline: 1px solid var(--brand);
+    outline: 1px solid var(--brand);
 }
 
 form button {
-	flex-grow: 1; /* Al crecer se lleva 1/3 del espacio sobrante */
-	border: none;
-	border-radius: 10px;
-	padding: 10px 0px;
-	background-color: var(--brand);
-	color: var(--bg-default);
-	transition: background-color 0.15s ease;
+    flex-grow: 1; /* Al crecer se lleva 1/3 del espacio sobrante */
+    border: none;
+    border-radius: 10px;
+    padding: 10px 0px;
+    background-color: var(--brand);
+    color: var(--bg-default);
+    transition: background-color 0.15s ease;
 }
 
 #form button:hover {
-	background-color: var(--brand-secondary);
+    background-color: var(--brand-secondary);
 }
 
 #results-list {
-	width: 100%;
-	display:flex;
-	flex-direction: column;
-	margin: 10px 0px;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    margin: 10px 0px;
 }
 
 /* ======= 8. PÁGINA: DETAIL ======== */
 
 .main-detail {
-	justify-content: center;
+    justify-content: center;
 }
 
 .detail-card {
-	display: flex;
-	flex-direction: column;
-	gap: 10px;
-	background: var(--bg-secondary);
-	border: 1px solid var(--card-border);
-	border-left: 3px solid var(--brand);
-	border-radius: 10px;
-	padding: 8px 15px;
-	font-size: var(--fs-s);
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    background: var(--bg-secondary);
+    border: 1px solid var(--card-border);
+    border-left: 3px solid var(--brand);
+    border-radius: 10px;
+    padding: 8px 15px;
+    font-size: var(--fs-s);
+	box-shadow: 2px 4px 3px rgba(0, 0, 0, 0.08);
 }
 
-#medication-identity { /* Section primera de detail*/
-	display: flex;
-	flex-direction: column;
-	gap: 10px;
+#medication-identity {
+    /* Section primera de detail*/
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
 }
 
-.detail-name,
-.detail-active-principles,
-.detail-lab {
-	text-align: left;
-	overflow-wrap: break-word; /* protector: parte una palabra larga, solo si no cabe de otra forma */
+.detail-data {
+    display: grid;
+	grid-template-columns: auto 1fr;
+	gap: 8px 6px;
 }
 
-.detail-tags {
-	display: flex;
-	gap: 10px;
-	flex-wrap: wrap; /* Si no caben, pasaran a segunda linea, sin romperse */
+.detail-data dt {
+    font-weight: 600;
 }
 
-.detail-tag-lines {
-	display: flex;
-	flex-direction: column;
-	gap: 10px;
+.detail-data dt::after {
+    content: ": ";
+}
+
+.active-principles-dd {
+    text-transform: lowercase;
 }
 
 /* El título tiene más aire que el resto de elementos de la section */
 .detail-name {
+    text-align: left;
+    overflow-wrap: break-word; /* protector: parte una palabra larga si no cabe de otra forma */
 	font-size: var(--fs-base);
 	padding: 20px 0px 10px 0px;
 }
 
+.detail-tags {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap; /* Si no caben, pasaran a segunda linea, sin romperse */
+}
+
+.detail-tag-lines {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.security-note {
+	background: var(--bg-default);
+	border-left: 3px solid var(--brand-third);
+	padding: 10px 10px;
+	border-radius: 0 5px 5px 0;
+	line-height: 1.6; 
+}
+
+.note-title {
+	font-weight: 600;
+}
+
 #medication-fav-action {
-	text-align: right;
+    text-align: right;
 }
 
 .favorite-btn {
-	background: transparent;
-	border: none;
-	cursor: pointer;
-	color: var(--favorite-color);
-	padding: 10px;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    color: var(--favorite-color);
+    padding: 10px;
 }
 
 .favorite-btn .bi-heart-fill,
 .favorite-btn .bi-heart {
-	color: var(--favorite-color);
+    color: var(--favorite-color);
 }
 
-.favorite-btn .bi { /* icono de favorito (corazón) */
-	font-size: var(--fs-xl); 
+.favorite-btn .bi {
+    /* icono de favorito (corazón) */
+    font-size: var(--fs-xl);
 }
 
-.external-link { /* Link a Prospecto */
-	display: inline-block;
-	border: none;
-	border-radius: 10px;
-	padding: 10px 30px;
-	background-color: var(--brand);
-	color: var(--bg-default);
-	text-decoration: none;
+.external-link {
+    /* Link a Prospecto */
+    display: inline-block;
+    border: none;
+    border-radius: 10px;
+    padding: 10px 30px;
+    background-color: var(--brand);
+    color: var(--bg-default);
+    text-decoration: none;
 }
 
 .external-link:hover, /* al pasar mouse */
-.external-link:focus-visible { /* para nav por teclado */
-	background-color: var(--brand-secondary);
+.external-link:focus-visible {
+    /* para nav por teclado */
+    background-color: var(--brand-secondary);
 }
 
 .external-link-empty,
 .supply-msg-neutral {
-	font-style: italic;
-	color: var(--text-secondary);
+    font-style: italic;
+    color: var(--text-secondary);
 }
 
 /* ======= 9. PÁGINA: FAVORITES ======== */
 
-.favorites-item { /* El <a> lo hereda porque es único hijo*/
-	font-size: var(--fs-s);
-	font-weight: 600;
-	overflow-wrap: break-word;
-	margin: 10px 0px;
+.favorites-item {
+    /* El <a> lo hereda porque es único hijo*/
+    font-size: var(--fs-s);
+    font-weight: 600;
+    overflow-wrap: break-word;
+    margin: 10px 0px;
 }
 
 .favorites-subtitle {
-	margin-bottom: 20px;
+    margin-bottom: 20px;
 }
 
 /* ======= 10. PÁGINA: LEGAL-POLICY ======== */
 
 .main-legal h2 {
-	font-size: var(--fs-base);
-	padding: 30px 0px 20px 0px;
-	color: var(--almost-black);
-	text-align: center;
+    font-size: var(--fs-base);
+    padding: 30px 0px 20px 0px;
+    color: var(--almost-black);
+    text-align: center;
 }
 
 .main-legal p {
-	font-size: var(--fs-s);
-	color: var(--text-legal);
-	line-height: 1.6; /* Sin unidad se hace proporcional al font-size */
-	text-align: justify; /* Justifica texto en ambos margenes laterales */
-	hyphens: auto; /* Parte palabras con guión al final de línea */
-	padding-inline: 15px;
-	max-width: 65ch;
-	margin-inline: auto;
+    font-size: var(--fs-s);
+    color: var(--text-legal);
+    line-height: 1.6; /* Sin unidad se hace proporcional al font-size */
+    text-align: justify; /* Justifica texto en ambos margenes laterales */
+    hyphens: auto; /* Parte palabras con guión al final de línea */
+    padding-inline: 15px;
+    max-width: 65ch;
+    margin-inline: auto;
 }
 
 .main-legal h1,
 .main-legal {
-	margin-bottom: 20px;
+    margin-bottom: 20px;
 }
 
 /* ======= 11. PÁGINA: SUPPLY ======== */
@@ -527,15 +563,15 @@ form button {
 /* ======= 12. RESPONSIVE ======== */
 
 @media (min-width: 768px) {
-	#results-list,
-	#favorites-list {
-		display: grid;
-		grid-template-columns: repeat(2, 1fr);
-		gap: 10px;
-	}
-	/* Reescribe propiedades para no arrastrar preferencias */
-	.li-main,
-	.favorites-item {
-		margin: 0;
-	}
+    #results-list,
+    #favorites-list {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 10px;
+    }
+    /* Reescribe propiedades para no arrastrar preferencias */
+    .li-main,
+    .favorites-item {
+        margin: 0;
+    }
 }
