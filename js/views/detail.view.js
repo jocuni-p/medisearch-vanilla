@@ -1,4 +1,4 @@
-import { createTags } from "./tags.view.js";
+import { createTagLines, createTags } from "./tags.view.js";
 import { isInFavoritesList, toggleFavoriteStatus } from "../models/favorites.storage.js";
 
 /**
@@ -26,47 +26,32 @@ export function renderIdentity(medication) {
     lab.textContent = "Laboratorio: " + (medication.labcomercializador || medication.labtitular); //defensivo
     lab.classList.add("detail-lab");
 
-    //Crea Nodo4: tags
-    const tagsContainer = document.createElement("div");
-    tagsContainer.classList.add("detail-tags");
-    // Crea un array solo con los tags que usaré en este detalle
-    const tagArr = createTags(medication);
-    tagsContainer.append(...tagArr); // con spread convierto array en elementos individuales
+    // Creo array con los nodos que SEGURO se han de mostrar
+	const nodes = [name, activePrinciples, lab];
+
+    //Crea Nodo4: tags en forma de pildoras
+    // Crea un array con los tags pildora, excluye el tag de problemas de sumnistro (caso especial)
+    const tagArr = createTags(medication, { omit: ["supply", "hospital"] });
+	// Si hay tag/s pildora, crea un container para él en el DOM
+    if (tagArr.length > 0) {
+        const tagsContainer = document.createElement("div");
+		tagsContainer.classList.add("detail-tags");
+		tagsContainer.append(...tagArr);
+        nodes.push(tagsContainer);
+    }
+
+    //Crea Nodo5: tags en forma de definiciones
+    // Crea un array con los tags definición, excluye los que no aplican
+    const tagLineArr = createTagLines(medication, { omit: ["supply", "recipe", "generic"] });
+	if (tagLineArr.length > 0) {
+		const tagsLineContainer = document.createElement("div");
+		tagsLineContainer.classList.add("detail-tag-lines");
+		tagsLineContainer.append(...tagLineArr);
+		nodes.push(tagsLineContainer);
+	}
 
     // Añado todos al DOM real en una única operación.
-    container.append(name, activePrinciples, lab, tagsContainer);
-}
-
-/**
- * Pinta la sección del botón que enlaza al prospecto en el DOM
- * @param {Object} medication - Devuelto por el fetch en el controller
- */
-export function renderDocs(medication) {
-    const container = document.querySelector("#medication-docs");
-    // Limpio por seguridad
-    container.replaceChildren();
-
-    // Recupero la dirección url del prospecto
-    // Si campo docs existe, busca en el array el de tipo:2 y si existe, ves a urlHtml.
-    // Si no existe algún paso devolverá 'undefined'
-    const linkUrl = medication.docs?.find((d) => d.tipo === 2)?.urlHtml;
-
-    // Protección por si no existe docs, o docs tipo2
-    if (!linkUrl) {
-        const noUrl = document.createElement("p");
-        noUrl.textContent = "Medicamento sin prospecto disponible.";
-        noUrl.classList.add("external-link-empty");
-        container.append(noUrl);
-        return;
-    }
-    const link = document.createElement("a");
-    link.textContent = "Ver prospecto";
-    link.href = linkUrl;
-    link.target = "_blank";
-    link.rel = "noopener";
-    link.classList.add("external-link");
-
-    container.append(link);
+    container.append(...nodes);
 }
 
 /**
@@ -79,19 +64,27 @@ export function renderSupplySection(supply) {
     container.replaceChildren();
     container.classList.remove("hidden"); // arranca oculto y quiero mostrarla ahora
 
-    const supplyMessage = document.createElement("p");
-    supplyMessage.classList.add("supply-message");
-    supplyMessage.textContent = `Este medicamento presenta problemas de suministro desde el ${supply.fini ? formatDate(supply.fini) : "(sin fecha inicial)"} hasta el ${supply.ffin ? formatDate(supply.ffin) : "(sin fecha final)"}.`; // Aquí manejo los posibles valores null de fini y ffin y el controller valida la presencia del recurso.
+    const icon = document.createElement("i");
+    icon.classList.add("bi", "bi-exclamation-triangle");
+    icon.setAttribute("aria-hidden", "true");
 
-    container.append(supplyMessage);
+    const text = document.createTextNode(
+        `Este medicamento presenta problemas de suministro desde el ${supply.fini ? formatDate(supply.fini) : "(sin fecha inicial)"} hasta el ${supply.ffin ? formatDate(supply.ffin) : "(sin fecha final)"}.`,
+    );
+
+    const subContainer = document.createElement("p");
+    subContainer.classList.add("tag-line", "tag-psum");
+    subContainer.append(icon, text);
+
+    container.append(subContainer);
 }
 
 // Función helper privada de este file
 // Usa la API nativa de JS con el objeto Date
 function formatDate(timestamp) {
     //recibe un num formato unix en milisegundos
-	return new Date(timestamp).toLocaleDateString("es-ES", {
-		//defino como quiero el retorno
+    return new Date(timestamp).toLocaleDateString("es-ES", {
+        //defino como quiero el retorno
         day: "numeric",
         month: "short",
         year: "numeric",
@@ -99,17 +92,8 @@ function formatDate(timestamp) {
 }
 
 /**
- * Oculta el tag de problemas de sumnistro cuando ya se muestra la sección con el mensaje (evita redundancia visual).
- */
-export function hideSupplyTag() {
-	//solo hay un 'tag-psum' en todo el detail.
-	const tagPsum = document.querySelector('.tag-psum');
-	tagPsum?.classList.add('hidden');
-}
-
-/**
  * Crea y renderiza el mensaje de error si el fetch del controller vino vacío
- * @param {string} msg 
+ * @param {string} msg
  */
 export function renderSupplyMessage(msg) {
     const container = document.querySelector("#medication-supply");
@@ -156,33 +140,65 @@ export function renderNotesMessage(msg) {
 }
 
 /**
+ * Pinta la sección del botón que enlaza al prospecto en el DOM
+ * @param {Object} medication - Devuelto por el fetch en el controller
+ */
+export function renderDocs(medication) {
+    const container = document.querySelector("#medication-docs");
+    // Limpio por seguridad
+    container.replaceChildren();
+
+    // Recupero la dirección url del prospecto
+    // Si campo docs existe, busca en el array el de tipo:2 y si existe, ves a urlHtml.
+    // Si no existe algún paso devolverá 'undefined'
+    const linkUrl = medication.docs?.find((d) => d.tipo === 2)?.urlHtml;
+
+    // Protección por si no existe docs, o docs tipo2
+    if (!linkUrl) {
+        const noUrl = document.createElement("p");
+        noUrl.textContent = "Medicamento sin prospecto disponible.";
+        noUrl.classList.add("external-link-empty");
+        container.append(noUrl);
+        return;
+    }
+    const link = document.createElement("a");
+    link.textContent = "Ver prospecto";
+    link.href = linkUrl;
+    link.target = "_blank";
+    link.rel = "noopener";
+    link.classList.add("external-link");
+
+    container.append(link);
+}
+
+/**
  * Pinta el botón toggle de favoritos en '#medication-fav-action'.
  * El botón refleja el estado actual del localStorage (icono lleno o vacío) y al hacer click alterna su estado repintándolo en la página.
  * @param {string} nregistro - Número de registro del medicamento, usado como clave en localStorage.
  */
 export function renderFavoritesAction(nregistro) {
-	const container = document.querySelector('#medication-fav-action');
-	// Limpia. Garantiza que si se llama dos veces no acumula botones ni listeners.
-	container.replaceChildren();
+    const container = document.querySelector("#medication-fav-action");
+    // Limpia. Garantiza que si se llama dos veces no acumula botones ni listeners.
+    container.replaceChildren();
 
-	const button = document.createElement('button');
-	button.classList.add('favorite-btn');
+    const button = document.createElement("button");
+    button.classList.add("favorite-btn");
 
-	const icon = document.createElement('i');
-	icon.classList.add('bi');  //clase base, la especifica la pondrá updateButtonState
-	button.append(icon);
+    const icon = document.createElement("i");
+    icon.classList.add("bi"); //clase base, la especifica la pondrá updateButtonState
+    button.append(icon);
 
-	//Inicial: refleja el estado del botón según lo que haya en localStorage
-	updateButtonState(button, isInFavoritesList(nregistro));
+    //Inicial: refleja el estado del botón según lo que haya en localStorage
+    updateButtonState(button, isInFavoritesList(nregistro));
 
-	//Listener que alterna el estado del botón y refresca el estado
-	button.addEventListener('click', () => {
-		// Devuelve el nuevo estado
-		const currentState = toggleFavoriteStatus(nregistro);
-		//Actualiza el estado del botón con el booleano (activo/inactivo)
-		updateButtonState(button, currentState);
-	})
-	container.append(button);
+    //Listener que alterna el estado del botón y refresca el estado
+    button.addEventListener("click", () => {
+        // Devuelve el nuevo estado
+        const currentState = toggleFavoriteStatus(nregistro);
+        //Actualiza el estado del botón con el booleano (activo/inactivo)
+        updateButtonState(button, currentState);
+    });
+    container.append(button);
 }
 
 //Helper privado
@@ -193,14 +209,13 @@ export function renderFavoritesAction(nregistro) {
  * @param {boolean} isActive  true = activo en Favs, false = ausente en Favs
  */
 function updateButtonState(button, isActive) {
-	const icon = button.querySelector('i');
-	icon.classList.toggle('bi-heart', !isActive);
-	icon.classList.toggle('bi-heart-fill', isActive);
-	button.setAttribute('aria-label', isActive ? 'Eliminar favorito' : 'Añadir favorito');
-	
-	// Creo accesibilidad para botones toggle
-	button.setAttribute('aria-pressed', isActive);
-	// Añade o elimina la clase dependiendo de si el segundo argumento es true o false.
-	button.classList.toggle('is-active', isActive);
-}
+    const icon = button.querySelector("i");
+    icon.classList.toggle("bi-heart", !isActive);
+    icon.classList.toggle("bi-heart-fill", isActive);
+    button.setAttribute("aria-label", isActive ? "Eliminar favorito" : "Añadir favorito");
 
+    // Creo accesibilidad para botones toggle
+    button.setAttribute("aria-pressed", isActive);
+    // Añade o elimina la clase dependiendo de si el segundo argumento es true o false.
+    button.classList.toggle("is-active", isActive);
+}

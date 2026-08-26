@@ -11,8 +11,7 @@ import {
     renderSupplyMessage,
     renderNotes,
     renderNotesMessage,
-	renderFavoritesAction,
-	hideSupplyTag,
+    renderFavoritesAction,
 } from "../views/detail.view.js";
 import { showLoading, showEmpty, showError, hideLoading } from "../views/ui-state.view.js";
 
@@ -100,10 +99,8 @@ async function loadSupply(nombre) {
     try {
         const supplyResponse = await fetchSupplyByName(nombre); // ella si que espera al fetch.
         if (supplyResponse.resultados?.length > 0) {
-			renderSupplySection(supplyResponse.resultados[0]);
-			//Oculta el tag psum porque se encontraron resultados (para no duplicar info)
-			hideSupplyTag();
-		} else {
+            renderSupplySection(supplyResponse.resultados[0]);
+        } else {
             renderSupplyMessage(MESSAGES.detail.supplyEmpty);
         }
     } catch (error) {

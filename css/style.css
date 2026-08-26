@@ -5,7 +5,7 @@
 	3. Layout global (body, main)
 	4. Componentes globales (header, footer, nav-button)
 	5. Utilidades (visually-hidden, hidden)
-	6. Componentes reutilizables (cards .li-main .favorites-item, tags, state-message, spinner)
+	6. Componentes reutilizables (cards .li-main .favorites-item, tag-pill(forma), tag-X(color)state-message, spinner)
 	7. Página: Index (form)
 	8. Página: Detail
 	9. Página: Favorites
@@ -30,14 +30,14 @@
 	--favorite-color: crimson;
 	--bg-default: #EFF0F3;
 	--bg-secondary: #FBFBFE;
-	--tag1-bg: #DDDCFF;
-	--tag1-text: #3027CE;
-	--tag2-bg: #C8EDB8;
-	--tag2-text: #2A5A08;
-	--tag3-bg: #F5C0C0;
-	--tag3-text: #a91111;
-	--tag4-bg: #f8832e;
-	--tag4-text: rgb(208, 74, 6);
+	--tag-recipe-bg: #f3dbfd;
+	--tag-recipe-text: #9E2BCB;
+	--tag-generic-bg: #C8EDB8;
+	--tag-generic-text: #2A5A08;
+	--tag-psum-bg: #fcd5e0;
+	--tag-psum-text: #d50139;
+	--tag-hospital-bg: #84b2fd;
+	--tag-hospital-text: rgb(1, 5, 251);
 
 	/* ---escala tipográfica--- */
 	--fs-xs: 0.75rem;
@@ -195,7 +195,7 @@ Fuente: www.a11yproject.com
 	border: 0;
 }
 
-/* ======= 6. COMPONENTES REUTILIZABLES (cards .li-main/.favorites-item, tags, state-message, spinner)======== */
+/* ======= 6. COMPONENTES REUTILIZABLES (cards .li-main/.favorites-item, tag-pill(forma), tag-X(color) state-message, spinner)======== */
 
 /* mensajes de estado */
 
@@ -295,40 +295,55 @@ de sus containers padres y se deje truncar bien.*/
 	gap: 5px;
 }
 
-.li-tag {
-	display: inline-flex; /* tag y su texto unidos y con su tamaña justo*/
+/* Propiedades de forma de los tags pildora*/
+.tag-pill {
+	display: inline-flex; /* tag y su texto unidos y con su tamaño justo*/
 	align-items: center;
-	gap: 4px;/* dist % icono y texto */
+	gap: 2px;/* dist % icono y texto */
 	padding: 1px 5px;
-	margin: 2px;
 	border-radius: 5px;
 	font-size: var(--fs-xs);
 	font-weight: 600;
+	background: var(--tag-bg);
+	color: var(--tag-text);
 }
 	
-.bi {
-	font-size: 1rem;
+/* Propiedades de forma de los tags en linea */
+.tag-line {
+	display: flex;
+	gap: 4px;
+	padding: 10px 5px;
+	border-radius: 5px;
+	font-weight: 600;
+	background: var(--tag-bg);
+	color: var(--tag-text);
 }
 
+/* Propiedades de color de los tags */
+/* No aplica nada. Solo se declara/porta color para el texto y el fondo de cada tag */
 .tag-generic {
-	/* color-mix para mezclar el color del fondo con % blanco */
-	background: color-mix(in srgb, var(--tag2-bg) 50%, white);
-	color: var(--tag2-text);	
+	/* color-mix: mezcla el color del fondo con % blanco */
+	--tag-bg: color-mix(in srgb, var(--tag-generic-bg) 50%, white);
+	--tag-text: var(--tag-generic-text);	
 }
 
 .tag-recipe {
-	background: color-mix(in srgb, var(--tag1-bg) 75%, white);
-	color: var(--tag1-text);
+	--tag-bg: color-mix(in srgb, var(--tag-recipe-bg) 75%, white);
+	--tag-text: var(--tag-recipe-text);
 }
 
 .tag-hospital {
-	background: color-mix(in srgb, var(--tag4-bg) 20%, white);
-	color: var(--tag4-text);
+	--tag-bg: color-mix(in srgb, var(--tag-hospital-bg) 20%, white);
+	--tag-text: var(--tag-hospital-text);
 }
 
 .tag-psum {
-	background: color-mix(in srgb, var(--tag3-bg) 45%, white);
-	color: var(--tag3-text);
+	--tag-bg: color-mix(in srgb, var(--tag-psum-bg) 45%, white);
+	--tag-text: var(--tag-psum-text);
+}
+
+.bi {
+	font-size: 1rem;
 }
 
 /* ======= 7. PÁGINA: INDEX (form)======== */
@@ -387,31 +402,44 @@ form button {
 .detail-card {
 	display: flex;
 	flex-direction: column;
+	gap: 10px;
 	background: var(--bg-secondary);
 	border: 1px solid var(--card-border);
 	border-left: 3px solid var(--brand);
 	border-radius: 10px;
 	padding: 8px 15px;
-	margin: 5px 0px;
 	font-size: var(--fs-s);
 }
 
-#medication-identity, /* Section primera de detail*/
+#medication-identity { /* Section primera de detail*/
+	display: flex;
+	flex-direction: column;
+	gap: 10px;
+}
+
 .detail-name,
 .detail-active-principles,
-.detail-lab,
-.detail-tags {
-	padding-top: 20px;
+.detail-lab {
 	text-align: left;
 	overflow-wrap: break-word; /* protector: parte una palabra larga, solo si no cabe de otra forma */
 }
 
-.detail-card section:not(:last-child) { /* En el último hijo <section> no actua */
-	margin-bottom: 30px;
+.detail-tags {
+	display: flex;
+	gap: 10px;
+	flex-wrap: wrap; /* Si no caben, pasaran a segunda linea, sin romperse */
 }
 
+.detail-tag-lines {
+	display: flex;
+	flex-direction: column;
+	gap: 10px;
+}
+
+/* El título tiene más aire que el resto de elementos de la section */
 .detail-name {
 	font-size: var(--fs-base);
+	padding: 20px 0px 10px 0px;
 }
 
 #medication-fav-action {
@@ -436,6 +464,7 @@ form button {
 }
 
 .external-link { /* Link a Prospecto */
+	display: inline-block;
 	border: none;
 	border-radius: 10px;
 	padding: 10px 30px;
@@ -453,14 +482,6 @@ form button {
 .supply-msg-neutral {
 	font-style: italic;
 	color: var(--text-secondary);
-}
-
-.supply-message {
-	background: color-mix(in srgb, var(--tag3-bg) 45%, white);
-	color: var(--tag3-text);
-	padding: 10px 10px;
-	border-radius: 5px;
-	font-weight: 600;
 }
 
 /* ======= 9. PÁGINA: FAVORITES ======== */
