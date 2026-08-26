@@ -1,4 +1,4 @@
-import { createTags } from "./tags.view.js";
+import { createTagLines, createTags } from "./tags.view.js";
 import { isInFavoritesList, toggleFavoriteStatus } from "../models/favorites.storage.js";
 
 /**
@@ -26,47 +26,32 @@ export function renderIdentity(medication) {
     lab.textContent = "Laboratorio: " + (medication.labcomercializador || medication.labtitular); //defensivo
     lab.classList.add("detail-lab");
 
-    //Crea Nodo4: tags
-    const tagsContainer = document.createElement("div");
-    tagsContainer.classList.add("detail-tags");
-    // Crea un array con los tags que usaré en detail, excluye tag de problemas de sumnistro
-    const tagArr = createTags(medication, { omit: ["supply"] });
-    tagsContainer.append(...tagArr); // con spread convierto array en elementos individuales
+    // Creo array con los nodos que SEGURO se han de mostrar
+	const nodes = [name, activePrinciples, lab];
+
+    //Crea Nodo4: tags en forma de pildoras
+    // Crea un array con los tags pildora, excluye el tag de problemas de sumnistro (caso especial)
+    const tagArr = createTags(medication, { omit: ["supply", "hospital"] });
+	// Si hay tag/s pildora, crea un container para él en el DOM
+    if (tagArr.length > 0) {
+        const tagsContainer = document.createElement("div");
+		tagsContainer.classList.add("detail-tags");
+		tagsContainer.append(...tagArr);
+        nodes.push(tagsContainer);
+    }
+
+    //Crea Nodo5: tags en forma de definiciones
+    // Crea un array con los tags definición, excluye los que no aplican
+    const tagLineArr = createTagLines(medication, { omit: ["supply", "recipe", "generic"] });
+	if (tagLineArr.length > 0) {
+		const tagsLineContainer = document.createElement("div");
+		tagsLineContainer.classList.add("detail-tag-lines");
+		tagsLineContainer.append(...tagLineArr);
+		nodes.push(tagsLineContainer);
+	}
 
     // Añado todos al DOM real en una única operación.
-    container.append(name, activePrinciples, lab, tagsContainer);
-}
-
-/**
- * Pinta la sección del botón que enlaza al prospecto en el DOM
- * @param {Object} medication - Devuelto por el fetch en el controller
- */
-export function renderDocs(medication) {
-    const container = document.querySelector("#medication-docs");
-    // Limpio por seguridad
-    container.replaceChildren();
-
-    // Recupero la dirección url del prospecto
-    // Si campo docs existe, busca en el array el de tipo:2 y si existe, ves a urlHtml.
-    // Si no existe algún paso devolverá 'undefined'
-    const linkUrl = medication.docs?.find((d) => d.tipo === 2)?.urlHtml;
-
-    // Protección por si no existe docs, o docs tipo2
-    if (!linkUrl) {
-        const noUrl = document.createElement("p");
-        noUrl.textContent = "Medicamento sin prospecto disponible.";
-        noUrl.classList.add("external-link-empty");
-        container.append(noUrl);
-        return;
-    }
-    const link = document.createElement("a");
-    link.textContent = "Ver prospecto";
-    link.href = linkUrl;
-    link.target = "_blank";
-    link.rel = "noopener";
-    link.classList.add("external-link");
-
-    container.append(link);
+    container.append(...nodes);
 }
 
 /**
@@ -79,11 +64,19 @@ export function renderSupplySection(supply) {
     container.replaceChildren();
     container.classList.remove("hidden"); // arranca oculto y quiero mostrarla ahora
 
-    const supplyMessage = document.createElement("p");
-    supplyMessage.classList.add("supply-message", "tag-psum");
-    supplyMessage.textContent = `Este medicamento presenta problemas de suministro desde el ${supply.fini ? formatDate(supply.fini) : "(sin fecha inicial)"} hasta el ${supply.ffin ? formatDate(supply.ffin) : "(sin fecha final)"}.`; // Aquí manejo los posibles valores null de fini y ffin y el controller valida la presencia del recurso.
+    const icon = document.createElement("i");
+    icon.classList.add("bi", "bi-exclamation-triangle");
+    icon.setAttribute("aria-hidden", "true");
 
-    container.append(supplyMessage);
+    const text = document.createTextNode(
+        `Este medicamento presenta problemas de suministro desde el ${supply.fini ? formatDate(supply.fini) : "(sin fecha inicial)"} hasta el ${supply.ffin ? formatDate(supply.ffin) : "(sin fecha final)"}.`,
+    );
+
+    const subContainer = document.createElement("p");
+    subContainer.classList.add("tag-line", "tag-psum");
+    subContainer.append(icon, text);
+
+    container.append(subContainer);
 }
 
 // Función helper privada de este file
@@ -144,6 +137,38 @@ export function renderNotesMessage(msg) {
     p.classList.add("notes-msg");
 
     container.append(p);
+}
+
+/**
+ * Pinta la sección del botón que enlaza al prospecto en el DOM
+ * @param {Object} medication - Devuelto por el fetch en el controller
+ */
+export function renderDocs(medication) {
+    const container = document.querySelector("#medication-docs");
+    // Limpio por seguridad
+    container.replaceChildren();
+
+    // Recupero la dirección url del prospecto
+    // Si campo docs existe, busca en el array el de tipo:2 y si existe, ves a urlHtml.
+    // Si no existe algún paso devolverá 'undefined'
+    const linkUrl = medication.docs?.find((d) => d.tipo === 2)?.urlHtml;
+
+    // Protección por si no existe docs, o docs tipo2
+    if (!linkUrl) {
+        const noUrl = document.createElement("p");
+        noUrl.textContent = "Medicamento sin prospecto disponible.";
+        noUrl.classList.add("external-link-empty");
+        container.append(noUrl);
+        return;
+    }
+    const link = document.createElement("a");
+    link.textContent = "Ver prospecto";
+    link.href = linkUrl;
+    link.target = "_blank";
+    link.rel = "noopener";
+    link.classList.add("external-link");
+
+    container.append(link);
 }
 
 /**

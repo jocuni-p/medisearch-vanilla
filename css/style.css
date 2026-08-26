@@ -30,14 +30,14 @@
 	--favorite-color: crimson;
 	--bg-default: #EFF0F3;
 	--bg-secondary: #FBFBFE;
-	--tag-recipe-bg: #DDDCFF;
-	--tag-recipe-text: #3027CE;
+	--tag-recipe-bg: #f3dbfd;
+	--tag-recipe-text: #9E2BCB;
 	--tag-generic-bg: #C8EDB8;
 	--tag-generic-text: #2A5A08;
-	--tag-psum-bg: #F5C0C0;
-	--tag-psum-text: #a91111;
-	--tag-hospital-bg: #f8832e;
-	--tag-hospital-text: rgb(208, 74, 6);
+	--tag-psum-bg: #fcd5e0;
+	--tag-psum-text: #d50139;
+	--tag-hospital-bg: #84b2fd;
+	--tag-hospital-text: rgb(1, 5, 251);
 
 	/* ---escala tipográfica--- */
 	--fs-xs: 0.75rem;
@@ -292,14 +292,15 @@ de sus containers padres y se deje truncar bien.*/
 .li-bottom-block {
 	display: flex;
 	flex-wrap: wrap; /* Si no caben, pasaran a segunda linea, sin romperse */
+	gap: 5px;
 }
 
+/* Propiedades de forma de los tags pildora*/
 .tag-pill {
 	display: inline-flex; /* tag y su texto unidos y con su tamaño justo*/
 	align-items: center;
 	gap: 2px;/* dist % icono y texto */
 	padding: 1px 5px;
-	margin: 2px;
 	border-radius: 5px;
 	font-size: var(--fs-xs);
 	font-weight: 600;
@@ -307,6 +308,18 @@ de sus containers padres y se deje truncar bien.*/
 	color: var(--tag-text);
 }
 	
+/* Propiedades de forma de los tags en linea */
+.tag-line {
+	display: flex;
+	gap: 4px;
+	padding: 10px 5px;
+	border-radius: 5px;
+	font-weight: 600;
+	background: var(--tag-bg);
+	color: var(--tag-text);
+}
+
+/* Propiedades de color de los tags */
 /* No aplica nada. Solo se declara/porta color para el texto y el fondo de cada tag */
 .tag-generic {
 	/* color-mix: mezcla el color del fondo con % blanco */
@@ -389,31 +402,44 @@ form button {
 .detail-card {
 	display: flex;
 	flex-direction: column;
+	gap: 10px;
 	background: var(--bg-secondary);
 	border: 1px solid var(--card-border);
 	border-left: 3px solid var(--brand);
 	border-radius: 10px;
 	padding: 8px 15px;
-	margin: 5px 0px;
 	font-size: var(--fs-s);
 }
 
-#medication-identity, /* Section primera de detail*/
+#medication-identity { /* Section primera de detail*/
+	display: flex;
+	flex-direction: column;
+	gap: 10px;
+}
+
 .detail-name,
 .detail-active-principles,
-.detail-lab,
-.detail-tags {
-	padding-top: 20px;
+.detail-lab {
 	text-align: left;
 	overflow-wrap: break-word; /* protector: parte una palabra larga, solo si no cabe de otra forma */
 }
 
-.detail-card section:not(:last-child) { /* En el último hijo <section> no actua */
-	margin-bottom: 30px;
+.detail-tags {
+	display: flex;
+	gap: 10px;
+	flex-wrap: wrap; /* Si no caben, pasaran a segunda linea, sin romperse */
 }
 
+.detail-tag-lines {
+	display: flex;
+	flex-direction: column;
+	gap: 10px;
+}
+
+/* El título tiene más aire que el resto de elementos de la section */
 .detail-name {
 	font-size: var(--fs-base);
+	padding: 20px 0px 10px 0px;
 }
 
 #medication-fav-action {
@@ -438,6 +464,7 @@ form button {
 }
 
 .external-link { /* Link a Prospecto */
+	display: inline-block;
 	border: none;
 	border-radius: 10px;
 	padding: 10px 30px;
@@ -455,15 +482,6 @@ form button {
 .supply-msg-neutral {
 	font-style: italic;
 	color: var(--text-secondary);
-}
-
-.supply-message {
-	/* Propiedades de color de los tags están declaradas en el apartado 6 */
-	background: var(--tag-bg);
-	color: var(--tag-text);
-	padding: 10px 10px;
-	border-radius: 5px;
-	font-weight: 600;
 }
 
 /* ======= 9. PÁGINA: FAVORITES ======== */
