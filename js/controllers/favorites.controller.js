@@ -24,10 +24,12 @@ async function init() {
 		// Para cada nregistro del array hace un fetch a /medicamento. 
 		// Devuelve un array de promesas pendientes.
 		const promises = nregistros.map(n => fetchMedication(n));
-		// Es un array de medicamentos
+		console.log(promises);  // DEBBUG
+		// Promise.all devuelve un array de medicamentos
 		// Espera hasta tener todas las responses (si falla una, falla todo)
 		// TODO Para linea futura: evitar que caiga si uno falla
 		const medications = await Promise.all(promises);
+		console.log(medications);  // DEBBUG
 		// Oculta el spinner
 		hideLoading();
 		// Pinta la lista

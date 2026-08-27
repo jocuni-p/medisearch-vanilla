@@ -18,7 +18,7 @@ export function renderIdentity(medication) {
     name.classList.add("detail-name");
 	
 	// Para poder dar estilos por separado al título y al valor de principio activo y laboratorio
-	// se crean como elementos de una description list <dl>
+	// se crean como elementos de description list <dl>
     // Crea nodo padre de description list
 	const descriptionList = document.createElement("dl");
 	descriptionList.classList.add("detail-data");
@@ -36,10 +36,10 @@ export function renderIdentity(medication) {
     const labValue = document.createElement("dd");
     labValue.textContent = medication.labcomercializador || medication.labtitular;
 
-	// Pongo los nodos <dt> y <dd> dentro del <dl> padre
+	// Pone los nodos <dt> y <dd> dentro del <dl> padre
 	descriptionList.append(activePrinciplesTitle, activePrinciplesValue, labTitle, labValue);
 
-    // Creo array con los nodos que SEGURO se han de mostrar (los tags solo si aplican)
+    // Crea array con los nodos que SEGURO se han de mostrar (los tags, solo si aplican)
     const nodes = [name, descriptionList];
 
     //Crea Nodo de tags en forma de pildoras
