@@ -530,7 +530,20 @@ form button {
 }
 
 .favorites-subtitle {
-    margin-bottom: 20px;
+	margin-bottom: 20px;
+}
+
+.favorites-item-failed {
+	font-style: italic;
+	font-weight: 400;
+	color: var(--text-secondary);
+}
+
+/* Gana por especificidad a la de arriba (6.cards) */
+.favorites-item-failed:hover {
+	border: 1px solid var(--card-border);
+	border-left: 3px solid var(--brand);
+	border-right: none;
 }
 
 /* ======= 10. PÁGINA: LEGAL-POLICY ======== */

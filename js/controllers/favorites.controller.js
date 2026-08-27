@@ -6,37 +6,44 @@ import { showLoading, showEmpty, showError, hideLoading } from "../views/ui-stat
 import { getFavoritesList } from "../models/favorites.storage.js";
 import { renderFavoritesList } from "../views/favorites.view.js";
 
-
 // Arranca el JS al cargar la pagina
 document.addEventListener("DOMContentLoaded", init);
 
 async function init() {
-	showHeader("Favoritos");
-	showFooter();
-	//Array
-	const nregistros = getFavoritesList();
-	if (nregistros.length === 0) {
-		showEmpty(MESSAGES.favorites.empty);
-		return;
-	}
-	showLoading();
-	try {
-		// Para cada nregistro del array hace un fetch a /medicamento. 
-		// Devuelve un array de promesas pendientes.
-		const promises = nregistros.map(n => fetchMedication(n));
-		console.log(promises);  // DEBBUG
-		// Promise.all devuelve un array de medicamentos
-		// Espera hasta tener todas las responses (si falla una, falla todo)
-		// TODO Para linea futura: evitar que caiga si uno falla
-		const medications = await Promise.all(promises);
-		console.log(medications);  // DEBBUG
-		// Oculta el spinner
-		hideLoading();
-		// Pinta la lista
-		renderFavoritesList(medications);
-	} catch (error) {
-		console.error("Error cargando favoritos: ", error);
-		hideLoading();
-		showError(MESSAGES.favorites.fetchError);
-	}
+    showHeader("Favoritos");
+    showFooter();
+    //Array
+    const nregistros = getFavoritesList();
+    if (nregistros.length === 0) {
+        showEmpty(MESSAGES.favorites.empty);
+        return;
+    }
+    showLoading();
+    try {
+	    // Obtiene un array de obj con status(fulfilled/rejected) y valor de cada fetch
+        const results = await Promise.allSettled(nregistros.map((n) => fetchMedication(n)));
+
+		// Crea un array de objetos con las respuestas de las promesas [{ok: true, medication: {...} }, ...]
+		// El parámetro 'i' es un índice
+        const favorites = results.map((r, i) =>
+            r.status === "fulfilled" ? { ok: true, medication: r.value } : { ok: false, nregistro: nregistros[i] },
+		);
+		
+		// Método iterativo Array.every(): Comprueba si todos los elementos del array cumplen una misma condición. Retorna booleano.
+		// Si el elemento 'ok' de todos los elementos del array no existe (es false) retorna 'true'
+		const allFailed = favorites.every(favorite => !favorite.ok);
+		if (allFailed) {
+			showError(MESSAGES.favorites.fetchError);
+			return;
+		}
+
+        // Oculta el spinner
+        hideLoading();
+        // Pinta la lista
+        renderFavoritesList(favorites);
+    } catch (error) {
+        console.error("Error cargando favoritos: ", error);
+        hideLoading();
+        showError(MESSAGES.favorites.fetchError);
+    }
 }
