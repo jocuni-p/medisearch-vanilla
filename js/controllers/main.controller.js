@@ -23,10 +23,10 @@ document.addEventListener("DOMContentLoaded", init);
  */
 function init() {
     showHeader("Inicio");
-	showFooter();
+    showFooter();
     // Implementa listener de eventos en el form
     const form = document.querySelector("#form");
-	form.addEventListener("submit", handleSearch);
+    form.addEventListener("submit", handleSearch);
 }
 
 /**
@@ -54,19 +54,19 @@ async function handleSearch(event) {
     }
     showLoading(); // Mostrará el spinner hasta que llegue la response
     try {
-		// Petición a la API
-		const data = await fetchMedications(valor);
-		// Valida y pinta la respuesta de la API
-		renderSearchResponse(data);
+        // Petición a la API
+        const data = await fetchMedications(valor);
+        // Valida y pinta la respuesta de la API
+        renderSearchResponse(data);
     } catch (error) {
-		console.error("Ha habido un problema al conectar con CIMA.", error.message);
+        console.error("Ha habido un problema al conectar con CIMA.", error.message);
         showError(MESSAGES.response.error); // Oculta spinner, muestra mensaje, oculta lista
         clearMedications(); // En los dos estados donde puede haber cards previas (empty, error)
     }
 }
 
 /**
- * Maneja el error de validación del input, mostrando al usuario un error explicito 
+ * Maneja el error de validación del input, mostrando al usuario un error explicito
  * @param {string} reason   Razón del error de validación: 'empty' | 'tooShort' | 'invalidChars'
  */
 function handleValidationError(reason) {
@@ -106,22 +106,26 @@ function validateInput(input) {
 }
 
 /**
- * Valida la estructura de la respuesta y decide la respuesta que aplicará (mostrar error/pintar las cards)
+ * Valida la estructura de la respuesta, decide la respuesta que aplicará (mostrar error/pintar las cards) y ordenará alfabeticamente
  * @param {Object} data - Objeto de la response de la API con propiedad 'resultados'
  * @throws {Error}  Si 'resultados' no es un array
  */
 function renderSearchResponse(data) {
-	if (!Array.isArray(data.resultados)) {
-		// Este error subirá hasta el catch de la función padre
-		throw new Error("Respuesta inesperada de la API");
-	}
-	// si es una response ok, pero con contenido 0
-	if (data.resultados.length === 0) {
-		clearMedications(); // Limpia el listado de cards previas
-		showEmpty(MESSAGES.response.empty);
-		return;
-	}
-	showResults(); //Oculta el spinner, oculta el mensaje, muestra la lista
-	// Pinta el contenido de la response
-	showMedications(data.resultados);
+    if (!Array.isArray(data.resultados)) {
+        // Este error subirá hasta el catch de la función padre
+        throw new Error("Respuesta inesperada de la API");
+    }
+    // si es una response ok, pero con contenido 0
+    if (data.resultados.length === 0) {
+        clearMedications(); // Limpia el listado de cards previas
+        showEmpty(MESSAGES.response.empty);
+        return;
+    }
+    // Crea un NUEVO array ordenado alfabeticamente
+    const orderedData = data.resultados.toSorted((a, b) =>
+        a.nombre.localeCompare(b.nombre, "es", { numeric: true })
+    );
+    showResults(); //Oculta el spinner, oculta el mensaje, muestra la lista
+    // Pinta el contenido de la response
+    showMedications(orderedData);
 }

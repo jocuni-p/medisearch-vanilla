@@ -11,7 +11,7 @@ export function renderFavoritesList(favorites) {
 
 	//mapea cada medicamento: si tiene un 'ok' valido a nodo <li> con su nombre y un enlace
 	// si no a <li> fallido
-	const items = favorites.map(favorite => favorite.ok
+	const items = favorites.map(favorite => favorite.medication
 		? buildFavoriteItem(favorite.medication)
 		: buildFailedItem());
 

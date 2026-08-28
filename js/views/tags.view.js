@@ -14,7 +14,7 @@ export const TAG_DEFINITIONS = [
         className: "tag-recipe",
         iconClass: "bi-file-medical",
         label: "Receta",
-        description: "Imprescindible receta médica para su obtención.",
+        description: "Medicamento sujeto a prescripción médica.",
     },
     {
         check: (medication) => medication.generico,

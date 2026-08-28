@@ -20,7 +20,7 @@ async function init() {
     }
     showLoading();
     try {
-	    // Obtiene un array de obj con status(fulfilled/rejected) y valor de cada fetch
+	    // Obtiene un array de obj con status de cada fetch (fulfilled/rejected) y valor o reason si falló
         const results = await Promise.allSettled(nregistros.map((n) => fetchMedication(n)));
 
 		// Crea un array de objetos con las respuestas de las promesas [{ok: true, medication: {...} }, ...]
@@ -28,7 +28,8 @@ async function init() {
         const favorites = results.map((r, i) =>
             r.status === "fulfilled" ? { ok: true, medication: r.value } : { ok: false, nregistro: nregistros[i] },
 		);
-		
+
+		// Si fallan todos los fetch, muestra un mensaje de error
 		// Método iterativo Array.every(): Comprueba si todos los elementos del array cumplen una misma condición. Retorna booleano.
 		// Si el elemento 'ok' de todos los elementos del array no existe (es false) retorna 'true'
 		const allFailed = favorites.every(favorite => !favorite.ok);
@@ -37,10 +38,17 @@ async function init() {
 			return;
 		}
 
+		// Ordena los favoritos alfabeticamente, los fetch fallidos se ponen al final del array
+		const orderedFavorites = favorites.toSorted((a, b) => {
+			if (a.ok !== b.ok) return a.ok ? -1 : 1;
+			if (!a.ok) return 0;
+			return a.medication.nombre.localeCompare(b.medication.nombre, "es", {numeric: true});
+		});
+
         // Oculta el spinner
         hideLoading();
         // Pinta la lista
-        renderFavoritesList(favorites);
+        renderFavoritesList(orderedFavorites);
     } catch (error) {
         console.error("Error cargando favoritos: ", error);
         hideLoading();
