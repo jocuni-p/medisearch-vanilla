@@ -43,15 +43,21 @@
             </p>
 
             <form id="form">
-                <!-- El label es para los lectores de pantalla cuando encuentren el campo d e edición. Poner el elemento visualmente oculto con el css. La clase visually-hidden lo deja solo visible justo para eso.-->
-                <label for="search-input" class="visually-hidden">Buscar medicamentos</label>
-                <input
-                    id="search-input"
-                    type="search"
-                    name="nombre"
-                    placeholder="Nombre comercial (ej. Gelocatil)"
-                />
-                <button type="submit">Buscar</button>
+                <!-- El label es para los lectores de pantalla cuando encuentren el campo de edición. Poner el elemento visualmente oculto con el css. La clase visually-hidden lo deja solo visible justo para eso.-->
+                <div class="search-row">
+                    <label for="search-input" class="visually-hidden">Buscar medicamentos</label>
+                    <input
+                        id="search-input"
+                        type="search"
+                        name="nombre"
+                        placeholder="Nombre comercial (ej. Gelocatil)"
+                        aria-describedby="form-validation-msg"
+                    />
+                    <button type="submit">Buscar</button>
+                </div>
+
+                <!--MENSAJE ERROR DE VALIDACION DEL INPUT-->
+                <p id="form-validation-msg" class="form-validation-msg hidden" role="alert"></p>
             </form>
 
             <!-- SPINNER -->
@@ -62,14 +68,21 @@
             <!-- ERROR MSG & STATUS (módulo ui-state)-->
             <div id="state-message" class="state-message hidden" role="status" aria-live="polite"></div>
 
-            <!-- TODO: Linea futura de desarrollo. Paginación
-            <p id="results-info" class="top-info-pagination">RESULTADOS _ DE _</p> -->
+            <!-- MENSAJE INICIAL DE PRESENTACIÓN   lo gestionará ui-state.view-->
+            <div id="initial-text" class="initial-text">
+                <h2>Escribe el nombre de un medicamento</h2>
+
+                <p class="initial-text-lead">
+                    Encontrarás su principio activo, si necesita receta, si hay problemas de suministro y un
+                    enlace al prospecto oficial de la AEMPS.
+                </p>
+                <p class="initial-text-note">
+                    Solo se muestran medicamentos actualmente comercializados en España.
+                </p>
+            </div>
 
             <!--  CARDS LIST --- -->
             <ul id="results-list"></ul>
-
-            <!-- TODO: Linea futtura de desarrollo. Paginación 
-            <nav id="pagination" aria-label="Paginación">&lt;&lt; 1 de 5 &gt;&gt;</nav> -->
         </main>
         <footer id="app-footer"></footer>
 

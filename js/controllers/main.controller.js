@@ -119,7 +119,7 @@ function renderSearchResponse(data) {
     if (data.resultados.length === 0) {
         clearMedications(); // Limpia el listado de cards previas
         showEmpty(MESSAGES.response.empty);
-        return;
+        return; 
     }
     // Crea un NUEVO array ordenado alfabeticamente
     const orderedData = data.resultados.toSorted((a, b) =>

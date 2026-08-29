@@ -26,6 +26,7 @@
     --brand-third-hover: #9590ff;
     --card-border: #b8b5e8;
     --almost-black: #050315;
+	
     --favorite-color: crimson;
     --bg-default: #eff0f3;
     --bg-secondary: #fbfbfe;
@@ -353,12 +354,22 @@ de sus containers padres y se deje truncar bien.*/
 
 form {
     display: flex;
-    width: 100%; /* No me convence el ancho*/
-    margin: 25px 0px;
-    gap: 10px;
+	flex-direction: column;
+	margin: 25px 0px;
+	gap: 6px;
+    /* width: 100%; */ /* No me convence el ancho*/
 }
 
-input {
+.search-row {
+	display: flex;
+	gap: 10px;
+	width: 100%;
+	/* gap: 10px; */
+
+}
+
+
+form input {
     flex-grow: 2; /* Al crecer se lleva 2/3 del espacio sobrante */
     border: none;
     border-radius: 10px;
@@ -387,6 +398,38 @@ form button {
 
 #form button:hover {
     background-color: var(--brand-secondary);
+}
+
+.form-validation-msg {
+	font-size: var(--fs-s);
+	color: red; /* OJO: COMPROBAR */
+	text-align: left;
+
+}
+
+.initial-text {
+	display: flex;
+	flex-direction: column;
+	margin-top: 50px; /* centrarlo donde yo quiero */
+    text-align: center;
+    color: var(--almost-black);
+}
+
+.initial-text h2 {
+	font-size: var(--fs-l);
+	font-weight: 600;
+}
+.initial-text-lead {
+	font-size: var(--fs-base);
+	padding: 10px;
+	max-width: 50ch;
+	margin-inline: auto;
+}
+
+.initial-text-note {
+	font-size: var(--fs-s);
+	color: var(--text-legal);
+	padding: 10px;
 }
 
 #results-list {
@@ -583,4 +626,11 @@ form button {
     .favorites-item {
         margin: 0;
     }
+
+	/* Nuevo ancho del botón para Desktop */
+	.search-row button {
+		flex-grow: 0.5;
+		padding: 10px 0px;
+
+	}
 }
