@@ -153,7 +153,7 @@ export function renderSupplyMessage(msg) {
     container.classList.remove("hidden");
     const p = document.createElement("p");
     p.textContent = msg;
-    p.classList.add("supply-msg-neutral"); // Personalizar CSS para este caso
+    p.classList.add("detail-supply-msg");
     container.append(p);
 }
 

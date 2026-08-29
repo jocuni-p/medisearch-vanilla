@@ -1,7 +1,6 @@
 
-const COMPANY = "Medisearch";
+const COMPANY = "MediSearch";
 
-//TODO: Refactorizar, función demasiado larga
 // Crea y muestra por pantalla el header con los enlaces correspondientes según que página lo llama
 export function showHeader(nameOfPage) {
     // recupero el contenedor del header
@@ -14,12 +13,8 @@ export function showHeader(nameOfPage) {
     nav.setAttribute("aria-label", "Principal"); //Define el rol del nav, no un destino
 
     if (nameOfPage === "Inicio") {
-        // Añado los enlaces al container. append() acepta varios nodos de golpe
-        nav.append(
-            // Crea cada uno de los enlaces
-            createLink("Favoritos", "favorites.html"),
-            createLink("Suministro", "supply.html"),
-        );
+        // Añado el enlace al container.
+        nav.append(createLink("Favoritos", "favorites.html"));
         // Si estoy en Favoritos veré 'Inicio'
     } else if (nameOfPage === "Favoritos") {
         nav.append(createLink("Inicio", "index.html"));
@@ -29,16 +24,15 @@ export function showHeader(nameOfPage) {
     }
 
     // Crea enlace con nombre de la compañia
-    const logoAndBrandName = createBrandLink();
+    const brandName = createBrandLink();
 
     // Envoltorio global
     const headerContainer = document.createElement("div");
     headerContainer.classList.add("header-container");
-    headerContainer.append(logoAndBrandName, nav);
+    headerContainer.append(brandName, nav);
     appHeader.append(headerContainer);
 }
 
-// TODO: refactorizar porque he eliminado el logo
 // Crea un contenedor con company_name que es un enlace
 function createBrandLink() {
     // Creo el contenedor con un <a> para que sea enlazable

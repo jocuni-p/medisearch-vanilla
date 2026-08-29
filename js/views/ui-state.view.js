@@ -1,7 +1,7 @@
 /**
  * Este módulo es reutilizable para gestión de estados de UI (loading, empty, error, results).
  * 
- * Se llama desde el controller que necesite mostrar feedback al usuario durante las operaciones asíncronas. Lo usaré en main.controller y en detail, supply y favorites.
+ * Se llama desde el controller que necesite mostrar feedback al usuario durante las operaciones asíncronas. Lo usaré en main.controller, en detail y favorites.
  * 
  * El llamador indica el state deseado y el módulo muestra/oculta el elemento correspondiente.
  * Los mensajes de texto se reciben como argumento (ver ui-messages.js para lops textos).

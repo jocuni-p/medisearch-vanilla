@@ -10,8 +10,7 @@
 	8. Página: Detail
 	9. Página: Favorites
 	10. Página: Legal-Policy
-	11. Página: Supply (bocetada)
-	12. Responsive (media queries)
+	11. Responsive (media queries)
 ================================== */
 
 /* ==== 1. VARIABLES (:root) ==== */
@@ -89,8 +88,7 @@ h1 {
 }
 
 .subtitle,
-.favorites-subtitle,
-.supply-subtitle {
+.favorites-subtitle {
     color: var(--text-secondary);
     text-align: center;
 }
@@ -514,7 +512,7 @@ form button {
 }
 
 .external-link-empty,
-.supply-msg-neutral {
+.detail-supply-msg {
     font-style: italic;
     color: var(--text-secondary);
 }
@@ -571,9 +569,7 @@ form button {
     margin-bottom: 20px;
 }
 
-/* ======= 11. PÁGINA: SUPPLY ======== */
-
-/* ======= 12. RESPONSIVE ======== */
+/* ======= 11. RESPONSIVE ======== */
 
 @media (min-width: 768px) {
     #results-list,
