@@ -114,6 +114,14 @@ h1 {
     padding-left: 10px;
 }
 
+.brand-prefix {
+	font-weight: 300;
+}
+
+.brand-suffix {
+	font-weight: 600;
+}
+
 #app-header nav {
     display: flex;
     gap: 8px; /* Separación entre botones */
@@ -350,7 +358,7 @@ de sus containers padres y se deje truncar bien.*/
     font-size: 1rem;
 }
 
-/* ======= 7. PÁGINA: INDEX (form)======== */
+/* ======= 7. PÁGINA: INDEX (form, form-validation-msg, initial-text) ======== */
 
 form {
     display: flex;

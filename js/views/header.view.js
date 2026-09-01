@@ -1,5 +1,7 @@
 
 const COMPANY = "MediSearch";
+const COMPANY_PREFIX = "Medi";
+const COMPANY_SUFFIX = "Search";
 
 // Crea y muestra por pantalla el header con los enlaces correspondientes según que página lo llama
 export function showHeader(nameOfPage) {
@@ -33,19 +35,28 @@ export function showHeader(nameOfPage) {
     appHeader.append(headerContainer);
 }
 
-// Crea un contenedor con company_name que es un enlace
+// Crea un contenedor del enlace
 function createBrandLink() {
-    // Creo el contenedor con un <a> para que sea enlazable
+    // Crea el contenedor con un <a> para que sea enlazable
     const containerBrandName = document.createElement("a");
     containerBrandName.href = "index.html";
-    containerBrandName.classList.add("brand");
+	containerBrandName.classList.add("brand");
+	// Para que los lectores de pantalla vean un solo nombre (no un prefijo+sufijo)
+	containerBrandName.setAttribute("aria-label", COMPANY);
 
-    // Creo el nombre de la compañia
+    // Crea container para nombre de la compañia
     const brandName = document.createElement("span");
-    brandName.textContent = COMPANY;
     brandName.classList.add("company-name");
+	// Creo el nombre con 2 elementos para poder darles estilos separados
+	const brandFirstName = document.createElement("span");
+	brandFirstName.textContent = COMPANY_PREFIX;
+	brandFirstName.classList.add("brand-prefix");
+	const brandSecondName = document.createElement("span");
+	brandSecondName.textContent = COMPANY_SUFFIX;
+	brandSecondName.classList.add("brand-suffix");
 
-    //Envuelvo lo creado en el contenedor
+    //Envuelvo lo creado en sus contenedores
+	brandName.append(brandFirstName, brandSecondName);
     containerBrandName.append(brandName);
     return containerBrandName;
 }

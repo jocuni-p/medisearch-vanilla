@@ -29,18 +29,17 @@ function init() {
     // Implementa listener de eventos en el form
     const form = document.querySelector("#form");
 
-    /* ======= DEBOUNCE ======== */
     const input = document.querySelector("#search-input");
-
-    let timerId;
-
-	input.addEventListener(
-		"input",
-		() => {
-			clearTimeout(timerId); // cancela el temporizador anterior
-			// Ejecuta la función de validación cada Xms (DEBOUNCE_DELAY) 
-			timerId = setTimeout(() => validateWhileTyping(), DEBOUNCE_DELAY);
-		});
+	
+    /* ======= DEBOUNCE ======== */
+	let timerId;
+	// El evento 'input' se dispara en cada cambio del campo (tecleado, borrado, pegado).
+	// Cada pulsación de tecla cancela la validación que estaba programada y programa una nueva.La función de validación solo se dispara, cuando pasan 400 ms sin teclear (DEBOUNCE_DELAY).
+    input.addEventListener("input", () => {
+        clearTimeout(timerId); // cancela el temporizador anterior (si no existe no da error).
+        // Programa la ejecución de la función de validación tras un tiempo (DEBOUNCE_DELAY) sin pulsar una tecla. Devuelve un identificador numérico de esa tarea.
+        timerId = setTimeout(() => validateWhileTyping(), DEBOUNCE_DELAY);
+    });
 
     form.addEventListener("submit", handleSearch);
 }
@@ -56,7 +55,7 @@ function init() {
  * 	- tiene al menos 4 caracteres válidos
  */
 function validateWhileTyping() {
-	const input = document.querySelector("#search-input");
+    const input = document.querySelector("#search-input");
     const inputTrimmed = input.value.trim();
     // Validación del input
     const resultInput = validateInput(inputTrimmed);
