@@ -6,7 +6,7 @@
 	4. Componentes globales (header, footer, nav-button)
 	5. Utilidades (visually-hidden, hidden)
 	6. Componentes reutilizables (cards .li-main .favorites-item, tag-pill(forma), tag-X(color)state-message, spinner)
-	7. Página: Index (form)
+	7. Página: Index (form, form-validation-msg, initial-text)
 	8. Página: Detail
 	9. Página: Favorites
 	10. Página: Legal-Policy
@@ -20,8 +20,8 @@
     --text-secondary: #888;
     --text-placeholder: #b9b9b9;
     --text-legal: #505050;
-    --brand-secondary: #3027ce;
     --brand: #433bff;
+    --brand-secondary: #3027ce;
     --brand-third: #645ffe;
     --brand-third-hover: #9590ff;
     --card-border: #b8b5e8;
@@ -357,15 +357,12 @@ form {
 	flex-direction: column;
 	margin: 25px 0px;
 	gap: 6px;
-    /* width: 100%; */ /* No me convence el ancho*/
 }
 
 .search-row {
 	display: flex;
 	gap: 10px;
 	width: 100%;
-	/* gap: 10px; */
-
 }
 
 
@@ -400,17 +397,21 @@ form button {
     background-color: var(--brand-secondary);
 }
 
+/* Mensaje de validación del input */
 .form-validation-msg {
+	display: flex;
+	align-items: flex-start;
+	gap: 5px;
 	font-size: var(--fs-s);
-	color: red; /* OJO: COMPROBAR */
-	text-align: left;
-
+	color: var(--brand);
+	padding: 0px 10px;
 }
 
+/* texto explicativo al entrar en página index */
 .initial-text {
 	display: flex;
 	flex-direction: column;
-	margin-top: 50px; /* centrarlo donde yo quiero */
+	margin-top: 50px; /* centrado ahí a proposito */
     text-align: center;
     color: var(--almost-black);
 }
@@ -630,7 +631,5 @@ form button {
 	/* Nuevo ancho del botón para Desktop */
 	.search-row button {
 		flex-grow: 0.5;
-		padding: 10px 0px;
-
 	}
 }

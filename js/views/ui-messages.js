@@ -11,7 +11,7 @@
 export const MESSAGES = {
 	validation: {
 		tooShort: 'Escribe al menos 4 caracteres',
-		invalidChars: 'Solo se permiten letras, números, espacios y los signos -/,.',
+		invalidChars: 'Solo se aceptan letras, números, espacios y los signos -/,.',
 	},
 	response: {
 		empty: 'No se han encontrado medicamentos comercializados con este nombre.',
