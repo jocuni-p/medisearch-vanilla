@@ -428,7 +428,7 @@ form button {
 
 .initial-text-note {
 	font-size: var(--fs-s);
-	color: var(--text-legal);
+	color: var(--text-secondary);
 	padding: 10px;
 }
 

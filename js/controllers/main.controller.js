@@ -4,6 +4,7 @@ import { showMedications, clearMedications } from "../views/main.view.js";
 import { fetchMedications } from "../models/medications.model.js";
 import { showLoading, showEmpty, showError, showResults } from "../views/ui-state.view.js";
 import { MESSAGES } from "../views/ui-messages.js";
+import { clearValidationMsg, showValidationMsg } from "../views/form-validation.view.js";
 
 /* ==== CONSTANTS ==== */
 
@@ -12,6 +13,7 @@ const VALIDATION_MESSAGES = {
     tooShort: MESSAGES.validation.tooShort,
     invalidChars: MESSAGES.validation.invalidChars,
 };
+const DEBOUNCE_DELAY = 400;
 
 // Arranca el JS al cargar la pagina
 document.addEventListener("DOMContentLoaded", init);
@@ -26,7 +28,43 @@ function init() {
     showFooter();
     // Implementa listener de eventos en el form
     const form = document.querySelector("#form");
+
+    /* ======= DEBOUNCE ======== */
+    const input = document.querySelector("#search-input");
+
+    let timerId;
+
+	input.addEventListener(
+		"input",
+		() => {
+			clearTimeout(timerId); // cancela el temporizador anterior
+			// Ejecuta la función de validación cada Xms (DEBOUNCE_DELAY) 
+			timerId = setTimeout(() => validateWhileTyping(), DEBOUNCE_DELAY);
+		});
+
     form.addEventListener("submit", handleSearch);
+}
+
+/**
+ * Primera validación del campo del input.
+ * Valida la introducción de texto tras el retardo del DEBOUNCE_DELAY después de una pulsación de tecla.
+ * Muestra un mensaje de validación si el input:
+ * 	- tiene  menos de 4 carácteres válidos.
+ * 	- contiene algún caracter especial no permitido
+ * Oculta el mensaje de validación si el input:
+ * 	- esta vacío (por que se borró)
+ * 	- tiene al menos 4 caracteres válidos
+ */
+function validateWhileTyping() {
+	const input = document.querySelector("#search-input");
+    const inputTrimmed = input.value.trim();
+    // Validación del input
+    const resultInput = validateInput(inputTrimmed);
+    if (resultInput.valid || resultInput.reason === "empty") {
+        clearValidationMsg();
+    } else {
+        showValidationMsg(VALIDATION_MESSAGES[resultInput.reason]);
+    }
 }
 
 /**
@@ -45,17 +83,21 @@ function init() {
 async function handleSearch(event) {
     event.preventDefault(); // previene la recarga de la página para que no se pierdan los datos
     const input = document.querySelector("#search-input");
-    const valor = input.value.trim();
+    const inputTrimmed = input.value.trim();
     // Validación del input
-    const resultInput = validateInput(valor);
+    const resultInput = validateInput(inputTrimmed);
     if (!resultInput.valid) {
-        handleValidationError(resultInput.reason);
+        handleValidationMsg(resultInput.reason);
         return;
     }
+
+    //Limpiar el mensaje de validación, si el input pasa sin errores.
+    clearValidationMsg();
+
     showLoading(); // Mostrará el spinner hasta que llegue la response
     try {
         // Petición a la API
-        const data = await fetchMedications(valor);
+        const data = await fetchMedications(inputTrimmed);
         // Valida y pinta la respuesta de la API
         renderSearchResponse(data);
     } catch (error) {
@@ -69,14 +111,12 @@ async function handleSearch(event) {
  * Maneja el error de validación del input, mostrando al usuario un error explicito
  * @param {string} reason   Razón del error de validación: 'empty' | 'tooShort' | 'invalidChars'
  */
-function handleValidationError(reason) {
+function handleValidationMsg(reason) {
     // Primero limpio si hay algo en la lista
     clearMedications();
-    if (reason === "empty") {
-        return;
-    }
-    // si es por otra razón muestra msg
-    showEmpty(VALIDATION_MESSAGES[reason]); // Oculta spinner, muestra mensaje, oculta lista
+    if (reason === "empty") return;
+    // Pinta el msg de validación.
+    showValidationMsg(VALIDATION_MESSAGES[reason]);
 }
 
 /**
@@ -119,12 +159,14 @@ function renderSearchResponse(data) {
     if (data.resultados.length === 0) {
         clearMedications(); // Limpia el listado de cards previas
         showEmpty(MESSAGES.response.empty);
-        return; 
+        return;
     }
+
     // Crea un NUEVO array ordenado alfabeticamente
     const orderedData = data.resultados.toSorted((a, b) =>
-        a.nombre.localeCompare(b.nombre, "es", { numeric: true })
+        a.nombre.localeCompare(b.nombre, "es", { numeric: true }),
     );
+
     showResults(); //Oculta el spinner, oculta el mensaje, muestra la lista
     // Pinta el contenido de la response
     showMedications(orderedData);
