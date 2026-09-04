@@ -126,6 +126,7 @@ h1 {
     display: flex;
     gap: 8px; /* Separación entre botones */
 }
+
 #app-header {
     background-color: var(--brand);
 }
@@ -372,7 +373,6 @@ form {
 	gap: 10px;
 	width: 100%;
 }
-
 
 form input {
     flex-grow: 2; /* Al crecer se lleva 2/3 del espacio sobrante */

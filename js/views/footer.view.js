@@ -16,7 +16,7 @@ export function showFooter() {
     divider.setAttribute("aria-hidden", "true");
 
     nav.append(
-        createFooterLink(CIMA_LABEL, "https://cima.aemps.es", true),
+        createFooterLink(CIMA_LABEL, "https://aemps.gov.es", true),
         divider,
         createFooterLink("Aviso legal", "legal-policy.html", false),
     );

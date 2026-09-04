@@ -24,6 +24,7 @@ export async function fetchMedications(query) {
         throw new Error(`El fetch al endpoint ${url} ha fallado con un código ${response.status}`);
     }
     // convierto la response de json a objeto/array
-    const data = await response.json();
+	const data = await response.json();
+	console.log(data.resultados.length);
     return data;
 }
