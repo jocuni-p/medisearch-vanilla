@@ -1,7 +1,8 @@
 import { createTagLines, createTags } from "./tags.view.js";
 import { isInFavoritesList, toggleFavoriteStatus } from "../models/favorites.storage.js";
+import { BASE_IMG_URL } from "../models/api-config.js";
 
-
+/* OJO: Función demasiado larga, refactorizar en varias */
 /**
  * Pinta en el DOM la section de identity del medicamento (nombre, principio activo, laboratorio, tags).
  * Su responsabilidad es traducir el objeto de negocio a representación visual.
@@ -12,35 +13,60 @@ export function renderIdentity(medication) {
     // Limpia, si habia algo anterior
     container.replaceChildren();
 
-    // Crea Nodo de título
+    // Crea Nodo de título de la card
     const name = document.createElement("h1");
     name.textContent = medication.nombre;
     name.classList.add("detail-name");
-	
-	// Para poder dar estilos por separado al título y al valor de principio activo y laboratorio
-	// se crean como elementos de description list <dl>
-    // Crea nodo padre de description list
-	const descriptionList = document.createElement("dl");
-	descriptionList.classList.add("detail-data");
 
-	// Crea el par de nodos de principio activo
+	// Va guardando en un array cada nuevo nodo creado. Al final los añadirá todos a container.  
+    const nodes = [name];
+
+    //Busca si existe imagen en la response y construye su url, el nodo y la pinta
+    // Recupero la dirección url de la imagen thumbnail y la uso como bandera de existencia de la imagen en alta.
+    // Si campo 'fotos' existe, busca en el array el de tipo:"materialas" y si existe, ves a url.
+    // Si no existe algún paso devolverá 'undefined'
+    const thumbnailUrl = medication.fotos?.find((f) => f.tipo === "materialas")?.url;
+    // Aunque no está en la documentación CIMA v1.19, existe un endpoint para la imagen en alta de los medicamentos que poseen un thumbnail que construyo por patrón: https://cima.aemps.es/cima/fotos/full/materialas/nregistro/nregistro_materialas.jpg
+    // Protección: solo crea el elemento <img> si existe 'fotos' y 'materialas' en la response"
+
+    if (thumbnailUrl) {
+        // Crea el nodo de la imagen
+        const image = document.createElement("img");
+        // Config atributos de img
+        image.src = `${BASE_IMG_URL}/${medication.nregistro}/${medication.nregistro}_materialas.jpg`;
+        image.alt = `Envase de ${medication.nombre}`;
+		image.classList.add("detail-img");
+		
+		// Si el src no puede cargar el recurso, <img> dispara un evento error (404, fallo de red, file corrupto). Lo capturo y elimino silenciosamente la imagen del DOM.
+		image.addEventListener("error", () => image.remove());
+		
+		nodes.push(image);
+	}
+
+    // Crea nodo padre de description list, que envuelve nodo título dt y nodo descripción dd
+    // Para poder dar estilos por separado al título y al valor de principio activo y laboratorio
+    // se crean como elementos de description list <dl>
+    const descriptionList = document.createElement("dl");
+    descriptionList.classList.add("detail-data");
+
+    // Crea el par de nodos de principio activo
     const activePrinciplesTitle = document.createElement("dt");
     activePrinciplesTitle.textContent = "Principio activo";
-	const activePrinciplesValue = document.createElement("dd");
-	activePrinciplesValue.classList.add("active-principles-dd")
+    const activePrinciplesValue = document.createElement("dd");
+    activePrinciplesValue.classList.add("active-principles-dd");
     activePrinciplesValue.textContent = medication.pactivos;
 
-	// Crea el par de nodos de Laboratorio
+    // Crea el par de nodos de Laboratorio
     const labTitle = document.createElement("dt");
     labTitle.textContent = "Laboratorio";
     const labValue = document.createElement("dd");
     labValue.textContent = medication.labcomercializador || medication.labtitular;
 
-	// Pone los nodos <dt> y <dd> dentro del <dl> padre
-	descriptionList.append(activePrinciplesTitle, activePrinciplesValue, labTitle, labValue);
+    // Pone los nodos <dt> y <dd> dentro del <dl> padre
+    descriptionList.append(activePrinciplesTitle, activePrinciplesValue, labTitle, labValue);
 
     // Crea array con los nodos que SEGURO se han de mostrar (los tags, solo si aplican)
-    const nodes = [name, descriptionList];
+    nodes.push(descriptionList);
 
     //Crea Nodo de tags en forma de pildoras
     // Crea un array con los tags pildora, excluye el tag de problemas de sumnistro (caso especial)
@@ -62,8 +88,8 @@ export function renderIdentity(medication) {
         tagsLineContainer.append(...tagLineArr);
         nodes.push(tagsLineContainer);
     }
-	
-    // Añado todos los nodos al DOM real en una única operación.
+
+    // Añade todos los nodos al container general
     container.append(...nodes);
 }
 
@@ -72,21 +98,21 @@ export function renderIdentity(medication) {
  * @param {string} asunto - El texto lo proporciona el controller a partir del fetch a /notas
  */
 export function renderNotes(asunto) {
-	const container = document.querySelector("#medication-notes");
-	container.replaceChildren();
-	container.classList.remove("hidden");
+    const container = document.querySelector("#medication-notes");
+    container.replaceChildren();
+    container.classList.remove("hidden");
 
-	// Creo un node <p> para toda la nota
-	const securityNote = document.createElement("p");
-	securityNote.classList.add("security-note");
+    // Creo un node <p> para toda la nota
+    const securityNote = document.createElement("p");
+    securityNote.classList.add("security-note");
 
-	// Creo un node <strong> para el título
-	const noteTitle = document.createElement("strong");
-	noteTitle.classList.add("note-title");
-	noteTitle.textContent = "Nota de seguridad: ";
+    // Creo un node <strong> para el título
+    const noteTitle = document.createElement("strong");
+    noteTitle.classList.add("note-title");
+    noteTitle.textContent = "Nota de seguridad: ";
 
-	securityNote.append(noteTitle, document.createTextNode(asunto));
-	container.append(securityNote);
+    securityNote.append(noteTitle, document.createTextNode(asunto));
+    container.append(securityNote);
 }
 
 /**
@@ -94,15 +120,15 @@ export function renderNotes(asunto) {
  * @param {string} msg - El texto del mensaje lo proporciona el controller del ui-messages
  */
 export function renderNotesMessage(msg) {
-	const container = document.querySelector("#medication-notes");
-	container.replaceChildren();
-	container.classList.remove("hidden");
+    const container = document.querySelector("#medication-notes");
+    container.replaceChildren();
+    container.classList.remove("hidden");
 
-	const p = document.createElement("p");
-	p.textContent = msg;
-	p.classList.add("notes-msg");
+    const p = document.createElement("p");
+    p.textContent = msg;
+    p.classList.add("notes-msg");
 
-	container.append(p);
+    container.append(p);
 }
 
 /**
@@ -156,7 +182,6 @@ export function renderSupplyMessage(msg) {
     p.classList.add("detail-supply-msg");
     container.append(p);
 }
-
 
 /**
  * Pinta la sección del botón que enlaza al prospecto en el DOM

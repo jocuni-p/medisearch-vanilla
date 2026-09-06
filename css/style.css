@@ -468,11 +468,11 @@ form button {
 }
 
 #medication-identity {
-    /* Section primera de detail*/
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-}
+	/* Section primera de detail*/
+	display: flex;
+	flex-direction: column;
+	gap: 10px;
+} 
 
 .detail-data {
     display: grid;
@@ -504,6 +504,16 @@ form button {
     display: flex;
     gap: 10px;
     flex-wrap: wrap; /* Si no caben, pasaran a segunda linea, sin romperse */
+}
+
+/* ---IMAGEN---- */
+.detail-img {
+	width: 100%;
+	max-width: 350px;
+	height: 200px;
+	object-fit: contain;
+	border-radius: 10px;
+	display: block;
 }
 
 .detail-tag-lines {
