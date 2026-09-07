@@ -25,6 +25,6 @@ export async function fetchMedications(query) {
     }
     // convierto la response de json a objeto/array
 	const data = await response.json();
-	console.log(data.resultados.length);
+	// console.log(data.resultados.length); // DEBBUG
     return data;
 }

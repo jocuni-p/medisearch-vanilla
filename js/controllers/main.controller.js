@@ -2,7 +2,7 @@ import { showHeader } from "../views/header.view.js";
 import { showFooter } from "../views/footer.view.js";
 import { showMedications, clearMedications } from "../views/main.view.js";
 import { fetchMedications } from "../models/medications.model.js";
-import { showLoading, showEmpty, showError, showResults } from "../views/ui-state.view.js";
+import { showLoading, showEmpty, showError, showResults, showInitialState } from "../views/ui-state.view.js";
 import { MESSAGES } from "../views/ui-messages.js";
 import { clearValidationMsg, showValidationMsg } from "../views/form-validation.view.js";
 
@@ -26,22 +26,32 @@ document.addEventListener("DOMContentLoaded", init);
 function init() {
     showHeader("Inicio");
     showFooter();
-    // Implementa listener de eventos en el form
-    const form = document.querySelector("#form");
 
     const input = document.querySelector("#search-input");
 	
-    /* ======= DEBOUNCE ======== */
-	let timerId;
-	// El evento 'input' se dispara en cada cambio del campo (tecleado, borrado, pegado).
-	// Cada pulsación de tecla cancela la validación que estaba programada y programa una nueva.La función de validación solo se dispara, cuando pasan 400 ms sin teclear (DEBOUNCE_DELAY).
+    let timerId;
+    // El evento 'input' se dispara en cada cambio del campo (tecleado, borrado, pegado).
+    // Cada pulsación de tecla cancela la validación que estaba programada y programa una nueva.La función de validación solo se dispara, cuando pasan 400 ms sin teclear (DEBOUNCE_DELAY).
+	// LISTENER DEBOUNCE: MANEJO INICIAL DEL INPUT (VALIDACIÓN SINTACTICA ANTES DEL SUBMIT)
+	// Previene la recarga de la página para que no se pierdan los datos
     input.addEventListener("input", () => {
         clearTimeout(timerId); // cancela el temporizador anterior (si no existe no da error).
-        // Programa la ejecución de la función de validación tras un tiempo (DEBOUNCE_DELAY) sin pulsar una tecla. Devuelve un identificador numérico de esa tarea.
         timerId = setTimeout(() => validateWhileTyping(), DEBOUNCE_DELAY);
     });
 
+    // LISTENER: MANEJO DEL INPUT A PARTIR DEL SUBMIT
+    const form = document.querySelector("#form");
+    // Implementa listener de eventos y registra handleSearch
     form.addEventListener("submit", handleSearch);
+
+    // LISTENER: MANEJO DE LAS FLECHAS DEL NAVEGADOR (HISTORIAL NAVEGABLE HASTA ESTADO INICIAL)
+    // popstate: Evento que se solo dispara cuando el usuario se mueve por entradas del historial de la misma página (atrás, adelante o gesto deslizar en el móvil). No se dispara al cargar la página por primera vez, ni cuando se llama a pushState.
+    window.addEventListener("popstate", () => {
+        syncWithUrl(false);
+    });
+
+    // MANEJO DEL INPUT SI SE ARRANCA DESDE ENLACE (URL CON PARÁMETRO)
+    syncWithUrl(true);
 }
 
 /**
@@ -57,7 +67,6 @@ function init() {
 function validateWhileTyping() {
     const input = document.querySelector("#search-input");
     const inputTrimmed = input.value.trim();
-    // Validación del input
     const resultInput = validateInput(inputTrimmed);
     if (resultInput.valid || resultInput.reason === "empty") {
         clearValidationMsg();
@@ -67,55 +76,77 @@ function validateWhileTyping() {
 }
 
 /**
- * Manejador del evento submit del formulario de búsqueda.
- * Orquesta todo el flujo de búsqueda:
+ * Maneja el evento submit del formulario de búsqueda y después delega en runSearch()
+ * Orquesta la parte inicial del flujo de búsqueda:
  *  1. Previene la recarga de la página.
  *  2. Lee y trimea el valor del input.
- *  3. Valida el input (delega en validateInput).
- *  4. Llama al model para hacer la petición a la API.
- *  5. Valida la estructura de la respuesta.
- *  6. Pasa los datos a la view (o muestra mensaje si no hay resultados / hay error).
  *
  * @param {SubmitEvent} event - Evento submit del formulario.
  * @returns {Promise<void>}
  */
-async function handleSearch(event) {
+function handleSearch(event) {
     event.preventDefault(); // previene la recarga de la página para que no se pierdan los datos
     const input = document.querySelector("#search-input");
     const inputTrimmed = input.value.trim();
-    // Validación del input
-    const resultInput = validateInput(inputTrimmed);
+    runSearch(inputTrimmed, true);
+}
+
+/**
+ * Orquesta la parte principal del flujo de búsqueda.
+ * La pueden llamar tanto desde el submit, como desde el arranque por la URL, como desde popstate.
+ *  1. Valida el input (delega en validateInput).
+ * 	2. actualiza la URL history del navegador con el nuevo input como param
+ *  3. Llama al model para hacer la petición a la API.
+ *  4. Valida la estructura de la respuesta y la pinta.
+ *  5. Muestra mensaje si no hay resultados / hay error).
+ *
+ * @param {string} query - Input de búsqueda introducido por el usuario
+ * @param {boolean} shouldUpdateUrl - Indica si hay que actualizar la URL history o no (dependiendo de quien hizo la llamada)
+ */
+async function runSearch(query, shouldUpdateUrl) {
+    const resultInput = validateInput(query);
     if (!resultInput.valid) {
         handleValidationMsg(resultInput.reason);
         return;
     }
-
     //Limpiar el mensaje de validación, si el input pasa sin errores.
     clearValidationMsg();
-
-    showLoading(); // Mostrará el spinner hasta que llegue la response
+    // Actualiza la URL history del navegador con el nuevo input como param, pero solo si no viene de un popstate
+    if (shouldUpdateUrl) {
+        updateUrl(query);
+    }
+    showLoading();
     try {
-        // Petición a la API
-        const data = await fetchMedications(inputTrimmed);
+        const data = await fetchMedications(query);
         // Valida y pinta la respuesta de la API
         renderSearchResponse(data);
     } catch (error) {
         console.error("Ha habido un problema al conectar con CIMA.", error.message);
-        showError(MESSAGES.response.error); // Oculta spinner, muestra mensaje, oculta lista
+        showError(MESSAGES.response.error);
         clearMedications(); // En los dos estados donde puede haber cards previas (empty, error)
     }
 }
 
 /**
- * Maneja el error de validación del input, mostrando al usuario un error explicito
- * @param {string} reason   Razón del error de validación: 'empty' | 'tooShort' | 'invalidChars'
+ * Maneja la lectura de la URL
+ * Lee el parámetro q de la URL, lo pone en el input y si tiene valor lanza runSearch
+ * Es llamada desde el arranque o desde popstate (navegación con flechas)
+ * @param {boolean} shouldUpdateUrl - Bandera que decide si actualizar o no la URL
  */
-function handleValidationMsg(reason) {
-    // Primero limpio si hay algo en la lista
-    clearMedications();
-    if (reason === "empty") return;
-    // Pinta el msg de validación.
-    showValidationMsg(VALIDATION_MESSAGES[reason]);
+function syncWithUrl(shouldUpdateUrl) {
+    const input = document.querySelector("#search-input");
+
+    const params = new URLSearchParams(window.location.search);
+    const queryValue = params.get("q");
+    // Asigno el valor de la query al input, para que aparezca en el campo de búsqueda
+    input.value = queryValue || "";
+    // Si existe, hace todo el proceso de validación y búsqueda (null sino hay nada que buscar)
+    if (queryValue) {
+        runSearch(queryValue, shouldUpdateUrl);
+    } else {
+        clearMedications();
+        showInitialState();
+    }
 }
 
 /**
@@ -142,6 +173,28 @@ function validateInput(input) {
         return { valid: false, reason: "invalidChars" };
     }
     return { valid: true };
+}
+
+/**
+ * Maneja el error de validación del input, mostrando al usuario un error explicito
+ * @param {string} reason   Razón del error de validación: 'empty' | 'tooShort' | 'invalidChars'
+ */
+function handleValidationMsg(reason) {
+    // Primero limpio si hay algo en la lista
+    clearMedications();
+    if (reason === "empty") return;
+    // Pinta el msg de validación.
+    showValidationMsg(VALIDATION_MESSAGES[reason]);
+}
+
+/**
+ * Actualiza la URL con el input como param y la pushea a la history del navegador
+ * @param {String} query - Input validado introducido por el usuario en form, que será el valor.
+ */
+function updateUrl(query) {
+    const params = new URLSearchParams({ q: query });
+    const newUrl = `${window.location.pathname}?${params}`;
+    history.pushState({ q: query }, null, newUrl);
 }
 
 /**

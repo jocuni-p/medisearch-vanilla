@@ -13,7 +13,7 @@ import {
     renderNotesMessage,
     renderFavoritesAction,
 } from "../views/detail.view.js";
-import { showLoading, showEmpty, showError, hideLoading } from "../views/ui-state.view.js";
+import { showLoading, showEmpty, showError, hideLoading, hideSpinnerOnly } from "../views/ui-state.view.js";
 
 // Arranca el JS al cargar la pagina
 document.addEventListener("DOMContentLoaded", init);
@@ -38,7 +38,7 @@ async function init() {
         renderFavoritesAction(medication.nregistro);
     } catch (error) {
         console.error("Error al cargar el medicamento:", error);
-        hideLoading();
+        hideSpinnerOnly();
         showError(MESSAGES.detail.fetchError);
         return;
     }
