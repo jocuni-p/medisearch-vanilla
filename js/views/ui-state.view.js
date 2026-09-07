@@ -1,7 +1,7 @@
 /**
- * Este módulo es reutilizable para gestión de estados de respuesta (spinner, mensaje, lista de resultados).
+ * Este módulo es reutilizable para gestión de estados de respuesta (spinner, mensaje, lista de resultados, mensaje inicial orientativo).
  * 
- * Se llama desde el controller que necesite mostrar feedback al usuario durante las operaciones asíncronas. Lo usaré en main.controller, en detail y favorites.
+ * Se llama desde el controller que necesite mostrar feedback al usuario durante las operaciones asíncronas. Lo usa main.controller, detail y favorites.
  * 
  * El llamador indica el state deseado y el módulo muestra/oculta el elemento correspondiente.
  * Los mensajes de texto se reciben como argumento (ver ui-messages.js para los textos).
@@ -9,9 +9,25 @@
 
 /* ========= PUBLIC FUNCTIONS ========= */
 
+// Wrappers de la misma función, para mejorar semántica
+/**
+ * Estado sin resultados: muestra el mensaje recibido y oculta la lista.
+ * Comparte implementación con showError, pero se mantiene aparte porque
+ * comunica algo distinto: la petición fue bien y no encontró nada.
+ * @param {string} msg - Texto a mostrar (ver ui-messages.js)
+ */
+export function showEmpty(msg) { setMessageState(msg); }
 
-// OJO: ------Falta una explicación clara de que hace cada función.------
+/**
+ * Estado de error: muestra el mensaje recibido y oculta la lista.
+ * @param {string} msg - Texto a mostrar (ver ui-messages.js)
+ */
+export function showError(msg) { setMessageState(msg); }
 
+/**
+ * Estado de carga: muestra el spinner y oculta todo lo demás.
+ * El controller la llama antes de lanzar la petición a la API.
+ */
 export function showLoading() {
 	showInitialText(false);
 	showSpinner(true);
@@ -19,10 +35,10 @@ export function showLoading() {
 	showList(false);
 }
 
-// Wrappers diferentes de la misma función, para mejorar semántica
-export function showEmpty(msg) { setMessageState(msg); }
-export function showError(msg) { setMessageState(msg); }
-
+/**
+ * Estado de resultados: oculta spinner y mensaje, y muestra la lista.
+ * No pinta las cards; de eso se encarga la vista correspondiente.
+ */
 export function showResults() {
 	showInitialText(false);
 	showSpinner(false);
@@ -30,18 +46,29 @@ export function showResults() {
 	showList(true);
 }
 
-export function hideLoading() {
+/**
+ * Estado inicial de la página de inicio: oculta la lista y el mensaje,
+ * y muestra el texto orientativo de bienvenida.
+ * En las páginas que no tienen ese texto, no hace nada visible.
+ */
+export function showInitialState() {
+	showList(false);
+	hideMessage();
+	showInitialText(true);
+}
+
+/**
+ * Apaga el spinner sin tocar el resto de elementos.
+ */
+export function hideSpinnerOnly() {
 	showSpinner(false);
 }
 
-export function hideError() {
-	hideMessage();
-}
 
 /* ========= PRIVATE FUNCTIONS ========= */
 
 /**
- * Muestra/oculta el spinner según si recibe o no parámetro
+ * Muestra/oculta el spinner según el valor del parámetro
  * @param {boolean} flag - true para mostrar, false para ocultar
  */
 function showSpinner(flag) {
@@ -79,45 +106,36 @@ function hideMessage() {
 }
 
 /**
- * Muestra/oculta la lista de cards según reciba o no parámetro
+ * Muestra/oculta la lista de cards según el valor del parámetro
  * @param {boolean} flag - true para mostrar, false para ocultar
  */
 function showList(flag) {
 	const list = document.querySelector('#results-list');
 	// En favorites la lista se llama #favorites-list, por tanto list es null, así que sale aquí
 	if (!list) return;
-
 	if (flag) {
-		// Muestra la lista de resultados
 		list.classList.remove('hidden');
 	}
 	else {
-		// Oculta lista de resultados
 		list.classList.add('hidden');
 	}
 }
 
 /**
- * Muestra/oculta el mensaje inicial explicativo según exista o no lista de medicamentos que mostrar 
+ * Muestra/oculta el mensaje inicial explicativo según el valor del parámetro
  * @param {boolean} flag - true para mostrar, false para ocultar
  */
 function showInitialText(flag) {
 	const initialText = document.querySelector('#initial-text');
-	// Si no hay nada, sale sin hacer nada.
 	if (!initialText) return;
-
 	if (flag) {
-		// Muestra el texto inicial si NO existe lista de medicamentos que mostrar.
 		initialText.classList.remove("hidden");
-
 	} else {
-		// Oculta el texto inicial si existe lista de medicamentos que mostrar
 		initialText.classList.add("hidden");
 	}
-
-
 }
-//Privada genérica (showError y showEmpty vienen aquí. Las mantengo ambas porque ayudan por  semántica)
+
+// Mantengo ambas porque ayudan por semántica
 function setMessageState(msg) {
 	showInitialText(false);
 	showSpinner(false);
