@@ -21,6 +21,7 @@ export function renderIdentity(medication) {
 	// Va guardando en un array cada nuevo nodo creado. Al final los añadirá todos a container.  
     const nodes = [name];
 
+	// IMAGEN
     //Busca si existe imagen en la response y construye su url, el nodo y la pinta
     // Recupero la dirección url de la imagen thumbnail y la uso como bandera de existencia de la imagen en alta.
     // Si campo 'fotos' existe, busca en el array el de tipo:"materialas" y si existe, ves a url.
@@ -28,7 +29,6 @@ export function renderIdentity(medication) {
     const thumbnailUrl = medication.fotos?.find((f) => f.tipo === "materialas")?.url;
     // Aunque no está en la documentación CIMA v1.19, existe un endpoint para la imagen en alta de los medicamentos que poseen un thumbnail que construyo por patrón: https://cima.aemps.es/cima/fotos/full/materialas/nregistro/nregistro_materialas.jpg
     // Protección: solo crea el elemento <img> si existe 'fotos' y 'materialas' en la response"
-
     if (thumbnailUrl) {
         // Crea el nodo de la imagen
         const image = document.createElement("img");
