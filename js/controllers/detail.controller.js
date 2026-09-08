@@ -13,7 +13,7 @@ import {
     renderNotesMessage,
     renderFavoritesAction,
 } from "../views/detail.view.js";
-import { showLoading, showEmpty, showError, hideLoading, hideSpinnerOnly } from "../views/ui-state.view.js";
+import { showLoading, showEmpty, showError, hideSpinnerOnly } from "../views/ui-state.view.js";
 
 // Arranca el JS al cargar la pagina
 document.addEventListener("DOMContentLoaded", init);
@@ -24,7 +24,6 @@ async function init() {
     // nregistro = leer URL
     const nregistro = getValidatedNregistro();
     if (!nregistro) return;
-    // muestra el spinner mientras llega promesa
     showLoading();
     try {
         const medication = await fetchMedication(nregistro);
@@ -37,12 +36,15 @@ async function init() {
         // Pinta el botón toggle de favoritos con su estado actual desde localStorage
         renderFavoritesAction(medication.nregistro);
     } catch (error) {
+        if (error.name === "TimeoutError") {
+            showError(MESSAGES.response.timeout);
+        } else {
+            showError(MESSAGES.detail.fetchError);
+        }
         console.error("Error al cargar el medicamento:", error);
-        hideSpinnerOnly();
-        showError(MESSAGES.detail.fetchError);
-        return;
     }
-    hideLoading();
+    // Si el fetch ha ido bien, aquí apago el spinner porque nadie mas lo hace.
+    hideSpinnerOnly();
 }
 
 /**

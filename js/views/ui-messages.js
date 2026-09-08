@@ -16,7 +16,7 @@ export const MESSAGES = {
 	response: {
 		empty: 'No se han encontrado medicamentos comercializados con este nombre.',
 		error: 'Ha habido un problema al conectar con CIMA. Inténtalo de nuevo.',
-		unexpected: 'No se ha podido procesar la respuesta. Inténtalo más tarde.',
+		timeout: "El servidor no responde. Inténtalo más tarde.",
 	},
 	detail: {
 		noNregistro: 'Medicamento no especificado. Vuelve al inicio.',
@@ -24,9 +24,9 @@ export const MESSAGES = {
 		supplyError: 'No se han podido cargar los datos de suministro.',
 		supplyLoading: 'Cargando datos de suministro ...',
 		supplyEmpty: 'Sin datos de suministro disponibles.',
-		notesLoading: 'Cargando notas ...',
-		notesEmpty: 'Sin notas disponibles.',
-		notesError: 'No se han podido cargar las notas.',
+		notesLoading: 'Cargando notas de seguridad ...',
+		notesEmpty: 'Sin notas de seguridad disponibles.',
+		notesError: 'No se ha podido cargar la nota de seguridad del medicamento.',
 	},
 	favorites: {
 		empty: 'No tienes favoritos guardados. Búscalos y añádelos desde su detalle.',

@@ -2,7 +2,7 @@ import { showHeader } from "../views/header.view.js";
 import { showFooter } from "../views/footer.view.js";
 import { fetchMedication } from "../models/medication.model.js";
 import { MESSAGES } from "../views/ui-messages.js";
-import { showLoading, showEmpty, showError, hideLoading, hideSpinnerOnly } from "../views/ui-state.view.js";
+import { showLoading, showEmpty, showError, hideSpinnerOnly } from "../views/ui-state.view.js";
 import { getFavoritesList } from "../models/favorites.storage.js";
 import { renderFavoritesList } from "../views/favorites.view.js";
 
@@ -45,9 +45,7 @@ async function init() {
 			return a.medication.nombre.localeCompare(b.medication.nombre, "es", {numeric: true});
 		});
 
-        // Oculta el spinner
-        hideLoading();
-        // Pinta la lista
+        hideSpinnerOnly();
         renderFavoritesList(orderedFavorites);
     } catch (error) {
         console.error("Error cargando favoritos: ", error);

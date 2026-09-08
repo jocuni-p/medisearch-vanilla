@@ -33,7 +33,6 @@ function init() {
     // El evento 'input' se dispara en cada cambio del campo (tecleado, borrado, pegado).
     // Cada pulsación de tecla cancela la validación que estaba programada y programa una nueva.La función de validación solo se dispara, cuando pasan 400 ms sin teclear (DEBOUNCE_DELAY).
 	// LISTENER DEBOUNCE: MANEJO INICIAL DEL INPUT (VALIDACIÓN SINTACTICA ANTES DEL SUBMIT)
-	// Previene la recarga de la página para que no se pierdan los datos
     input.addEventListener("input", () => {
         clearTimeout(timerId); // cancela el temporizador anterior (si no existe no da error).
         timerId = setTimeout(() => validateWhileTyping(), DEBOUNCE_DELAY);
@@ -116,15 +115,19 @@ async function runSearch(query, shouldUpdateUrl) {
         updateUrl(query);
     }
     showLoading();
-    try {
-        const data = await fetchMedications(query);
-        // Valida y pinta la respuesta de la API
-        renderSearchResponse(data);
-    } catch (error) {
-        console.error("Ha habido un problema al conectar con CIMA.", error.message);
-        showError(MESSAGES.response.error);
-        clearMedications(); // En los dos estados donde puede haber cards previas (empty, error)
-    }
+	try {
+		const data = await fetchMedications(query);
+		// Valida y pinta la respuesta de la API
+		renderSearchResponse(data);
+	} catch (error) {
+		if (error.name === "TimeoutError") {
+			showError(MESSAGES.response.timeout);
+		} else {
+			showError(MESSAGES.response.error);
+		}
+		console.error("Ha habido un problema al conectar con CIMA.", error.message);
+		clearMedications(); // En los dos estados donde puede haber cards previas (empty, error)
+	}
 }
 
 /**

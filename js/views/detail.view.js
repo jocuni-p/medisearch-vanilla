@@ -126,7 +126,7 @@ export function renderNotesMessage(msg) {
 
     const p = document.createElement("p");
     p.textContent = msg;
-    p.classList.add("notes-msg");
+    p.classList.add("detail-section-msg");
 
     container.append(p);
 }
@@ -179,7 +179,7 @@ export function renderSupplyMessage(msg) {
     container.classList.remove("hidden");
     const p = document.createElement("p");
     p.textContent = msg;
-    p.classList.add("detail-supply-msg");
+    p.classList.add("detail-section-msg");
     container.append(p);
 }
 
@@ -201,7 +201,7 @@ export function renderDocs(medication) {
     if (!linkUrl) {
         const noUrl = document.createElement("p");
         noUrl.textContent = "Medicamento sin prospecto disponible.";
-        noUrl.classList.add("external-link-empty");
+        noUrl.classList.add("detail-section-msg");
         container.append(noUrl);
         return;
     }

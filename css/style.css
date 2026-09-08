@@ -573,8 +573,7 @@ form button {
     background-color: var(--brand-secondary);
 }
 
-.external-link-empty,
-.detail-supply-msg {
+.detail-section-msg {
     font-style: italic;
     color: var(--text-secondary);
 }
