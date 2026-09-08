@@ -129,4 +129,4 @@ MediSearch es una interfaz de consulta que redirige a la fuente oficial. **No su
 
 ## Autor
 
-**Joan Cuní** — [GitHub](https://github.com/jocuni-p)
+**jocuni-p** — [GitHub](https://github.com/jocuni-p)
