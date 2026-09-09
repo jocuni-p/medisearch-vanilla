@@ -4,9 +4,11 @@ Buscador de medicamentos autorizados en España. Consulta el principio activo, s
 
 **[Ver la aplicación](https://jocuni-p.github.io/medisearch-vanilla/)**
 
-
-<img src="./docs/medisearch_screenshot.png" alt="Vista principal" width="400">
-
+<p align="center">
+  <img src="./docs/medisearch_screenshot.png" alt="Vista móvil" width="350">
+  <br>
+  <em>Vista móvil</em>
+</p>
 
 ---
 
