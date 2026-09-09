@@ -1,5 +1,3 @@
-const CIMA_LABEL = "Datos CIMA";
-
 // Crea y muestra por pantalla el footer con los enlaces correspondientes
 export function showFooter() {
     // recupero el contenedor del footer
@@ -16,7 +14,7 @@ export function showFooter() {
     divider.setAttribute("aria-hidden", "true");
 
     nav.append(
-        createFooterLink(CIMA_LABEL, "https://aemps.gov.es", true),
+        createFooterLink("AEMPS", "https://www.aemps.gob.es", true),
         divider,
         createFooterLink("Aviso legal", "legal-policy.html", false),
     );

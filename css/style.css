@@ -179,6 +179,16 @@ h1 {
 
 /* ======= 5. UTILIDADES (visually-hidden, hidden) ======== */
 
+.alert-js {
+  color: var(--tag-psum-text);
+  text-align: center;
+  border: 3px solid var(--brand);
+  margin: 60px 15px;
+  padding: 10px 10px;
+  border-radius: 10px;
+  line-height: 1.6; 
+}
+
 /*Separo estilo de estado */
 .hidden {
     display: none !important;

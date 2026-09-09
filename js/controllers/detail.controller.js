@@ -15,13 +15,15 @@ import {
 } from "../views/detail.view.js";
 import { showLoading, showEmpty, showError, hideSpinnerOnly } from "../views/ui-state.view.js";
 
-// Arranca el JS al cargar la pagina
 document.addEventListener("DOMContentLoaded", init);
 
+/**
+ * 
+ * @returns 
+ */
 async function init() {
     showHeader("Detalle");
     showFooter();
-    // nregistro = leer URL
     const nregistro = getValidatedNregistro();
     if (!nregistro) return;
     showLoading();
@@ -43,7 +45,7 @@ async function init() {
         }
         console.error("Error al cargar el medicamento:", error);
     }
-    // Si el fetch ha ido bien, aquí apago el spinner porque nadie mas lo hace.
+    // Escondo el spinner porque nadie mas lo hace.
     hideSpinnerOnly();
 }
 
@@ -70,7 +72,6 @@ function getNregistroFromUrl() {
     return params.get("nregistro");
 }
 
-// Verifico si existe o no el nregistro
 function isValidNregistro(nregistro) {
     return Boolean(nregistro);
 }
@@ -99,7 +100,7 @@ async function loadSupply(nombre) {
     // Mensaje temp mientras carga
     renderSupplyMessage(MESSAGES.detail.supplyLoading);
     try {
-		const supplyResponse = await fetchSupplyByName(nombre); // ella si que espera al fetch.
+		const supplyResponse = await fetchSupplyByName(nombre); // esta sí que espera al fetch.
 		// Protección por si la respuesta no trae un array 'resultados'
         if (!Array.isArray(supplyResponse.resultados)) {
             throw new Error("Respuesta inesperada de /psuministro");

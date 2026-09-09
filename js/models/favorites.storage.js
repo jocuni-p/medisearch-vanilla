@@ -7,7 +7,7 @@ const STORAGE_KEY = 'medisearch:favorites';
 
 /**
  * Lee del localStorage el valor de la clave STORAGE_KEY y lo retorna parseado como array.
- * @returns  Array con los valores nregistro o array vacío si no contiene nada
+ * @returns {Array} Array con los valores nregistro o array vacío si no contiene nada
  */
 function readList() {
 	const data = localStorage.getItem(STORAGE_KEY);
@@ -17,7 +17,6 @@ function readList() {
 /**
  * Reescribe en localStorage el array (lo convierte a string) que le pasamos por parámetro
  * y lo asocia a la clave.
- * 
  * @param {Array} favorites - Array con los números de registro de los favoritos
  */
 function writeList(favorites) {
@@ -69,7 +68,7 @@ export function removeFromFavoritesList(nregistro) {
 /**
  * Añade elemento a la lista si no estaba o lo elimina si ya estaba.
  * @param {string} nregistro 
- * @returns Booleano    true = presente en lista Favs, false = ausente en lista Favs
+ * @returns {boolean}    true = presente en lista Favs, false = ausente en lista Favs
  */
 export function toggleFavoriteStatus(nregistro) {
 	if (isInFavoritesList(nregistro)) {

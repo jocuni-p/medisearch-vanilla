@@ -26,10 +26,10 @@ export function renderIdentity(medication) {
     // Recupero la dirección url de la imagen thumbnail y la uso como bandera de existencia de la imagen en alta.
     // Si campo 'fotos' existe, busca en el array el de tipo:"materialas" y si existe, ves a url.
     // Si no existe algún paso devolverá 'undefined'
-    const thumbnailUrl = medication.fotos?.find((f) => f.tipo === "materialas")?.url;
+    const hasPackagePhoto = medication.fotos?.find((f) => f.tipo === "materialas")?.url;
     // Aunque no está en la documentación CIMA v1.19, existe un endpoint para la imagen en alta de los medicamentos que poseen un thumbnail que construyo por patrón: https://cima.aemps.es/cima/fotos/full/materialas/nregistro/nregistro_materialas.jpg
     // Protección: solo crea el elemento <img> si existe 'fotos' y 'materialas' en la response"
-    if (thumbnailUrl) {
+    if (hasPackagePhoto) {
         // Crea el nodo de la imagen
         const image = document.createElement("img");
         // Config atributos de img
@@ -65,7 +65,6 @@ export function renderIdentity(medication) {
     // Pone los nodos <dt> y <dd> dentro del <dl> padre
     descriptionList.append(activePrinciplesTitle, activePrinciplesValue, labTitle, labValue);
 
-    // Crea array con los nodos que SEGURO se han de mostrar (los tags, solo si aplican)
     nodes.push(descriptionList);
 
     //Crea Nodo de tags en forma de pildoras
@@ -156,9 +155,13 @@ export function renderSupplySection(supply) {
     container.append(subContainer);
 }
 
-// Helper: Usa la API nativa de JS con el objeto Date
+
+/**
+ * Cambia el formato de la fecha (de unix num a fecha local España)
+ * @param {number} timestamp - en formato unix (milisegundos) 
+ * @returns {string} - String a formato de fecha local '18 dic 2026'
+ */
 function formatDate(timestamp) {
-    //recibe un num formato unix en milisegundos
     return new Date(timestamp).toLocaleDateString("es-ES", {
         //defino como quiero el retorno
         day: "numeric",
@@ -168,7 +171,7 @@ function formatDate(timestamp) {
 }
 
 /**
- * Crea y renderiza el mensaje de error si el fetch del controller vino vacío
+ * Crea y renderiza el mensaje (cargando, vacío o error)
  * @param {string} msg
  */
 export function renderSupplyMessage(msg) {
@@ -261,5 +264,5 @@ function updateButtonState(button, isActive) {
     // Creo accesibilidad para botones toggle
     button.setAttribute("aria-pressed", isActive);
     // Añade o elimina la clase dependiendo de si el segundo argumento es true o false.
-    button.classList.toggle("is-active", isActive);
+    //button.classList.toggle("is-active", isActive);
 }

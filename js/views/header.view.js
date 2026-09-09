@@ -65,7 +65,7 @@ function createBrandLink() {
  * Función helper que crea el enlace (elemento <a>)
  * @param {string} name - Texto del enlace
  * @param {string} link - ruta del enlace
- * @returns {HTMLAElement} Node - Nodo que contiene el enlace <a>
+ * @returns {HTMLAnchorElement} Node - Nodo que contiene el enlace <a>
  */
 function createLink(name, link) {
     const a = document.createElement("a");

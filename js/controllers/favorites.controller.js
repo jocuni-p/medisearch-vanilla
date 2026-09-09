@@ -9,10 +9,13 @@ import { renderFavoritesList } from "../views/favorites.view.js";
 // Arranca el JS al cargar la pagina
 document.addEventListener("DOMContentLoaded", init);
 
+/**
+ * 
+ * @returns 
+ */
 async function init() {
     showHeader("Favoritos");
     showFooter();
-    //Array
     const nregistros = getFavoritesList();
     if (nregistros.length === 0) {
         showEmpty(MESSAGES.favorites.empty);

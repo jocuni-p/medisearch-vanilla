@@ -2,7 +2,7 @@ import { MESSAGES } from "./ui-messages.js";
 
 /**
  * Pinta la lista de medicamentos favoritos
- * @param {Array} favorites - Array de objetos contiene el status del fetch y el medicamento [{ok: true, medication: {...}}, ...]
+ * @param {Array} favorites - Array de objetos (status y medication) [{ok:true, medication:{...}}, ...]
  */
 export function renderFavoritesList(favorites) {
 	const container = document.querySelector('#favorites-list');
@@ -11,7 +11,7 @@ export function renderFavoritesList(favorites) {
 
 	//mapea cada medicamento: si tiene un 'ok' valido a nodo <li> con su nombre y un enlace
 	// si no a <li> fallido
-	const items = favorites.map(favorite => favorite.medication
+	const items = favorites.map(favorite => favorite.ok
 		? buildFavoriteItem(favorite.medication)
 		: buildFailedItem());
 

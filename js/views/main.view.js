@@ -7,15 +7,12 @@ export function clearMedications() {
     document.querySelector("#results-list").replaceChildren();
 }
 
-
 /**
  * Renderiza un listado de cards de medicamentos en el contenedor #results-list.
  * Por cada elemento del array:
  *  - Clona el template #template-medicine.
  *  - Rellena nombre, principio activo y enlace a la vista de detalle.
  *  - Crea los tags que aplican en el medicamento.
- * Limpia el contenedor antes de pintar (delega en clearMedications).
- *
  * @param {Array<Object>} medications - Array de objetos medicamento devuelto
  *   por la API CIMA. Se espera que cada elemento tenga, al menos, `nregistro`
  *   y `nombre`. El resto de campos se manejan de forma defensiva.
@@ -23,7 +20,7 @@ export function clearMedications() {
 export function showMedications(medications) {
     const container = document.querySelector("#results-list");
     clearMedications();
-    // Crea Fragment: memoria temporal antes del volcado al DOM
+    // Crea Fragment: memoria temporal antes de volcarlo al DOM
     const fragment = document.createDocumentFragment();
     //Recupera el template (solo lo que tiene dentro)
     const template = document.querySelector("#template-medicine").content;

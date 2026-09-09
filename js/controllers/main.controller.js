@@ -30,9 +30,9 @@ function init() {
     const input = document.querySelector("#search-input");
 	
     let timerId;
+	// LISTENER DEBOUNCE: MANEJO INICIAL DEL INPUT (VALIDACIÓN SINTACTICA ANTES DEL SUBMIT)
     // El evento 'input' se dispara en cada cambio del campo (tecleado, borrado, pegado).
     // Cada pulsación de tecla cancela la validación que estaba programada y programa una nueva.La función de validación solo se dispara, cuando pasan 400 ms sin teclear (DEBOUNCE_DELAY).
-	// LISTENER DEBOUNCE: MANEJO INICIAL DEL INPUT (VALIDACIÓN SINTACTICA ANTES DEL SUBMIT)
     input.addEventListener("input", () => {
         clearTimeout(timerId); // cancela el temporizador anterior (si no existe no da error).
         timerId = setTimeout(() => validateWhileTyping(), DEBOUNCE_DELAY);
@@ -40,7 +40,7 @@ function init() {
 
     // LISTENER: MANEJO DEL INPUT A PARTIR DEL SUBMIT
     const form = document.querySelector("#form");
-    // Implementa listener de eventos y registra handleSearch
+    // Registra listener de eventos con handleSearch
     form.addEventListener("submit", handleSearch);
 
     // LISTENER: MANEJO DE LAS FLECHAS DEL NAVEGADOR (HISTORIAL NAVEGABLE HASTA ESTADO INICIAL)
@@ -79,9 +79,7 @@ function validateWhileTyping() {
  * Orquesta la parte inicial del flujo de búsqueda:
  *  1. Previene la recarga de la página.
  *  2. Lee y trimea el valor del input.
- *
  * @param {SubmitEvent} event - Evento submit del formulario.
- * @returns {Promise<void>}
  */
 function handleSearch(event) {
     event.preventDefault(); // previene la recarga de la página para que no se pierdan los datos

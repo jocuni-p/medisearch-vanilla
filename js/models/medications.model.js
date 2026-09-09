@@ -12,15 +12,11 @@ import { BASE_URL, REQUEST_TIMEOUT_MS } from "./api-config.js";
  * @throws {DOMException} TimeoutError - Si se supera el tiempo de espera configurado para el fetch.
  */
 export async function fetchMedications(query) {
-    // Creo la ruta
     const url = new URL(`${BASE_URL}/medicamentos`);
     url.searchParams.set("nombre", query);
     url.searchParams.set("comerc", "1");
     const response = await fetch(url, { signal: AbortSignal.timeout(REQUEST_TIMEOUT_MS)});
     if (!response.ok) {
-        // Errores de HTTP no-OK (404, 500)
-        // Lanzo un error (instancio la clase nativa Error que muestra un mensaje informativo)
-        // El error se propagará hasta el catch del controller
         throw new Error(`El fetch al endpoint ${url} ha fallado con un código ${response.status}`);
     }
     // convierto la response de json a objeto/array

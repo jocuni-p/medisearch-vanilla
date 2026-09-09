@@ -18,7 +18,7 @@ export async function fetchMedication(nregistro) {
     const response = await fetch(url, { signal: AbortSignal.timeout(REQUEST_TIMEOUT_MS)});
 
     if (!response.ok) {
-        throw new Error(`El fetch al endpoint ${url} ha fallado con un código ${response.status}`); // Caerá en el catch del detail.controller
+        throw new Error(`El fetch al endpoint ${url} ha fallado con un código ${response.status}`); // Caerá en el catch del detail.controller ofavoritos.controller (según quien la llame)
     }
     const data = await response.json();
 
