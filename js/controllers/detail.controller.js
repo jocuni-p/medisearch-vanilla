@@ -99,8 +99,12 @@ async function loadSupply(nombre) {
     // Mensaje temp mientras carga
     renderSupplyMessage(MESSAGES.detail.supplyLoading);
     try {
-        const supplyResponse = await fetchSupplyByName(nombre); // ella si que espera al fetch.
-        if (supplyResponse.resultados?.length > 0) {
+		const supplyResponse = await fetchSupplyByName(nombre); // ella si que espera al fetch.
+		// Protección por si la respuesta no trae un array 'resultados'
+        if (!Array.isArray(supplyResponse.resultados)) {
+            throw new Error("Respuesta inesperada de /psuministro");
+        }
+        if (supplyResponse.resultados.length > 0) {
             renderSupplySection(supplyResponse.resultados[0]);
         } else {
             renderSupplyMessage(MESSAGES.detail.supplyEmpty);
@@ -120,6 +124,10 @@ async function loadNotes(nregistro) {
     renderNotesMessage(MESSAGES.detail.notesLoading);
     try {
         const notesResponse = await fetchNotes(nregistro); // espera al fetch.
+		// Protección por si la respuesta no es un array
+        if (!Array.isArray(notesResponse)) {
+            throw new Error("Respuesta inesperada de /notas");
+        }
         if (notesResponse.length > 0) {
             renderNotes(notesResponse[0].asunto);
         } else {

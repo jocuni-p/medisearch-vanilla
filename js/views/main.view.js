@@ -47,7 +47,7 @@ export function showMedications(medications) {
 		const tagArr = createTags(medication);
 		// Recupero el div, con el spread convierto el array en elementos individuales y los inserto
 		clone.querySelector(".li-bottom-block").append(...tagArr);
-		
+		  
         fragment.appendChild(clone);
     }
     container.appendChild(fragment);

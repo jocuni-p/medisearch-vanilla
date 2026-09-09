@@ -30,7 +30,6 @@ export const MESSAGES = {
 	},
 	favorites: {
 		empty: 'No tienes favoritos guardados. Búscalos y añádelos desde su detalle.',
-		loading: 'Cargando lista de favoritos.',
 		fetchError: 'No se han podido cargar tus favoritos. Inténtalo más tarde.',
 		itemError: 'No ha sido posible cargar el favorito. Inténtalo más tarde.',
 	}

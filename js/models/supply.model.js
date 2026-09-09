@@ -11,7 +11,8 @@ import { BASE_URL, REQUEST_TIMEOUT_MS } from "./api-config.js";
  * @throws {DOMException} TimeoutError - Si se supera el tiempo de espera configurado para el fetch.
  */
 export async function fetchSupplyByName(nombre) {
-    const url = `${BASE_URL}/psuministro?nombre=${encodeURIComponent(nombre)}`;
+	const url = `${BASE_URL}/psuministro?nombre=${encodeURIComponent(nombre)}`;
+	console.log(url);
     const response = await fetch(url, { signal: AbortSignal.timeout(REQUEST_TIMEOUT_MS)});
     if (!response.ok) {
         // A este error lo cazará el catch del controller
