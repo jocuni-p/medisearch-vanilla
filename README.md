@@ -80,7 +80,7 @@ Cada página tiene su HTML y su controller. Además hay módulos transversales:
 
 **Fidelidad antes que estética.** Las notas de seguridad llegan con formato inconsistente, la mayoría en mayúsculas. Normalizarlas mejoraría el caso mayoritario pero destrozaría siglas y nombres propios, que en una nota de seguridad son lo importante. Se muestran tal como las publica el organismo oficial.
 
-> **Consumir lo no documentado, con red.** CIMA expone fotografías del envase que no aparecen en la especificación de la API. Son útiles —permiten confirmar que la caja que tienes en la mano es la correcta— pero dependen de una ruta que nadie garantiza. Se consumen solo cuando el campo fotos está presente en la respuesta, de modo que no hay peticiones a ciegas, y un listener de error elimina la imagen si el recurso no responde. La app funciona igual con foto que sin ella.
+**Consumir lo no documentado, con red.** CIMA expone fotografías del envase que no aparecen en la especificación de la API. Son útiles —permiten confirmar que la caja que tienes en la mano es la correcta— pero dependen de una ruta que nadie garantiza. Se consumen solo cuando el campo fotos está presente en la respuesta, de modo que no hay peticiones a ciegas, y un listener de error elimina la imagen si el recurso no responde. La app funciona igual con foto que sin ella.
 
 **Alcance retirado a conciencia.** Se descartó una vista de listado global de problemas de suministro: existía porque el endpoint lo permitía, no porque nadie la necesitara. Funcionalidad guiada por la API y no por el usuario.
 
@@ -99,7 +99,7 @@ cd medisearch-vanilla
 
 Sirve la carpeta con cualquier servidor estático — por ejemplo la extensión **Live Server** de VS Code — y abre la dirección local que aparezca.
 
-> Es imprescindible servirlo desde un servidor: al usar módulos ES, abrir `index.html` directamente desde el sistema de archivos hace que el navegador bloquee su carga.
+Es imprescindible servirlo desde un servidor: al usar módulos ES, abrir `index.html` directamente desde el sistema de archivos hace que el navegador bloquee su carga.
 
 ---
 
@@ -107,7 +107,9 @@ Sirve la carpeta con cualquier servidor estático — por ejemplo la extensión 
 
 [**CIMA REST API v1.19**](https://cima.aemps.es) — Agencia Española de Medicamentos y Productos Sanitarios (AEMPS). Endpoints consumidos: `/medicamentos`, `/medicamento`, `/psuministro` y `/notas`.
 
-> Las fotos de envase se obtienen del campo fotos y de la ruta /cima/fotos/full/, que no figuran en la especificación v1.19. La URL de alta resolución se construye por patrón, así que un listener de error retira la imagen si la petición falla.
+[**Documentación oficial de la API (PDF)**](https://sede.aemps.gob.es/docs/CIMA-REST-API_1_19.pdf)
+
+Las fotos de envase se obtienen del campo fotos y de la ruta /cima/fotos/full/, que no figuran en la especificación v1.19. La URL de alta resolución se construye por patrón, así que un listener de error retira la imagen si la petición falla.
 
 MediSearch es una interfaz de consulta que redirige a la fuente oficial. **No sustituye el consejo, diagnóstico o tratamiento de un profesional sanitario.**
 
@@ -126,7 +128,7 @@ MediSearch es una interfaz de consulta que redirige a la fuente oficial. **No su
 
 - Eliminar favoritos desde el propio listado.
 - Búsqueda por principio activo (`practiv1`), pendiente de resolver antes la navegabilidad de resultados.
-- Paginación o scroll continuo con contador de resultados.
+- Scroll continuo con contador de resultados.
 - Pruebas automatizadas sobre los casos de verificación actuales.
 
 ---
