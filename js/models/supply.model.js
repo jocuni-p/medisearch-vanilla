@@ -12,7 +12,6 @@ import { BASE_URL, REQUEST_TIMEOUT_MS } from "./api-config.js";
  */
 export async function fetchSupplyByName(nombre) {
 	const url = `${BASE_URL}/psuministro?nombre=${encodeURIComponent(nombre)}`;
-	console.log(url);
     const response = await fetch(url, { signal: AbortSignal.timeout(REQUEST_TIMEOUT_MS)});
     if (!response.ok) {
         // A este error lo cazará el catch del controller

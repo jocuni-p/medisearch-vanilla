@@ -2,7 +2,7 @@ import { createTagLines, createTags } from "./tags.view.js";
 import { isInFavoritesList, toggleFavoriteStatus } from "../models/favorites.storage.js";
 import { BASE_IMG_URL } from "../models/api-config.js";
 
-/* OJO: Función demasiado larga, refactorizar en varias */
+/* TODO: Función demasiado larga, refactorizar en varias */
 /**
  * Pinta en el DOM la section de identity del medicamento (nombre, principio activo, laboratorio, tags).
  * Su responsabilidad es traducir el objeto de negocio a representación visual.
@@ -260,9 +260,6 @@ function updateButtonState(button, isActive) {
     icon.classList.toggle("bi-heart", !isActive);
     icon.classList.toggle("bi-heart-fill", isActive);
     button.setAttribute("aria-label", isActive ? "Eliminar favorito" : "Añadir favorito");
-
     // Creo accesibilidad para botones toggle
     button.setAttribute("aria-pressed", isActive);
-    // Añade o elimina la clase dependiendo de si el segundo argumento es true o false.
-    //button.classList.toggle("is-active", isActive);
 }

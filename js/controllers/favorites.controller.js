@@ -6,7 +6,6 @@ import { showLoading, showEmpty, showError, hideSpinnerOnly } from "../views/ui-
 import { getFavoritesList } from "../models/favorites.storage.js";
 import { renderFavoritesList } from "../views/favorites.view.js";
 
-// Arranca el JS al cargar la pagina
 document.addEventListener("DOMContentLoaded", init);
 
 /**
@@ -32,7 +31,7 @@ async function init() {
             r.status === "fulfilled" ? { ok: true, medication: r.value } : { ok: false, nregistro: nregistros[i] },
 		);
 
-		// Si fallan todos los fetch, muestra un mensaje de error
+		// Protección: Si fallan todos los fetch, muestra un mensaje de error
 		// Método iterativo Array.every(): Comprueba si todos los elementos del array cumplen una misma condición. Retorna booleano.
 		// Si el elemento 'ok' de todos los elementos del array no existe (es false) retorna 'true'
 		const allFailed = favorites.every(favorite => !favorite.ok);
