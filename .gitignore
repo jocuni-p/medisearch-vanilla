@@ -11,3 +11,6 @@ node_modules/
 # Entorno
 .env
 .env.local
+
+# Documentos 
+MediSearch_Memoria.pdf
